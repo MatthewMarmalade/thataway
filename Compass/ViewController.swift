@@ -37,6 +37,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var normalization = 1.0
     var locationPointer : UIImageView?
     
+    //MARK: ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //This gets called every time the view will appear, even if it's already in memory. Lets us update the data models, because they can change dynamically and shouldn't wait for a viewDidLoad().
@@ -123,12 +124,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.navigationItem.leftBarButtonItem?.isEnabled = true
     }
     
+    //MARK: ViewDidAppear
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //saveWaypoints()
     }
     
-    
+    //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -154,11 +156,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: Orientation
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
         //App seems to not function correctly re:rotation when oriented in landscape.
     }
 
+    //MARK: SetDirectionAndLocation
     func setDirectionAndLocationInCompass(imageView: UIImageView, newDirection:Double, newRadius:Double) {
         let direction = CGFloat(newDirection) * CGFloat.pi / 180
         let x = CGFloat(newRadius) * sin(direction)
@@ -189,6 +193,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         imageView.transform = rotationTransform.concatenating(translationTransform)
     }
     
+    //MARK: LocationManager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations[locations.count - 1]
         //print(locations.count)
@@ -217,6 +222,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return ((Locale.current as NSLocale).object(forKey: NSLocale.Key.usesMetricSystem) as? Bool) ?? true
     }
     
+    //MARK: NewPointer
     func newPointer(height:CGFloat) -> UIImageView {
         //creates a new pointer, places it within the frame, and returns the UIImageView object.
         let imageName = "pointer.png"
@@ -265,6 +271,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return imageView
     }
     
+    //MARK: CalculateLetterHeading
     private func calculateLetterHeading(degrees:CLLocationDegrees) -> String {
         var letter = ""
         if degrees > 337 || degrees <= 23 {
@@ -296,6 +303,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return sqrt(normalizedDistance)
     }
     
+    //MARK: NewWaypoint
     @IBAction func newWaypoint(_ sender: Any) {
         let newWaypoint = Waypoint(location:currentLocation,name:"New Waypoint")
         waypoints.append(waypoint:newWaypoint)
@@ -344,13 +352,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    //Heading into table view
+    //MARK: Navigation
+    //Heading into table view or detail view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the waypoints object to the new view controller.
         super.prepare(for: segue, sender: sender)
         if let waypointTableViewController = segue.destination as? WaypointTableViewController {
             waypointTableViewController.waypoints = waypoints
+            waypointTableViewController.currentHeading = currentHeading
+            waypointTableViewController.currentDeg = currentHeading?.magneticHeading
+            waypointTableViewController.currentLocation = currentLocation
+            //waypointTableViewController.locationManager = locationManager
             //print("Waypoints passed to TableView.")
         } else if let settingsViewController = segue.destination as? SettingsViewController {
             //print("Moving to settings.")
@@ -367,7 +380,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func unwindToCompass(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? WaypointDetailViewController {
             if let newWaypoint = sourceViewController.waypoint {
-                waypoints[waypoints.count() - 1] = newWaypoint
+                //waypoints[waypoints.count() - 1] = newWaypoint
+                let index = waypoints.count() - 1
+                if (sourceViewController.cancel) {
+                    waypoints.remove(at: index)
+                    waypointers[index].removeFromSuperview()
+                    waypointers.remove(at: index)
+                    waymarkers[index].removeFromSuperview()
+                    waymarkers.remove(at: index)
+                } else {
+                    waypoints[index] = newWaypoint
+                    waypointers[index].tintColor = newWaypoint.color
+                    waymarkers[index].tintColor = newWaypoint.color
+                    if displayType.selectedSegmentIndex == 0 {
+                        needle.tintColor = UIColor.white
+                        locationPointer?.isHidden = true
+                    } else {
+                        needle.tintColor = UIColor.black
+                        locationPointer?.isHidden = false
+                    }
+                }
             }
             //waypoints = sourceViewController.waypoints
             //print("you unwound to compass successfully!")

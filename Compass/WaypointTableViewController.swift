@@ -9,11 +9,16 @@
 import UIKit
 import CoreLocation
 
-class WaypointTableViewController: UITableViewController {
+class WaypointTableViewController: UITableViewController, CLLocationManagerDelegate {
     let defaults:UserDefaults = UserDefaults.standard
     var distanceUnit = true
     
     var waypoints = WaypointList()
+    var currentLocation:CLLocation = CLLocation(latitude: 0, longitude: 0)
+    var currentHeading:CLHeading?
+    var currentDeg:Double?
+    var locationManager:CLLocationManager = CLLocationManager()
+    
     
     @IBAction func waypointEnablingChanged(_ sender: UIButton) {
         let waypointSwitch = sender
@@ -35,7 +40,11 @@ class WaypointTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = UITableView.automaticDimension
-        
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading()
         distanceUnit = defaults.bool(forKey: "km")
         self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
@@ -83,14 +92,17 @@ class WaypointTableViewController: UITableViewController {
         let formattedString = formatter.string(for: amount)
         cell.disLabel.text = "\(formattedString ?? "0.0")" + unit
         
-        //cell.contentView.backgroundColor = waypoint.color
         cell.enabledButton.isSelected = waypoint.enabled
         cell.enabledButton.tintColor = waypoint.color
+        cell.enabledButton.alpha = 0.8
+        cell.pointerImage.tintColor = UIColor.white
         cell.enabledButton.tag = indexPath.row
+        let direction = waypoint.dirFromLocation(location: currentLocation)
+        setDirection(imageView: cell.pointerImage, newDirection: direction - (currentDeg ?? 0.0))
+        //cell.enabledButton.imageView
 
         return cell
     }
-
     
     // Override to support conditional editing of the table view.
     
@@ -132,7 +144,32 @@ class WaypointTableViewController: UITableViewController {
         return true
     }
     */
+    
+    //MARK: LocationManager
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocation = locations[locations.count - 1]
+        //print("Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
+        //print(locations.count)
+        for i in 0..<waypoints.count() {
+            waypoints[i].distance = waypoints[i].location.distance(from:currentLocation)
+        }
+        self.tableView.reloadData()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
+        let newDeg = newHeading.magneticHeading
+        //print("Heading: \(newDeg)")
+        currentHeading = newHeading
+        currentDeg = newDeg
+        self.tableView.reloadData()
+    }
 
+    func setDirection(imageView: UIImageView, newDirection:Double) {
+        //print("setting direction: \(currentHeading?.magneticHeading ?? 0.0)")
+        let direction = CGFloat(newDirection) * CGFloat.pi / 180
+        let transform = CGAffineTransform(translationX: 0.0, y: 0.0)
+        imageView.transform = transform.rotated(by: direction)
+    }
     
     // MARK: - Navigation
 

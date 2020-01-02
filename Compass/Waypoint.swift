@@ -16,11 +16,8 @@ class Waypoint: NSObject, NSCoding{
     var location:   CLLocation
     var name:       String
     var color:      UIColor
-    //var colorText:  String
     var distance:   Double?
     var enabled:    Bool
-    
-    static let colorDict:  [String: UIColor] = ["red":UIColor.red, "blue":UIColor.blue, "green":UIColor.green, "white":UIColor.white, "orange":UIColor.orange, "brown":UIColor.brown, "cyan":UIColor.cyan, "gray":UIColor.gray, "purple":UIColor.purple, "yellow":UIColor.yellow]
     
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("waypointFiles").path
@@ -88,14 +85,4 @@ class Waypoint: NSObject, NSCoding{
         self.name = newName
     }
     
-    /*
-    func recolor(newColor : String) {
-        if let color = Waypoint.colorDict[newColor] {
-            self.color = color
-            self.colorText = newColor
-        } else {
-            print("color change failed!")
-        }
-    }
- */
 }

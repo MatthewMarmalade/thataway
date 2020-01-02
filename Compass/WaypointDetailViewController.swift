@@ -11,6 +11,8 @@ import UIKit
 class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegate{
     
 
+    var viewController : ViewController?
+    
     var waypoint : Waypoint?
     var color : UIColor?
     var newWaypoint : Bool?
@@ -31,9 +33,9 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
     @IBOutlet weak var newLabel: UILabel!
     
     
-    
-    var colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.white, UIColor.orange, UIColor.brown, UIColor.cyan, UIColor.gray, UIColor.purple, UIColor.yellow]
-    var colorTexts = ["red", "blue", "green", "white", "orange", "brown", "cyan", "gray", "purple", "yellow"]
+    var cancel : Bool = false
+    var colors : [UIColor] = ColorList.defaultColors
+    //var colorTexts = ["red", "blue", "green", "white", "orange", "brown", "cyan", "gray", "purple", "yellow"]
     
     
     
@@ -59,6 +61,7 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
             saveButton_2.isHidden = !buttonsHidden
             newLabel.isHidden = !buttonsHidden
         }
+        loadColors()
         //collectionView.allowsSelection = false
         //collectionView.backgroundColor = UIColor.black
         // Do any additional setup after loading the view.
@@ -67,30 +70,73 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
 
     //MARK: CollectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return colors.count
+        return colors.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! ColorCollectionViewCell
         
-        let cellColor = colors[indexPath.row]
+        if indexPath.row < colors.count {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! ColorCollectionViewCell
+            //print("IndexPath Row: \(indexPath.row)")
+            if indexPath.row < colors.count {
+                let cellColor = colors[indexPath.row]
         
-        cell.displayContent(color: cellColor)
-        cell.colorButton.tag = indexPath.row
-        cell.colorButton.isSelected = cellColor == color
-        return cell
-        
+                cell.displayContent(color: cellColor)
+                cell.colorButton.tag = indexPath.row
+                cell.colorButton.isSelected = cellColor == color
+            }
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newColorCollectionViewCell", for: indexPath) as! NewColorCollectionViewCell
+            cell.newColorButton.tag = indexPath.row
+            return cell
+        } //else {
+            //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "removeColorCollectionViewCell", for: indexPath) as! RemoveColorCollectionViewCell
+            //cell.removeColorButton.tag = indexPath.row
+            //return cell
+        //}
     }
     
+    //MARK: ColorButtonPressed
     @IBAction func colorButtonPressed(_ sender: UIButton) {
-        color = colors[sender.tag]
-        collectionView.reloadData()
+        if (color == colors[sender.tag]) {
+            //this is the already-selected color; we should instead open an editing view
+            let colorVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newColorPickerID") as! NewColorPickerViewController
+            self.addChild(colorVC)
+            colorVC.view.frame = self.view.frame
+            self.view.addSubview(colorVC.view)
+            colorVC.didMove(toParent: self)
+            colorVC.detailController = self
+            colorVC.mode = NewColorPickerViewController.Mode.edit
+            colorVC.color = color ?? UIColor.white
+            colorVC.indexToEdit = sender.tag
+            colorVC.removeButton.isHidden = false
+        } else {
+            color = colors[sender.tag]
+            collectionView.reloadData()
+        }
         //sender.isSelected = true
         //print(sender.tag)
         //let colorText = colorTexts[sender.tag]
         //print("Color: \(colorText)")
     }
     
+    //MARK: NewColorButtonPressed
+    @IBAction func newColorButtonPressed(_ sender: UIButton) {
+        print("new color, yay!")
+        let colorVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newColorPickerID") as! NewColorPickerViewController
+        self.addChild(colorVC)
+        colorVC.view.frame = self.view.frame
+        self.view.addSubview(colorVC.view)
+        colorVC.didMove(toParent: self)
+        colorVC.detailController = self
+        colorVC.mode = NewColorPickerViewController.Mode.new
+        colorVC.removeButton.isHidden = true
+        //color = colors[sender.tag]
+       // collectionView.reloadData()
+    }
+    
+    //MARK: Restoring Data
     func restoreProperties() {
         var name = waypoint?.name ?? "Unnamed Waypoint"
         if nameField.text != "" && nameField.text != nil{
@@ -102,6 +148,20 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         
         waypoint = Waypoint(latitude: latitude, longitude: longitude, name: name, color: color ?? UIColor.white)
         waypoint?.distance = distance
+    }
+    
+    func loadColors() {
+        //print("Loading")
+        colors = (NSKeyedUnarchiver.unarchiveObject(withFile: ColorList.ArchiveURL) as? [UIColor]) ?? ColorList.defaultColors
+    }
+    
+    func saveColors() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(colors, toFile: ColorList.ArchiveURL)
+        if !isSuccessfulSave {
+            print("Failed to save colors!")
+        } else {
+            //print("Saved!")
+        }
     }
     // MARK: - Navigation
 
@@ -117,6 +177,7 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         } else {
             //not the save button!
             //establish that we want to discard this waypoint entirely
+            cancel = true
             return
         }
         // Get the new view controller using segue.destination.
