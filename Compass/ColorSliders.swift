@@ -10,13 +10,12 @@ import UIKit
 
 @IBDesignable
 class ColorSliders: UIView {
-
-    let elementSize : CGFloat = 1.0
     
     let saturationExponentTop:Float = 2.0
     let saturationExponentBottom:Float = 1.3
     @IBInspectable var hue : CGFloat = 0.5
     @IBInspectable var barSize : CGFloat = 0.0
+    @IBInspectable var elementSize : CGFloat = 1.0
     
     private func initialize() {
          self.clipsToBounds = true

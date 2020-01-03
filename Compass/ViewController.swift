@@ -23,19 +23,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var currentLocation:CLLocation = CLLocation(latitude: 0, longitude: 0)
     var currentHeading:CLHeading?
+    var currentDeg:Double?
     
     var needleDirection = 0
     var locationManager:CLLocationManager = CLLocationManager()
     //we need a list of stored locations, with some data about them - sounds like we should make a class.
     var waypoints = WaypointList()
+    var enabledWaypoints = [Waypoint]()
     var tempPoint : Waypoint?
     var waypointers = [UIImageView]()
     var waymarkers = [UIImageView]()
     
-    var (minLat, minLon, maxLat, maxLon) = (0.0, 0.0, 0.0, 0.0)
+    var (minLat, minLon, maxLat, maxLon) = (0.0, 0.0, 1.0, 1.0)
     var sum = 1.0
+    var maxDist = 1.0
     var normalization = 1.0
     var locationPointer : UIImageView?
+    var centreOffset = 30.0
+    var relativeDistance = 100.0
     
     //MARK: ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
@@ -58,47 +63,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         waymarkers.forEach{$0.removeFromSuperview()}
         waymarkers.removeAll()
         
-        let enabledWaypoints = waypoints.enabledList()
-        
-        if !enabledWaypoints.isEmpty {
-            (minLat, minLon) = (enabledWaypoints[0].location.coordinate.latitude, enabledWaypoints[0].location.coordinate.longitude)
-        } else { (minLat, minLon) = (0.0, 0.0)}
-        (maxLat, maxLon) = (minLat, minLon)
-        enabledWaypoints.forEach{waypoint in
-            sum = sum + (waypoint.distance ?? 0.0)
-            let lat = waypoint.location.coordinate.latitude
-            let lon = waypoint.location.coordinate.longitude
-            minLat = min(lat, minLat)
-            minLon = min(lon, minLon)
-            maxLat = max(lat, maxLat)
-            maxLon = max(lon, maxLon)
-        }
-        //print("MinLat: \(minLat), MaxLat: \(maxLat), MinLon: \(minLon), MaxLon: \(maxLon)")
-        //print("Sum: \(sum), dLat,dLon: \(maxLat - minLat),\(maxLon - minLon)")
-        //print("Current Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude), NeedleDimensions: \(needle.frame.width), \(needle.frame.height)")
-        for i in 0..<waypoints.count() {
-            let newWayPointer = newPointer(height: 40.0)
-            newWayPointer.tintColor = waypoints[i].color
-            let direction = waypoints[i].dirFromLocation(location: currentLocation)
-            let relativeDistance = calculateRelativeDistance(absDistance: waypoints[i].distance ?? 0, sum: sum)
-            //print("Waypoint \(i) has relativeDistance \(relativeDistance)")
-            setDirectionAndLocationInCompass(imageView: newWayPointer, newDirection: direction - (currentHeading?.magneticHeading ?? 0.0), newRadius: 30.0 + (relativeDistance * 100.0))
+        enabledWaypoints = waypoints.enabledList()
+        //print("Enabled Waypoints: \(enabledWaypoints.count)")
+        (minLat, minLon, maxLat, maxLon, maxDist) = waypoints.minMax()
+        normalization = max(maxLat - minLat, maxLon - minLon) + 1
+        for i in 0..<enabledWaypoints.count {
+            let waypointI = enabledWaypoints[i]
+            let newWayPointer = newPointer(height: 40.0, color: waypointI.color)
+            positionInView(waypointer: newWayPointer, waypoint: waypointI)
             
-            normalization = max(maxLat - minLat, maxLon - minLon) + 1
-            
-            let newWayMarker = newMarker()
-            setLocationInMap(imageView: newWayMarker, latitude: waypoints[i].location.coordinate.latitude, longitude: waypoints[i].location.coordinate.longitude)
-            newWayMarker.tintColor = waypoints[i].color
-
+            let newWayMarker = newMarker(color: waypointI.color)
+            positionInView(waymarker: newWayMarker, waypoint: waypointI)
             
             if displayType.selectedSegmentIndex == 0 {
-                newWayPointer.isHidden = !waypoints[i].enabled
+                newWayPointer.isHidden = false
                 newWayMarker.isHidden = true
             } else {
                 newWayPointer.isHidden = true
-                newWayMarker.isHidden = !waypoints[i].enabled
+                newWayMarker.isHidden = false
             }
-            
             
             waypointers.append(newWayPointer)
             waymarkers.append(newWayMarker)
@@ -115,8 +98,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             needle.tintColor = UIColor.black
             locationPointer?.isHidden = false
         }
-        
-        //saveWaypoints()
 
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         self.navigationItem.rightBarButtonItem?.isEnabled = true
@@ -124,7 +105,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.navigationItem.leftBarButtonItem?.isEnabled = true
     }
     
-    //MARK: ViewDidAppear
+    //MARK: ViewWillDisappear
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //saveWaypoints()
@@ -141,12 +122,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         navigationController?.navigationBar.barTintColor = UIColor.black
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "Charter", size: 20.0)!]
-        displayType.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Charter", size: 12.0)!], for: .normal)
-        
+        displayType.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Charter", size: 12.0)!, NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
+        //displayType.setTitleTextAttributes([], for: .normal)
+        //segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .normal)
+        //segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .selected)
         let hasLaunchedKey = "HasLaunched"
         let hasLaunched = defaults.bool(forKey: hasLaunchedKey)
         if !hasLaunched {
             defaults.set(isMetric(), forKey: "km")
+            defaults.set(true, forKey: "mag")
             defaults.set(true, forKey: hasLaunchedKey)
         }
     }
@@ -161,7 +145,57 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return .portrait
         //App seems to not function correctly re:rotation when oriented in landscape.
     }
-
+    
+    //MARK: LocationManager
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocation = locations[locations.count - 1]
+        //print(locations.count)
+        latitudeVar.text = String(format: "%.4f", currentLocation.coordinate.latitude)
+        longitudeVar.text = String(format: "%.4f", currentLocation.coordinate.longitude)
+        for i in 0..<waypoints.count() {
+            waypoints[i].distance = waypoints[i].location.distance(from:currentLocation)
+        }
+        for i in 0..<enabledWaypoints.count {
+            positionInView(waymarker: waymarkers[i], waypoint: enabledWaypoints[i])
+//
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
+        let mag = defaults.bool(forKey: "mag")
+        let newDeg = mag ? newHeading.magneticHeading : newHeading.trueHeading
+        //print("NewDeg: \(newDeg)")
+        //let newDeg = newHeading.magneticHeading
+        headingVar.text = String(format: "%.1f", newDeg) + "˚"// + " err " + String(format: "%.4f", newHeading.headingAccuracy)
+        letterVar.text = calculateLetterHeading(degrees: newDeg)
+        for i in 0..<enabledWaypoints.count {
+            let waypointI = enabledWaypoints[i]
+            positionInView(waypointer: waypointers[i], waypoint: waypointI)
+        }
+        setDirectionAndLocationInMap(imageView: locationPointer!, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, newDirection: newDeg)
+        currentHeading = newHeading
+        currentDeg = newDeg
+    }
+    
+    //MARK: - PositionInView
+    func positionInView(waypointer: UIImageView, waypoint: Waypoint) {
+        let direction = waypoint.dirFromLocation(location: currentLocation)
+        let relativeWeight = calculateRelativeWeight(absDistance: waypoint.distance ?? 0.0)
+        let newDirection = direction - (currentDeg ?? 0.0)
+        setDirectionAndLocationInCompass(imageView: waypointer, newDirection: newDirection, newRadius: centreOffset + (relativeWeight * relativeDistance))
+    }
+    
+    func positionInView(waymarker: UIImageView, waypoint: Waypoint) {
+        setLocationInMap(imageView: waymarker, latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude)
+    }
+    
+    private func calculateRelativeWeight(absDistance:Double) -> Double {
+        let weight = (absDistance) / maxDist
+        //return pow(normalizedDistance, 0.3)
+        //let logDistance = log2(normalizedDistance + 1)
+        return sqrt(weight)
+    }
+    
     //MARK: SetDirectionAndLocation
     func setDirectionAndLocationInCompass(imageView: UIImageView, newDirection:Double, newRadius:Double) {
         let direction = CGFloat(newDirection) * CGFloat.pi / 180
@@ -172,62 +206,75 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func setLocationInMap(imageView: UIImageView, latitude:Double, longitude:Double) {
-        let dLat = latitude - ((maxLat + minLat) / 2)
-        let dLon = longitude - ((maxLon + minLon) / 2)
-        let newX = dLon / normalization
-        let newY = dLat / normalization
-        let x = (CGFloat(newX) * needle.frame.width * 3/4)
-        let y = -(CGFloat(newY) * needle.frame.height * 3/4)
-        imageView.transform = CGAffineTransform(translationX: x, y: y)
+        //we have a latitude and a longitude... and we know what the min and max are going to be bounded by. Since we have min and max as boundaries, we average them to get the centre. Subtracting the locations from the centre gets the latitude and longitude offset from the centre. These are normalized, divided by the width/height to develop the ratio. We then define an offset from the centre of the needle.
+        let (cgX, cgY) = getScaledCGXY(latitude: latitude, longitude: longitude)
+        imageView.transform = CGAffineTransform(translationX: cgX, y: cgY)
     }
     
     func setDirectionAndLocationInMap(imageView: UIImageView, latitude:Double, longitude:Double, newDirection:Double) {
-        let dLat = latitude - ((maxLat + minLat) / 2)
-        let dLon = longitude - ((maxLon + minLon) / 2)
-        let newX = dLon / normalization
-        let newY = dLat / normalization
-        let x = (CGFloat(newX) * needle.frame.width * 3/4)
-        let y = -(CGFloat(newY) * needle.frame.height * 3/4)
+        
+        let (cgX, cgY) = getScaledCGXY(latitude: latitude, longitude: longitude)
         let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(newDirection) * CGFloat.pi / 180)
-        let translationTransform = CGAffineTransform(translationX: x, y: y)
+        let translationTransform = CGAffineTransform(translationX: cgX, y: cgY)
         imageView.transform = rotationTransform.concatenating(translationTransform)
     }
     
-    //MARK: LocationManager
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = locations[locations.count - 1]
-        //print(locations.count)
-        latitudeVar.text = String(format: "%.4f", currentLocation.coordinate.latitude)
-        longitudeVar.text = String(format: "%.4f", currentLocation.coordinate.longitude)
-        for i in 0..<waypoints.count() {
-            waypoints[i].distance = waypoints[i].location.distance(from:currentLocation)
-            setLocationInMap(imageView: waymarkers[i], latitude: waypoints[i].location.coordinate.latitude, longitude: waypoints[i].location.coordinate.longitude)
+    func getScaledCGXY(latitude:Double, longitude:Double) -> (CGFloat,CGFloat) {
+        
+//        let (centreLat, centreLon) = (((maxLat + minLat) / 2), ((maxLon + minLon) / 2))
+//        let (minX, minY) = Waypoint.getXY(aLat: centreLat, aLon: centreLon, bLat: minLat, bLon: minLon)
+//        let (maxX, maxY) = Waypoint.getXY(aLat: centreLat, aLon: centreLon, bLat: maxLat, bLon: maxLon)
+//        let (x, y) = Waypoint.getXY(aLat: centreLat, aLon: centreLon, bLat: latitude, bLon: longitude)
+        
+        let (minY, minX) = rubberSheet(lat: minLat, lon: minLon)
+        let (maxY, maxX) = rubberSheet(lat: maxLat, lon: maxLon)
+        let (y, x) = rubberSheet(lat: latitude, lon: longitude)
+        
+        let (centreY, centreX) = (((maxY + minY) / 2), ((maxX + minX) / 2))
+        
+        var align = max(maxX-minX, maxY-minY)
+        //var align = max(maxLat-minLat, maxLon-minLon)
+        //print("Align: \(align)")
+        if (align == 0) {
+            align = 0.00000001
         }
+        
+        print("XY: \(x),\(y)")
+        let dX = x - centreX
+        let dY = y - centreY
+        print("DXY: \(dX), \(dY),    CentreXY: \(centreX),\(centreY)")
+        let nX = dX / align
+        let nY = dY / align
+        print("NXY: \(nX), \(nY),    Align: \(align)")
+//        let nX = dX
+//        let nY = dY
+        let cgX = (CGFloat(nX) * needle.frame.width * 3/4)
+        let cgY = -(CGFloat(nY) * needle.frame.height * 3/4)
+        print("Needle Frame: \(needle.frame.width),\(needle.frame.height); CGXY: \(cgX),\(cgY)")
+        return (cgX, cgY)
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
-        let newDeg = newHeading.magneticHeading
-        headingVar.text = String(format: "%.1f", newDeg) + "˚"// + " err " + String(format: "%.4f", newHeading.headingAccuracy)
-        letterVar.text = calculateLetterHeading(degrees: newDeg)
-        for i in 0..<waypoints.count() {
-            let direction = waypoints[i].dirFromLocation(location: currentLocation)
-            let relativeDistance = calculateRelativeDistance(absDistance: waypoints[i].distance ?? 0.0, sum: sum)
-            setDirectionAndLocationInCompass(imageView: waypointers[i], newDirection: direction - newDeg, newRadius: 30.0 + (relativeDistance * 100.0))
-        }
-        setDirectionAndLocationInMap(imageView: locationPointer!, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, newDirection: newDeg)
-        currentHeading = newHeading
+    func rubberSheet(lat:Double, lon:Double) -> (Double, Double) {
+//        let y = cos(lat / 180 * .pi) * sin(lon / 180 * .pi)
+//        let x = cos(lat / 180 * .pi) * cos(lon / 180 * .pi)
+        let x = lon * 60 * 1852 * cos(lat / 180 * .pi)
+        let y = lat * 60 * 1852
+        return (y, x)
     }
     
+    //MARK: - IsMetric
     func isMetric() -> Bool {
         return ((Locale.current as NSLocale).object(forKey: NSLocale.Key.usesMetricSystem) as? Bool) ?? true
     }
     
     //MARK: NewPointer
-    func newPointer(height:CGFloat) -> UIImageView {
+    func newPointer(height:CGFloat, color: UIColor) -> UIImageView {
         //creates a new pointer, places it within the frame, and returns the UIImageView object.
         let imageName = "pointer.png"
         let image = UIImage(named: imageName)
         let imageView = UIImageView(image: image)
+        imageView.tintColor = color
+        //imageView.alpha = 0.8
         imageView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(imageView)
         
@@ -251,11 +298,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         return imageView
     }
     
-    func newMarker(/*dX:Double, dY:Double*/) -> UIImageView {
+    func newMarker(color:UIColor) -> UIImageView {
         //creates a new marker, places it within the frame, and returns the UIImageView object.
         let imageName = "marker.png"
         let image = UIImage(named: imageName)
         let imageView = UIImageView(image: image)
+        imageView.tintColor = color
+        //imageView.alpha = 0.8
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(imageView)
@@ -295,38 +344,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         return letter
     }
-    
-    private func calculateRelativeDistance(absDistance:Double, sum:Double) -> Double {
-        let normalizedDistance = (absDistance) / sum
-        //return pow(normalizedDistance, 0.3)
-        //let logDistance = log2(normalizedDistance + 1)
-        return sqrt(normalizedDistance)
-    }
+
     
     //MARK: NewWaypoint
     @IBAction func newWaypoint(_ sender: Any) {
         let newWaypoint = Waypoint(location:currentLocation,name:"New Waypoint")
-        waypoints.append(waypoint:newWaypoint)
-        waypoints.saveWaypoints() //overwrites existing save data with the new waypoint attached.
-        let newWayPointer = newPointer(height: 40.0)
-        setDirectionAndLocationInCompass(imageView: newWayPointer, newDirection:0.0, newRadius: 30.0)
-        
-        waypointers.append(newWayPointer)
-        newWayPointer.tintColor = newWaypoint.color //more efficient than resetting the whole lot..
-        let newWayMarker = newMarker()
-        waymarkers.append(newWayMarker)
-        newWayMarker.tintColor = newWaypoint.color
-        
-        if displayType.selectedSegmentIndex == 0 {
-            newWayPointer.isHidden = !newWaypoint.enabled
-            newWayMarker.isHidden = true
-        } else {
-            newWayPointer.isHidden = true
-            newWayMarker.isHidden = !newWaypoint.enabled
-        }
         tempPoint = newWaypoint
     }
     
+    //MARK: SwitchDisplayType
     @IBAction func switchDisplayType(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             //Compass, all is normal
@@ -334,19 +360,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //etc.
             needle.tintColor = UIColor.white
             locationPointer?.isHidden = true
-            for i in 0..<waypoints.count() {
-                waypointers[i].isHidden = !waypoints[i].enabled
+            for i in 0..<waypointers.count {
+                waypointers[i].isHidden = false
                 waymarkers[i].isHidden = true
             }
-            
         } else if sender.selectedSegmentIndex == 1 {
             //Map, now here's a tricky bit.
             //Hide everything from the compass
             //Unhide everything from the map.
+            //print("showing map")
             needle.tintColor = UIColor.black
             locationPointer?.isHidden = false
-            for i in 0..<waypoints.count() {
-                waymarkers[i].isHidden = !waypoints[i].enabled
+            for i in 0..<waymarkers.count {
+                waymarkers[i].isHidden = false
                 waypointers[i].isHidden = true
             }
         }
@@ -381,23 +407,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         if let sourceViewController = sender.source as? WaypointDetailViewController {
             if let newWaypoint = sourceViewController.waypoint {
                 //waypoints[waypoints.count() - 1] = newWaypoint
-                let index = waypoints.count() - 1
+                //let index = waypoints.count() - 1
                 if (sourceViewController.cancel) {
-                    waypoints.remove(at: index)
-                    waypointers[index].removeFromSuperview()
-                    waypointers.remove(at: index)
-                    waymarkers[index].removeFromSuperview()
-                    waymarkers.remove(at: index)
+                    //waypoints.remove(at: index)
+                    //waypointers[index].removeFromSuperview()
+                    //waypointers.remove(at: index)
+                    //waymarkers[index].removeFromSuperview()
+                    //waymarkers.remove(at: index)
                 } else {
-                    waypoints[index] = newWaypoint
-                    waypointers[index].tintColor = newWaypoint.color
-                    waymarkers[index].tintColor = newWaypoint.color
+                    waypoints.append(waypoint:newWaypoint)
+                    waypoints.saveWaypoints() //overwrites existing save data with the new waypoint attached.
+                    enabledWaypoints = waypoints.enabledList()
+                    let newWayPointer = newPointer(height: 40.0, color: newWaypoint.color)
+                    setDirectionAndLocationInCompass(imageView: newWayPointer, newDirection:0.0, newRadius: 30.0)
+                    waypointers.append(newWayPointer)
+                    let newWayMarker = newMarker(color: newWaypoint.color)
+                    waymarkers.append(newWayMarker)
+                    
                     if displayType.selectedSegmentIndex == 0 {
-                        needle.tintColor = UIColor.white
-                        locationPointer?.isHidden = true
+                        newWayPointer.isHidden = !newWaypoint.enabled
+                        newWayMarker.isHidden = true
                     } else {
-                        needle.tintColor = UIColor.black
-                        locationPointer?.isHidden = false
+                        newWayPointer.isHidden = true
+                        newWayMarker.isHidden = !newWaypoint.enabled
                     }
                 }
             }

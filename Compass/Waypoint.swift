@@ -39,7 +39,6 @@ class Waypoint: NSObject, NSCoding{
     init(location: CLLocation, name: String, /*colorText:String = "white",*/ color:UIColor = UIColor.white, distance:Double = 0.0, enabled:Bool = true) {
         self.location = location
         self.name = name
-        //self.colorText = colorText
         self.color = color
         self.distance = distance
         self.enabled = enabled
@@ -71,14 +70,26 @@ class Waypoint: NSObject, NSCoding{
     func dirFromLocation(location:CLLocation) -> Double {
         //should return the direction as a pure heading degree value, which can then be extrapolated/rotated to compensate for rotating the phone.
         //so we need the inverse... cos, say, which will tell us better information to prevent 180deg errors.
-        let dx = self.location.coordinate.latitude - location.coordinate.latitude
-        let dy = self.location.coordinate.longitude - location.coordinate.longitude
-        let angle = atan2(dy, dx) / .pi * 180
+        let aLat = location.coordinate.latitude / 180 * .pi
+        let bLat = self.location.coordinate.latitude / 180 * .pi
+        let aLon = location.coordinate.longitude / 180 * .pi
+        let bLon = self.location.coordinate.longitude / 180 * .pi
+        
+        let (x, y) = Waypoint.getXY(aLat:aLat,aLon:aLon,bLat:bLat,bLon:bLon)
+        let angle = atan2(x, y) / .pi * 180
+        //let angle = atan2(dy, dx) / .pi * 180
         if angle < 0 {
             return 360 + angle
         } else {
             return angle
         }
+    }
+    
+    static func getXY(aLat:Double, aLon:Double, bLat:Double, bLon:Double) -> (Double, Double) {
+        let dLon = bLon - aLon
+        let x = cos(bLat) * sin(dLon)
+        let y = (cos(aLat) * sin(bLat)) - (sin(aLat) * cos(bLat) * cos(dLon))
+        return (x, y)
     }
     
     func rename(newName : String) {

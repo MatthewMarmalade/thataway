@@ -38,7 +38,7 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
     //var colorTexts = ["red", "blue", "green", "white", "orange", "brown", "cyan", "gray", "purple", "yellow"]
     
     
-    
+    //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         nameField.delegate = self
@@ -50,7 +50,7 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
             nameField.text = waypoint.name
             latField.text = String(format:"%0.8f", waypoint.location.coordinate.latitude)
             lonField.text = String(format:"%0.8f", waypoint.location.coordinate.longitude)
-            color = waypoint.color
+            color = colors[0] ?? UIColor.white
             //colorText = waypoint.colorText
             //colorField.text = waypoint.colorText
             
@@ -163,8 +163,14 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
             //print("Saved!")
         }
     }
+    
+    //MARK: - Text Field Correction
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+    }
+    
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)

@@ -17,7 +17,8 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
     var currentLocation:CLLocation = CLLocation(latitude: 0, longitude: 0)
     var currentHeading:CLHeading?
     var currentDeg:Double?
-    var locationManager:CLLocationManager = CLLocationManager()
+    //var locationManager:CLLocationManager = CLLocationManager()
+    //var cells = [WaypointTableViewCell]()
     
     
     @IBAction func waypointEnablingChanged(_ sender: UIButton) {
@@ -40,11 +41,6 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = UITableView.automaticDimension
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-        locationManager.startUpdatingHeading()
         distanceUnit = defaults.bool(forKey: "km")
         self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
@@ -63,44 +59,19 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "WaypointTableViewCell"
+        //print("creating row \(indexPath.row)")
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? WaypointTableViewCell else {
             fatalError("The dequeued cell is not an instance of WaypointTableViewCell")
         }
-        
+        //print("row created")
         // Configure the cell
         let waypoint = waypoints[indexPath.row]
-        cell.nameLabel.text = waypoint.name
-        //cell.latLabel.text = String(format: "%0.8f", waypoint.location.coordinate.latitude)
-        //cell.lonLabel.text = String(format: "%0.8f", waypoint.location.coordinate.longitude)
-        let formatter = NumberFormatter()
-        formatter.numberStyle = NumberFormatter.Style.decimal
-        var amount = (waypoint.distance ?? 0) / 1000
-        var unit = "km"
-        if !distanceUnit {
-            amount = amount * 0.6213712
-            unit = "mi"
-        }
-        if amount < 1 {
-            amount = floor(amount * 1000) / 1000
-        } else if amount < 10 {
-            amount = floor(amount * 100) / 100
-        } else if amount < 100 {
-            amount = floor(amount * 10) / 10
-        } else {
-            amount = floor(amount)
-        }
-        let formattedString = formatter.string(for: amount)
-        cell.disLabel.text = "\(formattedString ?? "0.0")" + unit
-        
-        cell.enabledButton.isSelected = waypoint.enabled
-        cell.enabledButton.tintColor = waypoint.color
-        cell.enabledButton.alpha = 0.8
-        cell.pointerImage.tintColor = UIColor.white
+        cell.initCell(waypoint: waypoint, km: distanceUnit)
         cell.enabledButton.tag = indexPath.row
-        let direction = waypoint.dirFromLocation(location: currentLocation)
-        setDirection(imageView: cell.pointerImage, newDirection: direction - (currentDeg ?? 0.0))
-        //cell.enabledButton.imageView
-
+        cell.currentHeading = currentHeading
+        cell.currentDeg = currentDeg
+        cell.currentLocation = currentLocation
+        cell.setDirection()
         return cell
     }
     
@@ -145,31 +116,6 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
     }
     */
     
-    //MARK: LocationManager
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = locations[locations.count - 1]
-        //print("Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
-        //print(locations.count)
-        for i in 0..<waypoints.count() {
-            waypoints[i].distance = waypoints[i].location.distance(from:currentLocation)
-        }
-        self.tableView.reloadData()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
-        let newDeg = newHeading.magneticHeading
-        //print("Heading: \(newDeg)")
-        currentHeading = newHeading
-        currentDeg = newDeg
-        self.tableView.reloadData()
-    }
-
-    func setDirection(imageView: UIImageView, newDirection:Double) {
-        //print("setting direction: \(currentHeading?.magneticHeading ?? 0.0)")
-        let direction = CGFloat(newDirection) * CGFloat.pi / 180
-        let transform = CGAffineTransform(translationX: 0.0, y: 0.0)
-        imageView.transform = transform.rotated(by: direction)
-    }
     
     // MARK: - Navigation
 
@@ -203,8 +149,12 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 //Updating an existing waypoint
                 waypoints[selectedIndexPath.row] = waypoint
-                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                //print("reloading row \(selectedIndexPath.row)")
+                //tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                tableView.reloadData()
+                //print("row reloaded")
                 waypoints.saveWaypoints()
+                //print("waypoints saved")
             }
         }
     }
