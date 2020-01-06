@@ -187,13 +187,20 @@
                                     <constraint firstAttribute="width" constant="300" id="jvC-yn-jfF"/>
                                 </constraints>
                             </stackView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="mutedStandard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wlc-Ka-cf8">
+                                <rect key="frame" x="57" y="207" width="300" height="300"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="8ce-f8-kvw" secondAttribute="bottom" constant="20" id="683-BP-Lfs"/>
+                            <constraint firstItem="wlc-Ka-cf8" firstAttribute="top" secondItem="Bqm-yi-nic" secondAttribute="top" id="8sU-vp-Grx"/>
+                            <constraint firstItem="wlc-Ka-cf8" firstAttribute="bottom" secondItem="Bqm-yi-nic" secondAttribute="bottom" id="9zl-lE-28P"/>
                             <constraint firstItem="8ce-f8-kvw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BAk-Iq-del"/>
+                            <constraint firstItem="wlc-Ka-cf8" firstAttribute="trailing" secondItem="Bqm-yi-nic" secondAttribute="trailing" id="GnI-tP-S3S"/>
                             <constraint firstItem="8ce-f8-kvw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" priority="750" id="ORR-iP-qsy"/>
                             <constraint firstItem="FeB-85-Xsp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="U26-0V-SJD"/>
+                            <constraint firstItem="wlc-Ka-cf8" firstAttribute="leading" secondItem="Bqm-yi-nic" secondAttribute="leading" id="Vyn-TA-JGf"/>
                             <constraint firstAttribute="trailing" secondItem="FeB-85-Xsp" secondAttribute="trailing" id="cTj-WO-jKi"/>
                             <constraint firstItem="FeB-85-Xsp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pHA-Vf-Qm1"/>
                             <constraint firstAttribute="bottom" secondItem="FeB-85-Xsp" secondAttribute="bottom" id="wlS-cF-UE1"/>
@@ -218,6 +225,7 @@
                         <outlet property="latitudeVar" destination="LpZ-Uf-FRp" id="BFR-Kt-r8e"/>
                         <outlet property="letterVar" destination="g2D-I5-Dh0" id="UIx-rc-M5g"/>
                         <outlet property="longitudeVar" destination="eDu-es-iAm" id="50W-Fg-8uC"/>
+                        <outlet property="mapView" destination="wlc-Ka-cf8" id="2E0-dr-TD9"/>
                         <outlet property="needle" destination="Bqm-yi-nic" id="6Gp-AI-eCO"/>
                     </connections>
                 </viewController>
@@ -574,11 +582,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="Rch-ud-Ect">
-                                <rect key="frame" x="25" y="176" width="364" height="544"/>
+                                <rect key="frame" x="25" y="136" width="364" height="544"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="z3d-T9-Z3h">
-                                <rect key="frame" x="25" y="176" width="364" height="544"/>
+                                <rect key="frame" x="25" y="136" width="364" height="544"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="qcl-uV-rps">
                                         <rect key="frame" x="0.0" y="0.0" width="364" height="80"/>
@@ -703,14 +711,12 @@
                         <constraints>
                             <constraint firstItem="z3d-T9-Z3h" firstAttribute="centerX" secondItem="OOa-MB-oHc" secondAttribute="centerX" id="2Q9-9s-jpY"/>
                             <constraint firstItem="z3d-T9-Z3h" firstAttribute="top" secondItem="Rch-ud-Ect" secondAttribute="top" id="2jl-Lt-hFZ"/>
-                            <constraint firstItem="z3d-T9-Z3h" firstAttribute="centerY" secondItem="OOa-MB-oHc" secondAttribute="centerY" priority="750" id="7In-b8-K9m"/>
                             <constraint firstItem="z3d-T9-Z3h" firstAttribute="trailing" secondItem="Rch-ud-Ect" secondAttribute="trailing" id="Asn-ja-Lne"/>
-                            <constraint firstItem="z3d-T9-Z3h" firstAttribute="leading" secondItem="JIl-3p-XjT" secondAttribute="leading" constant="25" id="HOW-o3-cDI"/>
-                            <constraint firstItem="JIl-3p-XjT" firstAttribute="trailing" secondItem="z3d-T9-Z3h" secondAttribute="trailing" constant="25" id="J4Z-Gs-Bvy"/>
+                            <constraint firstItem="z3d-T9-Z3h" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JIl-3p-XjT" secondAttribute="leading" constant="25" id="HOW-o3-cDI"/>
+                            <constraint firstItem="JIl-3p-XjT" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="z3d-T9-Z3h" secondAttribute="trailing" constant="25" id="J4Z-Gs-Bvy"/>
                             <constraint firstItem="z3d-T9-Z3h" firstAttribute="leading" secondItem="Rch-ud-Ect" secondAttribute="leading" id="NXa-5k-VMd"/>
-                            <constraint firstItem="z3d-T9-Z3h" firstAttribute="top" relation="greaterThanOrEqual" secondItem="OOa-MB-oHc" secondAttribute="topMargin" constant="40" id="Ox5-dK-jxo"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="z3d-T9-Z3h" secondAttribute="bottom" constant="40" id="cpV-qw-XnD"/>
                             <constraint firstItem="z3d-T9-Z3h" firstAttribute="bottom" secondItem="Rch-ud-Ect" secondAttribute="bottom" id="rhd-uH-zV7"/>
+                            <constraint firstItem="z3d-T9-Z3h" firstAttribute="centerY" secondItem="OOa-MB-oHc" secondAttribute="centerY" constant="-40" id="zcK-gX-NiC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JIl-3p-XjT"/>
                     </view>

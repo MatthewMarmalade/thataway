@@ -58,25 +58,8 @@ class WaypointTableViewCell: UITableViewCell, CLLocationManagerDelegate {
     }
     
     func formatAndUpdateDisLabel() {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = NumberFormatter.Style.decimal
-        var amount = (waypoint?.distance ?? 0) / 1000
-        var unit = "km"
-        if !km {
-            amount = amount * 0.6213712
-            unit = "mi"
-        }
-        if amount < 1 {
-            amount = floor(amount * 1000) / 1000
-        } else if amount < 10 {
-            amount = floor(amount * 100) / 100
-        } else if amount < 100 {
-            amount = floor(amount * 10) / 10
-        } else {
-            amount = floor(amount)
-        }
-        let formattedString = formatter.string(for: amount)
-        disLabel.text = "\(formattedString ?? "0.0")" + unit
+        let formattedString = Waypoint.formatDist(distance:waypoint?.distance)
+        disLabel.text = formattedString
     }
     
     func setDirection() {

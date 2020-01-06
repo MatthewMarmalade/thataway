@@ -83,7 +83,8 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         
                 cell.displayContent(color: cellColor)
                 cell.colorButton.tag = indexPath.row
-                cell.colorButton.isSelected = cellColor == color
+                cell.colorButton.isSelected = cellColor.isEqual(color)
+                
             }
             return cell
         } else {

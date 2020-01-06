@@ -9,11 +9,15 @@
 import Foundation
 import CoreLocation
 import UIKit
+import MapKit
 
-class Waypoint: NSObject, NSCoding{
+class Waypoint: NSObject, NSCoding, MKAnnotation{
+    
     
     //Properties
+    static let defaults:   UserDefaults = UserDefaults.standard
     var location:   CLLocation
+    var coordinate: CLLocationCoordinate2D
     var name:       String
     var color:      UIColor
     var distance:   Double?
@@ -38,6 +42,7 @@ class Waypoint: NSObject, NSCoding{
     
     init(location: CLLocation, name: String, /*colorText:String = "white",*/ color:UIColor = UIColor.white, distance:Double = 0.0, enabled:Bool = true) {
         self.location = location
+        self.coordinate = location.coordinate
         self.name = name
         self.color = color
         self.distance = distance
@@ -92,8 +97,41 @@ class Waypoint: NSObject, NSCoding{
         return (x, y)
     }
     
+    static func formatDist(distance:Double?) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        var amount = (distance ?? 0) / 1000
+        
+        let km = defaults.bool(forKey: "km")
+        var unit = "km"
+        if !km {
+            amount = amount * 0.6213712
+            unit = "mi"
+        }
+        
+        if amount < 1 {
+            amount = floor(amount * 1000) / 1000
+        } else if amount < 10 {
+            amount = floor(amount * 100) / 100
+        } else if amount < 100 {
+            amount = floor(amount * 10) / 10
+        } else {
+            amount = floor(amount)
+        }
+        let formattedString = formatter.string(for: amount)
+        return "\(formattedString ?? "0.0") " + unit
+    }
+    
     func rename(newName : String) {
         self.name = newName
+    }
+    
+    var subtitle: String? {
+        return Waypoint.formatDist(distance:distance)
+    }
+    
+    var title: String? {
+        return name
     }
     
 }

@@ -11,17 +11,20 @@ import CoreLocation
 
 
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     @IBOutlet weak var latitudeVar: UILabel!
     @IBOutlet weak var longitudeVar: UILabel!
     @IBOutlet weak var headingVar: UILabel!
     @IBOutlet weak var letterVar: UILabel!
     @IBOutlet weak var needle: UIImageView!
     @IBOutlet weak var displayType: UISegmentedControl!
+    @IBOutlet weak var mapView: MKMapView!
+    
     
     let defaults:UserDefaults = UserDefaults.standard
     
     var currentLocation:CLLocation = CLLocation(latitude: 0, longitude: 0)
+    var currentLocationCurrent:Bool = false
     var currentHeading:CLHeading?
     var currentDeg:Double?
     
@@ -32,13 +35,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var enabledWaypoints = [Waypoint]()
     var tempPoint : Waypoint?
     var waypointers = [UIImageView]()
-    var waymarkers = [UIImageView]()
+    //var waymarkers = [UIImageView]()
     
     var (minLat, minLon, maxLat, maxLon) = (0.0, 0.0, 1.0, 1.0)
+    var minLoc:CLLocation = CLLocation(latitude: 0, longitude: 0)
+    var maxLoc:CLLocation = CLLocation(latitude: 0, longitude: 0)
+    var centreLoc:CLLocation = CLLocation(latitude: 0, longitude: 0)
+    var mapDiameter : CLLocationDistance = 10000
+    
     var sum = 1.0
     var maxDist = 1.0
-    var normalization = 1.0
-    var locationPointer : UIImageView?
+    //var normalization = 1.0
+    //var locationPointer : UIImageView?
     var centreOffset = 30.0
     var relativeDistance = 100.0
     
@@ -60,43 +68,44 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         waypointers.forEach{$0.removeFromSuperview()} //what does this do...
         waypointers.removeAll() //there's got to be a more efficient way to do this.
-        waymarkers.forEach{$0.removeFromSuperview()}
-        waymarkers.removeAll()
+        mapView.removeAnnotations(mapView.annotations)
+        
+        //waymarkers.forEach{$0.removeFromSuperview()}
+        //waymarkers.removeAll()
         
         enabledWaypoints = waypoints.enabledList()
         //print("Enabled Waypoints: \(enabledWaypoints.count)")
         (minLat, minLon, maxLat, maxLon, maxDist) = waypoints.minMax()
-        normalization = max(maxLat - minLat, maxLon - minLon) + 1
+        allUpdateBounds() // sets minLoc, maxLoc, centreLoc, maxLat, minLat, maxLon, minLon
+        //normalization = max(maxLat - minLat, maxLon - minLon) + 1
         for i in 0..<enabledWaypoints.count {
             let waypointI = enabledWaypoints[i]
             let newWayPointer = newPointer(height: 40.0, color: waypointI.color)
             positionInView(waypointer: newWayPointer, waypoint: waypointI)
             
-            let newWayMarker = newMarker(color: waypointI.color)
-            positionInView(waymarker: newWayMarker, waypoint: waypointI)
+            //MARK: Add map annotations
+            mapView.addAnnotation(waypointI)
             
             if displayType.selectedSegmentIndex == 0 {
                 newWayPointer.isHidden = false
-                newWayMarker.isHidden = true
             } else {
                 newWayPointer.isHidden = true
-                newWayMarker.isHidden = false
             }
             
             waypointers.append(newWayPointer)
-            waymarkers.append(newWayMarker)
+            //waymarkers.append(newWayMarker)
         }
-        
-        locationPointer?.removeFromSuperview()
-        locationPointer = newUserPointer()
-        setDirectionAndLocationInMap(imageView: locationPointer!, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, newDirection: 0.0)
-        
+        //mapView.reloadInputViews()
+
         if displayType.selectedSegmentIndex == 0 {
             needle.tintColor = UIColor.white
-            locationPointer?.isHidden = true
+            mapView.isHidden = true
+            //locationPointer?.isHidden = true
         } else {
             needle.tintColor = UIColor.black
-            locationPointer?.isHidden = false
+            mapView.isHidden = false
+            centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
+            //locationPointer?.isHidden = false
         }
 
         self.navigationItem.rightBarButtonItem?.isEnabled = false
@@ -114,6 +123,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        currentLocationCurrent = false
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -123,15 +133,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "Charter", size: 20.0)!]
         displayType.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Charter", size: 12.0)!, NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
-        //displayType.setTitleTextAttributes([], for: .normal)
-        //segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .normal)
-        //segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .selected)
         let hasLaunchedKey = "HasLaunched"
         let hasLaunched = defaults.bool(forKey: hasLaunchedKey)
         if !hasLaunched {
             defaults.set(isMetric(), forKey: "km")
             defaults.set(true, forKey: "mag")
             defaults.set(true, forKey: hasLaunchedKey)
+        }
+        mapView.delegate = self
+        mapView.register(WayClusterView.self, forAnnotationViewWithReuseIdentifier: "cluster")
+        //mapView.showsUserLocation = false
+        //mapView.isRotateEnabled = true
+    }
+    
+    func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
+        //
+        mapView.showAnnotations(enabledWaypoints, animated: true)
+        if mapView.annotations(in: mapView.visibleMapRect).count < mapView.annotations.count {
+            //we are not displaying all of our annotations, centre on ourselves
+            //mapView.setCenter(currentLocation.coordinate, animated: true)
+            let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
+            mapView.setRegion(coordinateRegion, animated: true)
         }
     }
     
@@ -155,10 +177,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         for i in 0..<waypoints.count() {
             waypoints[i].distance = waypoints[i].location.distance(from:currentLocation)
         }
-        for i in 0..<enabledWaypoints.count {
-            positionInView(waymarker: waymarkers[i], waypoint: enabledWaypoints[i])
-//
-        }
+        updateBounds(location:currentLocation)
+        currentLocationCurrent = true
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
@@ -172,10 +192,91 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let waypointI = enabledWaypoints[i]
             positionInView(waypointer: waypointers[i], waypoint: waypointI)
         }
-        setDirectionAndLocationInMap(imageView: locationPointer!, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, newDirection: newDeg)
+        //setDirectionAndLocationInMap(imageView: locationPointer!, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, newDirection: newDeg)
         currentHeading = newHeading
         currentDeg = newDeg
     }
+    
+    //MARK: UpdateBounds
+    func updateBounds(location:CLLocation) {
+        //TODO: Consider making this function only called once every few location updates, say
+        maxLat = max(maxLat, location.coordinate.latitude)
+        maxLon = max(maxLon, location.coordinate.longitude)
+        minLat = min(minLat, location.coordinate.latitude)
+        minLon = min(minLon, location.coordinate.longitude)
+    }
+    
+    func allUpdateBounds() {
+        for i in 0..<enabledWaypoints.count {
+            let location = enabledWaypoints[i].location
+            updateBounds(location:location)
+            //print("I: \(i), Location: \(location.coordinate.latitude), \(location.coordinate.longitude); New Min: \(minLat),\(minLon); New Max: \(maxLat),\(maxLon)")
+        }
+        if (currentLocationCurrent) {
+            updateBounds(location:currentLocation)
+            //print("I: Current, Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
+        }
+        let centreLat = (maxLat + minLat) / 2
+        let centreLon = (maxLon + minLon) / 2
+        maxLoc = CLLocation(latitude: maxLat, longitude: maxLon)
+        minLoc = CLLocation(latitude: minLat, longitude: minLon)
+        centreLoc = CLLocation(latitude: centreLat, longitude: centreLon)
+        mapDiameter = 2.5 * centreLoc.distance(from:minLoc)
+        //print("New Min: \(minLat),\(minLon); New Max: \(maxLat),\(maxLon); New Centre: \(centreLat),\(centreLon); New Diameter: \(mapDiameter)")
+    }
+    
+    //MARK: MapViewDelegate
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let wayAnnotation = annotation as? Waypoint else {
+            if annotation is MKClusterAnnotation {
+                print("cluster annotation")
+                let identifier = "cluster"
+                var view: WayClusterView
+                if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                    as? WayClusterView {
+                    dequeuedView.annotation = annotation
+                    view = dequeuedView
+                } else {
+                    view = WayClusterView(annotation: annotation, reuseIdentifier: identifier)
+                    view.canShowCallout = true
+                    view.calloutOffset = CGPoint(x: -5, y: 5)
+                    view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+                }
+                view.displayPriority = .required
+                return view
+            } else {
+                return nil
+            }
+        }
+        let identifier = "waymarker"
+        var view: MKMarkerAnnotationView
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            as? MKMarkerAnnotationView {
+            dequeuedView.annotation = wayAnnotation
+            view = dequeuedView
+            
+        } else {
+            view = MKMarkerAnnotationView(annotation: wayAnnotation, reuseIdentifier: identifier)
+            view.canShowCallout = true
+            view.calloutOffset = CGPoint(x: -5, y: 5)
+            //view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        view.clusteringIdentifier = "waymarker"
+        view.displayPriority = .required
+        //view.tintColor = annotation.color //controls tint of callout
+        view.markerTintColor = wayAnnotation.color //controls tint of marker
+        view.subtitleVisibility = .visible
+        view.titleVisibility = .visible
+        view.glyphText = String(wayAnnotation.name.first ?? "W")
+        return view
+    }
+    
+    func mapView(_ mapView: MKMapView,
+                          clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        let cluster = MKClusterAnnotation(memberAnnotations: memberAnnotations)
+        return cluster
+    }
+    
     
     //MARK: - PositionInView
     func positionInView(waypointer: UIImageView, waypoint: Waypoint) {
@@ -221,11 +322,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func getScaledCGXY(latitude:Double, longitude:Double) -> (CGFloat,CGFloat) {
         
-//        let (centreLat, centreLon) = (((maxLat + minLat) / 2), ((maxLon + minLon) / 2))
-//        let (minX, minY) = Waypoint.getXY(aLat: centreLat, aLon: centreLon, bLat: minLat, bLon: minLon)
-//        let (maxX, maxY) = Waypoint.getXY(aLat: centreLat, aLon: centreLon, bLat: maxLat, bLon: maxLon)
-//        let (x, y) = Waypoint.getXY(aLat: centreLat, aLon: centreLon, bLat: latitude, bLon: longitude)
-        
         let (minY, minX) = rubberSheet(lat: minLat, lon: minLon)
         let (maxY, maxX) = rubberSheet(lat: maxLat, lon: maxLon)
         let (y, x) = rubberSheet(lat: latitude, lon: longitude)
@@ -239,18 +335,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             align = 0.00000001
         }
         
-        print("XY: \(x),\(y)")
+        //print("XY: \(x),\(y)")
         let dX = x - centreX
         let dY = y - centreY
-        print("DXY: \(dX), \(dY),    CentreXY: \(centreX),\(centreY)")
+        //print("DXY: \(dX), \(dY),    CentreXY: \(centreX),\(centreY)")
         let nX = dX / align
         let nY = dY / align
-        print("NXY: \(nX), \(nY),    Align: \(align)")
+        //print("NXY: \(nX), \(nY),    Align: \(align)")
 //        let nX = dX
 //        let nY = dY
         let cgX = (CGFloat(nX) * needle.frame.width * 3/4)
         let cgY = -(CGFloat(nY) * needle.frame.height * 3/4)
-        print("Needle Frame: \(needle.frame.width),\(needle.frame.height); CGXY: \(cgX),\(cgY)")
+        //print("Needle Frame: \(needle.frame.width),\(needle.frame.height); CGXY: \(cgX),\(cgY)")
         return (cgX, cgY)
     }
     
@@ -359,10 +455,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //make sure no compass pieces are hidden
             //etc.
             needle.tintColor = UIColor.white
-            locationPointer?.isHidden = true
+            //locationPointer?.isHidden = true
+            mapView.isHidden = true
             for i in 0..<waypointers.count {
                 waypointers[i].isHidden = false
-                waymarkers[i].isHidden = true
+                //waymarkers[i].isHidden = true
             }
         } else if sender.selectedSegmentIndex == 1 {
             //Map, now here's a tricky bit.
@@ -370,9 +467,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //Unhide everything from the map.
             //print("showing map")
             needle.tintColor = UIColor.black
-            locationPointer?.isHidden = false
-            for i in 0..<waymarkers.count {
-                waymarkers[i].isHidden = false
+            centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
+            mapView.isHidden = false
+            //locationPointer?.isHidden = false
+            for i in 0..<waypointers.count {
+                //waymarkers[i].isHidden = false
                 waypointers[i].isHidden = true
             }
         }
@@ -421,15 +520,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     let newWayPointer = newPointer(height: 40.0, color: newWaypoint.color)
                     setDirectionAndLocationInCompass(imageView: newWayPointer, newDirection:0.0, newRadius: 30.0)
                     waypointers.append(newWayPointer)
-                    let newWayMarker = newMarker(color: newWaypoint.color)
-                    waymarkers.append(newWayMarker)
+                    //let newWayMarker = newMarker(color: newWaypoint.color)
+                    //waymarkers.append(newWayMarker)
                     
                     if displayType.selectedSegmentIndex == 0 {
                         newWayPointer.isHidden = !newWaypoint.enabled
-                        newWayMarker.isHidden = true
+                        //newWayMarker.isHidden = true
                     } else {
                         newWayPointer.isHidden = true
-                        newWayMarker.isHidden = !newWaypoint.enabled
+                        //newWayMarker.isHidden = !newWaypoint.enabled
                     }
                 }
             }
