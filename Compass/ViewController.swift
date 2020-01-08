@@ -146,15 +146,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //mapView.isRotateEnabled = true
     }
     
+    //MARK: CenterMapOnLocation
     func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
-        //
-        mapView.showAnnotations(enabledWaypoints, animated: true)
-        if mapView.annotations(in: mapView.visibleMapRect).count < mapView.annotations.count {
-            //we are not displaying all of our annotations, centre on ourselves
-            //mapView.setCenter(currentLocation.coordinate, animated: true)
-            let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
-            mapView.setRegion(coordinateRegion, animated: true)
+        //85788 * longitudeDelta = diameter
+        //diameter / 85788 = longitudeDelta
+        //Max: 105.4687474
+        //mapView.showAnnotations(enabledWaypoints, animated: true)
+        
+        let longitudeSpan = mapDiameter / 85788
+        var coordinateRegion : MKCoordinateRegion
+        //if it's bigger than the max, just centre on us
+        if longitudeSpan >= 105 {
+            let adjustedDiameter : Double = 105 * 85788
+            coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: adjustedDiameter, longitudinalMeters: adjustedDiameter)
+        } else { //if it's not, just centre on the centrelocation
+            coordinateRegion = MKCoordinateRegion(center: centreLoc.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
         }
+        
+        mapView.setRegion(coordinateRegion, animated: true)
+        
+//        print("diameter: \(mapDiameter)")
+//        print("longitudeDelta: \(mapView.region.span.longitudeDelta.description)")
+//        print("ratio: \(mapDiameter / mapView.region.span.longitudeDelta)")
+        //MARK: BUG! When all selected, crashes.
     }
     
     override func didReceiveMemoryWarning() {
@@ -178,7 +192,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             waypoints[i].distance = waypoints[i].location.distance(from:currentLocation)
         }
         updateBounds(location:currentLocation)
-        currentLocationCurrent = true
+        //currentLocationCurrent = true
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
@@ -195,6 +209,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //setDirectionAndLocationInMap(imageView: locationPointer!, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, newDirection: newDeg)
         currentHeading = newHeading
         currentDeg = newDeg
+        //testMapBounds()
+        //print("longitudeDelta: \(mapView.region.span.longitudeDelta.description)")
     }
     
     //MARK: UpdateBounds
@@ -212,16 +228,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             updateBounds(location:location)
             //print("I: \(i), Location: \(location.coordinate.latitude), \(location.coordinate.longitude); New Min: \(minLat),\(minLon); New Max: \(maxLat),\(maxLon)")
         }
-        if (currentLocationCurrent) {
-            updateBounds(location:currentLocation)
+        //if (currentLocationCurrent) {
+        //    updateBounds(location:currentLocation)
             //print("I: Current, Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
-        }
+        //}
         let centreLat = (maxLat + minLat) / 2
         let centreLon = (maxLon + minLon) / 2
         maxLoc = CLLocation(latitude: maxLat, longitude: maxLon)
         minLoc = CLLocation(latitude: minLat, longitude: minLon)
         centreLoc = CLLocation(latitude: centreLat, longitude: centreLon)
-        mapDiameter = 2.5 * centreLoc.distance(from:minLoc)
+        mapDiameter = 2.8 * centreLoc.distance(from:minLoc)
         //print("New Min: \(minLat),\(minLon); New Max: \(maxLat),\(maxLon); New Centre: \(centreLat),\(centreLon); New Diameter: \(mapDiameter)")
     }
     
@@ -229,7 +245,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard let wayAnnotation = annotation as? Waypoint else {
             if annotation is MKClusterAnnotation {
-                print("cluster annotation")
+                //print("cluster annotation")
                 let identifier = "cluster"
                 var view: WayClusterView
                 if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
@@ -467,6 +483,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             //Unhide everything from the map.
             //print("showing map")
             needle.tintColor = UIColor.black
+            
+            allUpdateBounds()
             centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
             mapView.isHidden = false
             //locationPointer?.isHidden = false
@@ -519,6 +537,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     enabledWaypoints = waypoints.enabledList()
                     let newWayPointer = newPointer(height: 40.0, color: newWaypoint.color)
                     setDirectionAndLocationInCompass(imageView: newWayPointer, newDirection:0.0, newRadius: 30.0)
+                    //MARK: Update Distance Here?
                     waypointers.append(newWayPointer)
                     //let newWayMarker = newMarker(color: newWaypoint.color)
                     //waymarkers.append(newWayMarker)
@@ -534,6 +553,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             }
             //waypoints = sourceViewController.waypoints
             //print("you unwound to compass successfully!")
+        }
+        //performed after an unwind regardless of source
+        if displayType.selectedSegmentIndex == 0 {
+            
+        } else {
+            allUpdateBounds()
         }
     }
     

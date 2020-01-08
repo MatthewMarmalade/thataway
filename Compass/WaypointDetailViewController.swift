@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreGraphics
 
 class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegate{
     
@@ -50,7 +51,7 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
             nameField.text = waypoint.name
             latField.text = String(format:"%0.8f", waypoint.location.coordinate.latitude)
             lonField.text = String(format:"%0.8f", waypoint.location.coordinate.longitude)
-            color = colors[0] ?? UIColor.white
+            color = waypoint.color 
             //colorText = waypoint.colorText
             //colorField.text = waypoint.colorText
             
@@ -83,7 +84,6 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         
                 cell.displayContent(color: cellColor)
                 cell.colorButton.tag = indexPath.row
-                cell.colorButton.isSelected = cellColor.isEqual(color)
                 
             }
             return cell
@@ -124,7 +124,7 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
     
     //MARK: NewColorButtonPressed
     @IBAction func newColorButtonPressed(_ sender: UIButton) {
-        print("new color, yay!")
+        //print("new color, yay!")
         let colorVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newColorPickerID") as! NewColorPickerViewController
         self.addChild(colorVC)
         colorVC.view.frame = self.view.frame
