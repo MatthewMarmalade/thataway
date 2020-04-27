@@ -166,6 +166,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
             mapView.setRegion(coordinateRegion, animated: true)
         }
+        
+        mapView.setRegion(coordinateRegion, animated: true)
+        
+//        print("diameter: \(mapDiameter)")
+//        print("longitudeDelta: \(mapView.region.span.longitudeDelta.description)")
+//        print("ratio: \(mapDiameter / mapView.region.span.longitudeDelta)")
+        //MARK: BUG! When all selected, crashes.
     }
     
     override func didReceiveMemoryWarning() {
@@ -206,6 +213,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //setDirectionAndLocationInMap(imageView: locationPointer!, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, newDirection: newDeg)
         currentHeading = newHeading
         currentDeg = newDeg
+        //testMapBounds()
+        //print("longitudeDelta: \(mapView.region.span.longitudeDelta.description)")
     }
     
     //MARK: UpdateBounds
