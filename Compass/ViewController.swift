@@ -62,7 +62,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         //case 2 or 3:
         if waypoints.isEmpty() {
+            //print("No pre-existing waypoints, attempting load.")
             waypoints.loadWaypoints()
+            //print("Loaded \(waypoints.count()) waypoints")
         }
         //cases 1, 2, and 3: Creating pointer displays and saving.
         
@@ -88,13 +90,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             
             if displayType.selectedSegmentIndex == 0 {
                 newWayPointer.isHidden = false
+                //print("waypointer not hidden")
             } else {
                 newWayPointer.isHidden = true
+                //print("waypointer hidden")
             }
             
             waypointers.append(newWayPointer)
             //waymarkers.append(newWayMarker)
         }
+        //print("\(waypointers.count) waypointers")
         //mapView.reloadInputViews()
 
         if displayType.selectedSegmentIndex == 0 {
@@ -146,9 +151,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //mapView.isRotateEnabled = true
     }
     
+    //MARK: CenterMapOnLocation
     func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
         //
-        mapView.showAnnotations(enabledWaypoints, animated: true)
+        //mapView.showAnnotations(enabledWaypoints, animated: true)
+        let coordinateRegion = MKCoordinateRegion(center: centreLoc.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
+        mapView.setRegion(coordinateRegion, animated: true)
+        print(mapDiameter)
+        print(mapView.region.span.longitudeDelta.description)
+        //mapView.annotations(in: mapView.mapRect)
         if mapView.annotations(in: mapView.visibleMapRect).count < mapView.annotations.count {
             //we are not displaying all of our annotations, centre on ourselves
             //mapView.setCenter(currentLocation.coordinate, animated: true)
@@ -178,7 +189,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             waypoints[i].distance = waypoints[i].location.distance(from:currentLocation)
         }
         updateBounds(location:currentLocation)
-        currentLocationCurrent = true
+        //currentLocationCurrent = true
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
@@ -212,16 +223,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             updateBounds(location:location)
             //print("I: \(i), Location: \(location.coordinate.latitude), \(location.coordinate.longitude); New Min: \(minLat),\(minLon); New Max: \(maxLat),\(maxLon)")
         }
-        if (currentLocationCurrent) {
-            updateBounds(location:currentLocation)
+        //if (currentLocationCurrent) {
+        //    updateBounds(location:currentLocation)
             //print("I: Current, Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
-        }
+        //}
         let centreLat = (maxLat + minLat) / 2
         let centreLon = (maxLon + minLon) / 2
         maxLoc = CLLocation(latitude: maxLat, longitude: maxLon)
         minLoc = CLLocation(latitude: minLat, longitude: minLon)
         centreLoc = CLLocation(latitude: centreLat, longitude: centreLon)
-        mapDiameter = 2.5 * centreLoc.distance(from:minLoc)
+        mapDiameter = 2.8 * centreLoc.distance(from:minLoc)
         //print("New Min: \(minLat),\(minLon); New Max: \(maxLat),\(maxLon); New Centre: \(centreLat),\(centreLon); New Diameter: \(mapDiameter)")
     }
     
@@ -229,7 +240,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard let wayAnnotation = annotation as? Waypoint else {
             if annotation is MKClusterAnnotation {
-                print("cluster annotation")
+                //print("cluster annotation")
                 let identifier = "cluster"
                 var view: WayClusterView
                 if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
@@ -467,6 +478,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             //Unhide everything from the map.
             //print("showing map")
             needle.tintColor = UIColor.black
+            
+            allUpdateBounds()
             centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
             mapView.isHidden = false
             //locationPointer?.isHidden = false
@@ -519,6 +532,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     enabledWaypoints = waypoints.enabledList()
                     let newWayPointer = newPointer(height: 40.0, color: newWaypoint.color)
                     setDirectionAndLocationInCompass(imageView: newWayPointer, newDirection:0.0, newRadius: 30.0)
+                    //MARK: Update Distance Here?
                     waypointers.append(newWayPointer)
                     //let newWayMarker = newMarker(color: newWaypoint.color)
                     //waymarkers.append(newWayMarker)
@@ -534,6 +548,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             }
             //waypoints = sourceViewController.waypoints
             //print("you unwound to compass successfully!")
+        }
+        //performed after an unwind regardless of source
+        if displayType.selectedSegmentIndex == 0 {
+            
+        } else {
+            allUpdateBounds()
         }
     }
     

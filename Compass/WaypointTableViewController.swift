@@ -34,8 +34,6 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
         if waypoints.isEmpty() {
             waypoints.loadWaypoints()
         }
-        //cases 1, 2, and 3: Saving.
-        
     }
     
     override func viewDidLoad() {
