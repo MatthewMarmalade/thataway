@@ -157,8 +157,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //mapView.showAnnotations(enabledWaypoints, animated: true)
         let coordinateRegion = MKCoordinateRegion(center: centreLoc.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
         mapView.setRegion(coordinateRegion, animated: true)
-        print(mapDiameter)
-        print(mapView.region.span.longitudeDelta.description)
+        //print(mapDiameter)
+        //print(mapView.region.span.longitudeDelta.description)
         //mapView.annotations(in: mapView.mapRect)
         if mapView.annotations(in: mapView.visibleMapRect).count < mapView.annotations.count {
             //we are not displaying all of our annotations, centre on ourselves

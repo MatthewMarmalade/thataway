@@ -83,7 +83,7 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
             cell.displayContent(color: cellColor)
             cell.colorButton.tag = indexPath.row
             if cellColor == color {
-                print("Color \(color.debugDescription) is equal to \(cellColor.debugDescription)")
+                //print("Color \(color.debugDescription) is equal to \(cellColor.debugDescription)")
                 cell.colorButton.imageView?.image = UIImage(named: "colorCellCheck")
             } else {
                 cell.colorButton.imageView?.image = UIImage(named: "colorCell")
