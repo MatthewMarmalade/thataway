@@ -79,12 +79,14 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         if indexPath.row < colors.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! ColorCollectionViewCell
             //print("IndexPath Row: \(indexPath.row)")
-            if indexPath.row < colors.count {
-                let cellColor = colors[indexPath.row]
-        
-                cell.displayContent(color: cellColor)
-                cell.colorButton.tag = indexPath.row
-                
+            let cellColor = colors[indexPath.row]
+            cell.displayContent(color: cellColor)
+            cell.colorButton.tag = indexPath.row
+            if cellColor == color {
+                print("Color \(color.debugDescription) is equal to \(cellColor.debugDescription)")
+                cell.colorButton.imageView?.image = UIImage(named: "colorCellCheck")
+            } else {
+                cell.colorButton.imageView?.image = UIImage(named: "colorCell")
             }
             return cell
         } else {
