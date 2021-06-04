@@ -3,7 +3,7 @@
 //  Compass
 //
 //  Created by Matthew Marsland on 9/3/19.
-//  Copyright © 2019 Tectane. All rights reserved.
+//  Copyright © 2019 Matthew Marsland. All rights reserved.
 //
 
 import UIKit
