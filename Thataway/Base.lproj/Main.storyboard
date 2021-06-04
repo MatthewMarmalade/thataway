@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q0h-Rb-aQw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q0h-Rb-aQw">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Settings View Controller-->
         <scene sceneID="SzT-MT-lVA">
             <objects>
-                <viewController id="FCM-Yw-raR" customClass="SettingsViewController" customModule="Compass" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="FCM-Yw-raR" customClass="SettingsViewController" customModule="Thataway" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GjM-w5-6B4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -34,7 +35,7 @@
                                                     <segment title="Km"/>
                                                     <segment title="Mi"/>
                                                 </segments>
-                                                <color key="selectedSegmentTintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="selectedSegmentTintColor" systemColor="systemGrayColor"/>
                                                 <connections>
                                                     <action selector="distanceUnitChanged:" destination="FCM-Yw-raR" eventType="valueChanged" id="xxd-f5-ZcG"/>
                                                 </connections>
@@ -57,7 +58,7 @@
                                                     <segment title="Magnetic"/>
                                                     <segment title="True"/>
                                                 </segments>
-                                                <color key="selectedSegmentTintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="selectedSegmentTintColor" systemColor="systemGrayColor"/>
                                                 <connections>
                                                     <action selector="headingTypeChanged:" destination="FCM-Yw-raR" eventType="valueChanged" id="1uk-Uv-2Cy"/>
                                                 </connections>
@@ -68,6 +69,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="jN2-Uo-Jlf"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="4c7-pG-o0F" firstAttribute="centerX" secondItem="GjM-w5-6B4" secondAttribute="centerX" id="5su-VA-84P"/>
@@ -75,7 +77,6 @@
                             <constraint firstItem="4c7-pG-o0F" firstAttribute="leading" secondItem="jN2-Uo-Jlf" secondAttribute="leading" constant="10" id="aUi-hh-KZu"/>
                             <constraint firstItem="jN2-Uo-Jlf" firstAttribute="trailing" secondItem="4c7-pG-o0F" secondAttribute="trailing" constant="10" id="gGd-ka-P8N"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="jN2-Uo-Jlf"/>
                     </view>
                     <connections>
                         <outlet property="distanceUnit" destination="j0m-nF-ofm" id="iJZ-MH-xg9"/>
@@ -86,10 +87,10 @@
             </objects>
             <point key="canvasLocation" x="1070" y="1151"/>
         </scene>
-        <!--Compass-->
+        <!--Thataway-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Compass" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Thataway" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,7 +111,7 @@
                                                     <constraint firstAttribute="height" constant="300" id="Nnu-Nv-Zdo"/>
                                                 </constraints>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8xm-Ku-VzT">
+                                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8xm-Ku-VzT">
                                                 <rect key="frame" x="0.0" y="303" width="300" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="gjI-Kk-CLZ"/>
@@ -128,13 +129,13 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="HEAD˚" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSY-kz-mF7">
                                                         <rect key="frame" x="0.0" y="0.0" width="160" height="60"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="50"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                        <color key="textColor" systemColor="lightTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LETTER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2D-I5-Dh0">
                                                         <rect key="frame" x="160" y="0.0" width="140" height="60"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="30"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                        <color key="textColor" systemColor="lightTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -154,13 +155,13 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LAT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpZ-Uf-FRp">
                                                 <rect key="frame" x="0.0" y="0.0" width="150" height="32"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
-                                                <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                <color key="textColor" systemColor="lightTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="LON" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDu-es-iAm">
                                                 <rect key="frame" x="150" y="0.0" width="150" height="32"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
-                                                <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                <color key="textColor" systemColor="lightTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -172,10 +173,10 @@
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9MJ-XO-MGj">
                                         <rect key="frame" x="0.0" y="442" width="300" height="41"/>
                                         <segments>
-                                            <segment title="Compass"/>
+                                            <segment title="Thataway"/>
                                             <segment title="Map"/>
                                         </segments>
-                                        <color key="selectedSegmentTintColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="selectedSegmentTintColor" systemColor="systemGrayColor"/>
                                         <connections>
                                             <action selector="switchDisplayType:" destination="BYZ-38-t0r" eventType="valueChanged" id="CXb-4e-9hM"/>
                                         </connections>
@@ -191,6 +192,7 @@
                                 <rect key="frame" x="57" y="207" width="300" height="300"/>
                             </mapView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="8ce-f8-kvw" secondAttribute="bottom" constant="20" id="683-BP-Lfs"/>
@@ -205,9 +207,8 @@
                             <constraint firstItem="FeB-85-Xsp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pHA-Vf-Qm1"/>
                             <constraint firstAttribute="bottom" secondItem="FeB-85-Xsp" secondAttribute="bottom" id="wlS-cF-UE1"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Compass" id="WIh-en-CIl">
+                    <navigationItem key="navigationItem" title="Thataway" id="WIh-en-CIl">
                         <barButtonItem key="leftBarButtonItem" title="Settings" springLoaded="YES" id="dzZ-t3-gpv">
                             <connections>
                                 <segue destination="FCM-Yw-raR" kind="show" id="4JD-tM-O3o"/>
@@ -236,7 +237,7 @@
         <!--Waypoint List-->
         <scene sceneID="TF3-PB-1p6">
             <objects>
-                <tableViewController id="cVR-5q-JtB" customClass="WaypointTableViewController" customModule="Compass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="cVR-5q-JtB" customClass="WaypointTableViewController" customModule="Thataway" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="oqX-uq-kyM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -246,7 +247,7 @@
                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WaypointTableViewCell" id="DWC-eA-M3d" customClass="WaypointTableViewCell" customModule="Compass" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WaypointTableViewCell" id="DWC-eA-M3d" customClass="WaypointTableViewCell" customModule="Thataway" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="70.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DWC-eA-M3d" id="CxT-Jd-Kag">
@@ -254,7 +255,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uqD-cT-tk7">
-                                            <rect key="frame" x="10" y="10.5" width="394" height="50"/>
+                                            <rect key="frame" x="10" y="10" width="394" height="50"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="WOm-VQ-RQR">
                                                     <rect key="frame" x="0.0" y="0.0" width="345.5" height="50"/>
@@ -348,7 +349,7 @@
         <!--Edit Waypoint-->
         <scene sceneID="U22-Wa-8kx">
             <objects>
-                <viewController id="KfV-yn-iYm" customClass="WaypointDetailViewController" customModule="Compass" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KfV-yn-iYm" customClass="WaypointDetailViewController" customModule="Thataway" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="v1Z-Hm-LzC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -357,16 +358,16 @@
                                 <rect key="frame" x="20" y="188" width="374" height="520"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COp-d1-foa">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VV7-mT-Q7o">
-                                                <rect key="frame" x="0.0" y="0.0" width="100" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="21"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter New Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bhq-eM-4eo">
-                                                <rect key="frame" x="100" y="0.0" width="274" height="0.0"/>
+                                                <rect key="frame" x="100" y="0.0" width="274" height="34"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -378,16 +379,16 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="725-tL-0nX">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="2"/>
+                                        <rect key="frame" x="0.0" y="34" width="374" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSj-Kz-ZTr">
-                                                <rect key="frame" x="0.0" y="0.0" width="100" height="2"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter New Latitude" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9n0-Jh-kb9">
-                                                <rect key="frame" x="100" y="0.0" width="274" height="2"/>
+                                                <rect key="frame" x="100" y="0.0" width="274" height="34"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -399,16 +400,16 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQ6-wm-P20">
-                                        <rect key="frame" x="0.0" y="2" width="374" height="24.5"/>
+                                        <rect key="frame" x="0.0" y="68" width="374" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJb-y8-iY6">
-                                                <rect key="frame" x="0.0" y="0.0" width="100" height="24.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter New Longitude" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h2v-1x-7sl">
-                                                <rect key="frame" x="100" y="0.0" width="274" height="24.5"/>
+                                                <rect key="frame" x="100" y="0.0" width="274" height="34"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -420,16 +421,16 @@
                                         </constraints>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNJ-dP-t2L">
-                                        <rect key="frame" x="0.0" y="26.5" width="374" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="102" width="374" height="24.5"/>
                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A96-ZX-X6y">
-                                        <rect key="frame" x="0.0" y="26.5" width="374" height="493.5"/>
+                                        <rect key="frame" x="0.0" y="126.5" width="374" height="393.5"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qSf-YQ-tu8">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="493.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="393.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="7" minimumInteritemSpacing="3" id="la7-b9-WFs">
                                                     <size key="itemSize" width="40" height="40"/>
@@ -438,7 +439,7 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell" id="80N-u9-wi2" customClass="ColorCollectionViewCell" customModule="Compass" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell" id="80N-u9-wi2" customClass="ColorCollectionViewCell" customModule="Thataway" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -466,7 +467,7 @@
                                                             <outlet property="colorButton" destination="TMO-Um-D6y" id="n7S-PC-OaY"/>
                                                         </connections>
                                                     </collectionViewCell>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="newColorCollectionViewCell" id="WFj-iX-5d7" customClass="NewColorCollectionViewCell" customModule="Compass" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="newColorCollectionViewCell" id="WFj-iX-5d7" customClass="NewColorCollectionViewCell" customModule="Thataway" customModuleProvider="target">
                                                         <rect key="frame" x="47.5" y="0.0" width="40" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -502,7 +503,7 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pu3-qh-EkQ">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pu3-qh-EkQ">
                                 <rect key="frame" x="353" y="88" width="41" height="44.5"/>
                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                 <state key="normal" title="Save"/>
@@ -510,7 +511,7 @@
                                     <segue destination="UUI-Hz-udy" kind="unwind" unwindAction="unwindToCompassWithSender:" id="QME-Ma-MNL"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PVO-xp-5Ea">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PVO-xp-5Ea">
                                 <rect key="frame" x="20" y="88" width="59" height="44.5"/>
                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                 <state key="normal" title="Cancel"/>
@@ -525,6 +526,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="zmS-i5-IgV"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="mGk-Hu-djY" firstAttribute="centerX" secondItem="v1Z-Hm-LzC" secondAttribute="centerX" id="3in-2k-TI9"/>
@@ -544,7 +546,6 @@
                             <constraint firstItem="Pu3-qh-EkQ" firstAttribute="centerY" secondItem="PVO-xp-5Ea" secondAttribute="centerY" id="t3R-pL-Faw"/>
                             <constraint firstItem="mGk-Hu-djY" firstAttribute="centerX" secondItem="v1Z-Hm-LzC" secondAttribute="centerX" id="tWl-vT-NMf"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="zmS-i5-IgV"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Edit Waypoint" id="Z2B-sK-GPr">
@@ -580,7 +581,7 @@
         <!--NewColorPicker-->
         <scene sceneID="kCJ-Ee-GUP">
             <objects>
-                <viewController storyboardIdentifier="newColorPickerID" title="NewColorPicker" id="vfC-SX-ieH" customClass="NewColorPickerViewController" customModule="Compass" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newColorPickerID" title="NewColorPicker" id="vfC-SX-ieH" customClass="NewColorPickerViewController" customModule="Thataway" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OOa-MB-oHc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -598,7 +599,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3hl-Rm-tGx">
                                                 <rect key="frame" x="0.0" y="0.0" width="364" height="40"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0uq-nT-f7b" userLabel="Cancel">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0uq-nT-f7b" userLabel="Cancel">
                                                         <rect key="frame" x="0.0" y="0.0" width="182" height="40"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="17"/>
                                                         <state key="normal" title="Cancel"/>
@@ -606,7 +607,7 @@
                                                             <action selector="cancelColor:" destination="vfC-SX-ieH" eventType="touchUpInside" id="haH-gx-3PL"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ngv-xT-rYr">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ngv-xT-rYr">
                                                         <rect key="frame" x="182" y="0.0" width="182" height="40"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="17"/>
                                                         <state key="normal" title="Save"/>
@@ -643,11 +644,11 @@
                                             <constraint firstItem="1W5-fs-TU6" firstAttribute="height" secondItem="0uq-nT-f7b" secondAttribute="height" id="PeL-8G-hJD"/>
                                         </constraints>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z5M-v0-get">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z5M-v0-get">
                                         <rect key="frame" x="0.0" y="85" width="364" height="40"/>
                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="17"/>
                                         <state key="normal" title="Remove">
-                                            <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" systemColor="systemRedColor"/>
                                         </state>
                                         <connections>
                                             <action selector="removeColor:" destination="vfC-SX-ieH" eventType="touchUpInside" id="Zez-XJ-Xqe"/>
@@ -656,9 +657,9 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1IF-7B-K2i">
                                         <rect key="frame" x="0.0" y="130" width="364" height="414"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1a-aZ-SfN" customClass="ColorSliders" customModule="Compass" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1a-aZ-SfN" customClass="ColorSliders" customModule="Thataway" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="364" height="364"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="T1a-aZ-SfN" secondAttribute="height" multiplier="1:1" id="xlb-0d-PMU"/>
                                                 </constraints>
@@ -691,7 +692,7 @@
                                                         </connections>
                                                     </slider>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstItem="7a5-z2-4er" firstAttribute="height" secondItem="ZDv-FS-FEy" secondAttribute="height" id="E1W-VH-KP6"/>
                                                     <constraint firstItem="ZDv-FS-FEy" firstAttribute="width" secondItem="btt-xY-lva" secondAttribute="width" id="GjN-n4-ZLM"/>
@@ -706,12 +707,13 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <constraints>
                                     <constraint firstItem="Z5M-v0-get" firstAttribute="height" secondItem="1W5-fs-TU6" secondAttribute="height" id="IbA-6P-Bdh"/>
                                 </constraints>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="JIl-3p-XjT"/>
                         <constraints>
                             <constraint firstItem="z3d-T9-Z3h" firstAttribute="centerX" secondItem="OOa-MB-oHc" secondAttribute="centerX" id="2Q9-9s-jpY"/>
                             <constraint firstItem="z3d-T9-Z3h" firstAttribute="top" secondItem="Rch-ud-Ect" secondAttribute="top" id="2jl-Lt-hFZ"/>
@@ -722,7 +724,6 @@
                             <constraint firstItem="z3d-T9-Z3h" firstAttribute="bottom" secondItem="Rch-ud-Ect" secondAttribute="bottom" id="rhd-uH-zV7"/>
                             <constraint firstItem="z3d-T9-Z3h" firstAttribute="centerY" secondItem="OOa-MB-oHc" secondAttribute="centerY" constant="-40" id="zcK-gX-NiC"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="JIl-3p-XjT"/>
                     </view>
                     <connections>
                         <outlet property="colorPane" destination="T1a-aZ-SfN" id="e4o-RA-I3k"/>
@@ -778,6 +779,9 @@
             <point key="canvasLocation" x="4458" y="254"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="bGc-N7-xNG"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="NewColorCell" width="100" height="100"/>
         <image name="background" width="97" height="91"/>
@@ -788,8 +792,26 @@
         <image name="compass" width="640" height="640"/>
         <image name="hueGradient" width="776" height="88"/>
         <image name="listPointerDisabled" width="64" height="64"/>
+        <systemColor name="lightTextColor">
+            <color white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="lightTextColor">
+            <color white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="lightTextColor">
+            <color white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="lightTextColor">
+            <color white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="bGc-N7-xNG"/>
-    </inferredMetricsTieBreakers>
 </document>

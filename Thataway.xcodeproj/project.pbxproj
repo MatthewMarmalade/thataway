@@ -39,7 +39,7 @@
 		DD6C3771231F858200F87DDA /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		DD6C377323205E1C00F87DDA /* WaypointList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaypointList.swift; sourceTree = "<group>"; };
 		DD6C377523207F3C00F87DDA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		DDCDB88922F583270003A091 /* Compass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Compass.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDCDB88922F583270003A091 /* Thataway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thataway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDCDB88C22F583270003A091 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DDCDB88E22F583270003A091 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DDCDB89122F583270003A091 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 		DDCDB88022F583270003A091 = {
 			isa = PBXGroup;
 			children = (
-				DDCDB88B22F583270003A091 /* Compass */,
+				DDCDB88B22F583270003A091 /* Thataway */,
 				DDCDB88A22F583270003A091 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,12 +70,12 @@
 		DDCDB88A22F583270003A091 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DDCDB88922F583270003A091 /* Compass.app */,
+				DDCDB88922F583270003A091 /* Thataway.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DDCDB88B22F583270003A091 /* Compass */ = {
+		DDCDB88B22F583270003A091 /* Thataway */ = {
 			isa = PBXGroup;
 			children = (
 				DDCDB88C22F583270003A091 /* AppDelegate.swift */,
@@ -97,15 +97,15 @@
 				DD1FD00E23BBE5D300B1185E /* ColorSliders.swift */,
 				DD1FD01023BC2D1000B1185E /* ColorList.swift */,
 			);
-			path = Compass;
+			path = Thataway;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DDCDB88822F583270003A091 /* Compass */ = {
+		DDCDB88822F583270003A091 /* Thataway */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DDCDB89B22F583280003A091 /* Build configuration list for PBXNativeTarget "Compass" */;
+			buildConfigurationList = DDCDB89B22F583280003A091 /* Build configuration list for PBXNativeTarget "Thataway" */;
 			buildPhases = (
 				DDCDB88522F583270003A091 /* Sources */,
 				DDCDB88622F583270003A091 /* Frameworks */,
@@ -115,9 +115,9 @@
 			);
 			dependencies = (
 			);
-			name = Compass;
+			name = Thataway;
 			productName = Compass;
-			productReference = DDCDB88922F583270003A091 /* Compass.app */;
+			productReference = DDCDB88922F583270003A091 /* Thataway.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -135,7 +135,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DDCDB88422F583270003A091 /* Build configuration list for PBXProject "Compass" */;
+			buildConfigurationList = DDCDB88422F583270003A091 /* Build configuration list for PBXProject "Thataway" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -148,7 +148,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DDCDB88822F583270003A091 /* Compass */,
+				DDCDB88822F583270003A091 /* Thataway */,
 			);
 		};
 /* End PBXProject section */
@@ -339,8 +339,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tectane.Thataway;
-				PRODUCT_NAME = Compass;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marmalade.Thataway;
+				PRODUCT_NAME = Thataway;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -360,8 +360,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tectane.Thataway;
-				PRODUCT_NAME = Compass;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marmalade.Thataway;
+				PRODUCT_NAME = Thataway;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -371,7 +371,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DDCDB88422F583270003A091 /* Build configuration list for PBXProject "Compass" */ = {
+		DDCDB88422F583270003A091 /* Build configuration list for PBXProject "Thataway" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DDCDB89922F583280003A091 /* Debug */,
@@ -380,7 +380,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DDCDB89B22F583280003A091 /* Build configuration list for PBXNativeTarget "Compass" */ = {
+		DDCDB89B22F583280003A091 /* Build configuration list for PBXNativeTarget "Thataway" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DDCDB89C22F583280003A091 /* Debug */,
