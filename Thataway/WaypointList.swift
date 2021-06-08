@@ -49,6 +49,10 @@ class WaypointList: NSObject {
                 enabledWaypoints.append(waypoint)
             }
         }
+        //sort by distance
+        enabledWaypoints.sort(by: {(w1, w2) -> Bool in
+            return w1.distance ?? 0 < w2.distance ?? 0;
+        })
         return enabledWaypoints
     }
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 import CoreGraphics
 
 class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegate{
@@ -14,12 +15,19 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
 
     var viewController : ViewController?
     
+    //@IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchView: UIView!
+    
+    
     var waypoint : Waypoint?
     var color : UIColor?
     var newWaypoint : Bool?
+    
     //var colorText : String?
+    var searchController : UISearchController?
 
     @IBOutlet weak var nameField: UITextField!
+    
     @IBOutlet weak var latField: UITextField!
     @IBOutlet weak var lonField: UITextField!
     //@IBOutlet weak var colorField: UITextField!
@@ -65,6 +73,26 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         loadColors()
         //collectionView.allowsSelection = false
         //collectionView.backgroundColor = UIColor.black
+        
+        let currentLocation = waypoint!.location
+        let region = MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: CLLocationDistance(10000), longitudinalMeters: CLLocationDistance(10000))
+        
+        let searchTable = storyboard!.instantiateViewController(identifier: "SearchTable") as! SearchTableViewController //storyboard!.instantiateViewController(withIdentifier: "SearchTable") as! SearchTableViewController
+        searchController = UISearchController(searchResultsController: searchTable)
+        searchController?.searchResultsUpdater = searchTable
+        
+        searchTable.region = region
+        
+        let newSearchBar = searchController!.searchBar
+        newSearchBar.sizeToFit()
+        newSearchBar.placeholder = "Search for places"
+        //searchBar = newSearchBar
+        //navigationItem.titleView = searchController?.searchBar
+        
+        searchView = searchController?.searchBar
+        
+        searchController?.hidesNavigationBarDuringPresentation = false
+        definesPresentationContext = true
         // Do any additional setup after loading the view.
     }
     
@@ -99,6 +127,9 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
             //return cell
         //}
     }
+    
+    //MARK: SearchButtonPressed
+    
     
     //MARK: ColorButtonPressed
     @IBAction func colorButtonPressed(_ sender: UIButton) {

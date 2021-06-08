@@ -83,7 +83,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         for i in 0..<enabledWaypoints.count {
             let waypointI = enabledWaypoints[i]
             let newWayPointer = newPointer(height: 40.0, color: waypointI.color)
-            positionInView(waypointer: newWayPointer, waypoint: waypointI)
+            positionInView(waypointer: newWayPointer, waypoint: waypointI, i:i)
             
             //MARK: Add map annotations
             mapView.addAnnotation(waypointI)
@@ -208,7 +208,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         letterVar.text = calculateLetterHeading(degrees: newDeg)
         for i in 0..<enabledWaypoints.count {
             let waypointI = enabledWaypoints[i]
-            positionInView(waypointer: waypointers[i], waypoint: waypointI)
+            positionInView(waypointer: waypointers[i], waypoint: waypointI, i:i)
         }
         //setDirectionAndLocationInMap(imageView: locationPointer!, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, newDirection: newDeg)
         currentHeading = newHeading
@@ -299,23 +299,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     
     //MARK: - PositionInView
-    func positionInView(waypointer: UIImageView, waypoint: Waypoint) {
+    func positionInView(waypointer: UIImageView, waypoint: Waypoint, i: Int) {
         let direction = waypoint.dirFromLocation(location: currentLocation)
-        let relativeWeight = calculateRelativeWeight(absDistance: waypoint.distance ?? 0.0)
+        //let relativeWeight = calculateRelativeWeight(absDistance: waypoint.distance ?? 0.0)
+        let distance = (Double(i) / Double(enabledWaypoints.count - 1)) * relativeDistance
         let newDirection = direction - (currentDeg ?? 0.0)
-        setDirectionAndLocationInCompass(imageView: waypointer, newDirection: newDirection, newRadius: centreOffset + (relativeWeight * relativeDistance))
+        setDirectionAndLocationInCompass(imageView: waypointer, newDirection: newDirection, newRadius: centreOffset + distance)
     }
     
     func positionInView(waymarker: UIImageView, waypoint: Waypoint) {
         setLocationInMap(imageView: waymarker, latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude)
     }
     
-    private func calculateRelativeWeight(absDistance:Double) -> Double {
-        let weight = (absDistance) / maxDist
-        //return pow(normalizedDistance, 0.3)
-        //let logDistance = log2(normalizedDistance + 1)
-        return sqrt(weight)
-    }
+//    private func calculateDistanceRank(waypoint:Waypoint) -> Double {
+//        //let weight = (absDistance) / maxDist
+//        //return pow(normalizedDistance, 0.3)
+//        //let logDistance = log2(normalizedDistance + 1)
+//        //return sqrt(weight)
+//        enabledWaypoints
+//    }
     
     //MARK: SetDirectionAndLocation
     func setDirectionAndLocationInCompass(imageView: UIImageView, newDirection:Double, newRadius:Double) {
@@ -540,9 +542,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     waypoints.saveWaypoints() //overwrites existing save data with the new waypoint attached.
                     enabledWaypoints = waypoints.enabledList()
                     let newWayPointer = newPointer(height: 40.0, color: newWaypoint.color)
-                    setDirectionAndLocationInCompass(imageView: newWayPointer, newDirection:0.0, newRadius: 30.0)
+                    //setDirectionAndLocationInCompass(imageView: newWayPointer, newDirection:0.0, newRadius: 30.0)
                     //MARK: Update Distance Here?
                     waypointers.append(newWayPointer)
+                    
+                    for i in 0..<enabledWaypoints.count {
+                        let waypointI = enabledWaypoints[i]
+                        positionInView(waypointer: waypointers[i], waypoint: waypointI, i:i)
+                    }
                     //let newWayMarker = newMarker(color: newWaypoint.color)
                     //waymarkers.append(newWayMarker)
                     
