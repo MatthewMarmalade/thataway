@@ -142,6 +142,7 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
     
     //returning from an edit view
     @IBAction func unwindToWaypointList(sender: UIStoryboardSegue) {
+        print("Unwinding to waypoint list!")
         if let sourceViewController = sender.source as? WaypointDetailViewController, let waypoint = sourceViewController.waypoint {
             //print("you unwound to waypoint list successfully!")
             if let selectedIndexPath = tableView.indexPathForSelectedRow {

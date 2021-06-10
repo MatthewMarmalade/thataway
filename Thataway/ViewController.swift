@@ -527,6 +527,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     //returning from table view
     @IBAction func unwindToCompass(sender: UIStoryboardSegue) {
+        print("Unwinding to compass!")
         if let sourceViewController = sender.source as? WaypointDetailViewController {
             if let newWaypoint = sourceViewController.waypoint {
                 //waypoints[waypoints.count() - 1] = newWaypoint

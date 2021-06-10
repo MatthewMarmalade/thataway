@@ -15,16 +15,12 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
 
     var viewController : ViewController?
     
-    //@IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var searchView: UIView!
-    
     
     var waypoint : Waypoint?
     var color : UIColor?
     var newWaypoint : Bool?
     
     //var colorText : String?
-    var searchController : UISearchController?
 
     @IBOutlet weak var nameField: UITextField!
     
@@ -34,12 +30,12 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
     //@IBOutlet weak var colorPicker: UIPickerView!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     
     @IBOutlet weak var saveButton_2: UIButton!
     @IBOutlet weak var cancelButton_2: UIButton!
-    @IBOutlet weak var newLabel: UILabel!
+    //@IBOutlet weak var newLabel: UILabel!
     
     
     var cancel : Bool = false
@@ -68,31 +64,15 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         if let buttonsHidden = newWaypoint {
             cancelButton_2.isHidden = !buttonsHidden
             saveButton_2.isHidden = !buttonsHidden
-            newLabel.isHidden = !buttonsHidden
+            cancelButton.isHidden = buttonsHidden
+            saveButton.isHidden = buttonsHidden
+            //newLabel.isHidden = !buttonsHidden
         }
         loadColors()
         //collectionView.allowsSelection = false
         //collectionView.backgroundColor = UIColor.black
         
-        let currentLocation = waypoint!.location
-        let region = MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: CLLocationDistance(10000), longitudinalMeters: CLLocationDistance(10000))
         
-        let searchTable = storyboard!.instantiateViewController(identifier: "SearchTable") as! SearchTableViewController //storyboard!.instantiateViewController(withIdentifier: "SearchTable") as! SearchTableViewController
-        searchController = UISearchController(searchResultsController: searchTable)
-        searchController?.searchResultsUpdater = searchTable
-        
-        searchTable.region = region
-        
-        let newSearchBar = searchController!.searchBar
-        newSearchBar.sizeToFit()
-        newSearchBar.placeholder = "Search for places"
-        //searchBar = newSearchBar
-        //navigationItem.titleView = searchController?.searchBar
-        
-        searchView = searchController?.searchBar
-        
-        searchController?.hidesNavigationBarDuringPresentation = false
-        definesPresentationContext = true
         // Do any additional setup after loading the view.
     }
     
@@ -127,9 +107,6 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
             //return cell
         //}
     }
-    
-    //MARK: SearchButtonPressed
-    
     
     //MARK: ColorButtonPressed
     @IBAction func colorButtonPressed(_ sender: UIButton) {
@@ -207,8 +184,19 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         super.prepare(for: segue, sender: sender)
-        if let button = sender as? UIBarButtonItem, button === saveButton {
+        
+        if let searchViewController = segue.destination as? SearchViewController {
+            //searchViewController.waypoint = waypoint
+            //MARK: Need to pass... latitude and longitude fields?
+            searchViewController.latField = latField
+            searchViewController.lonField = lonField
+            
+            return
+        }
+        
+        if let button = sender as? UIButton, button === saveButton {
             restoreProperties()
         } else if let button = sender as? UIButton, button === saveButton_2 {
             restoreProperties()

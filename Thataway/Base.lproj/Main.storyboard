@@ -84,7 +84,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d9f-eA-7zQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1070" y="1151"/>
+            <point key="canvasLocation" x="1003" y="609"/>
         </scene>
         <!--Thataway-->
         <scene sceneID="tne-QT-ifu">
@@ -119,7 +119,7 @@
                                                 <state key="normal" title="New Waypoint"/>
                                                 <connections>
                                                     <action selector="newWaypoint:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TR1-MB-jsh"/>
-                                                    <segue destination="KfV-yn-iYm" kind="showDetail" id="IgV-lg-6Pj"/>
+                                                    <segue destination="KfV-yn-iYm" kind="show" id="IgV-lg-6Pj"/>
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C2N-HH-0e2">
@@ -231,7 +231,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1576.8115942028987" y="20.758928571428569"/>
+            <point key="canvasLocation" x="1004" y="-129"/>
         </scene>
         <!--Waypoint List-->
         <scene sceneID="TF3-PB-1p6">
@@ -343,7 +343,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JjN-C2-iTW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3252" y="21"/>
+            <point key="canvasLocation" x="2206" y="-879"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="Nq2-P5-d3B">
@@ -387,7 +387,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bFx-pD-9eS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2407" y="1031"/>
+            <point key="canvasLocation" x="4772" y="-129"/>
         </scene>
         <!--Edit Waypoint-->
         <scene sceneID="U22-Wa-8kx">
@@ -397,27 +397,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="mGk-Hu-djY">
-                                <rect key="frame" x="20" y="188" width="374" height="520"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="mGk-Hu-djY">
+                                <rect key="frame" x="20" y="248.5" width="374" height="399.5"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iZm-C1-gU8">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="26"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="COp-d1-foa" userLabel="Name Stack">
-                                        <rect key="frame" x="0.0" y="27" width="374" height="26"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COp-d1-foa" userLabel="Name Stack">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VV7-mT-Q7o">
-                                                <rect key="frame" x="0.0" y="0.0" width="100" height="26"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="21"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter New Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bhq-eM-4eo">
-                                                <rect key="frame" x="100" y="0.0" width="274" height="26"/>
+                                                <rect key="frame" x="100" y="0.0" width="274" height="34"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
@@ -425,23 +421,31 @@
                                             <constraint firstItem="Bhq-eM-4eo" firstAttribute="leading" secondItem="COp-d1-foa" secondAttribute="leading" constant="100" id="ggo-6w-2iy"/>
                                         </constraints>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="UJ2-6s-kHE" userLabel="Location Stack">
-                                        <rect key="frame" x="0.0" y="54" width="374" height="52"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="UJ2-6s-kHE" userLabel="Location Stack">
+                                        <rect key="frame" x="0.0" y="54" width="374" height="111"/>
                                         <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2dU-KK-K2K">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="37"/>
+                                                <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                                <state key="normal" title="Map View"/>
+                                                <connections>
+                                                    <segue destination="C6D-3R-Vn7" kind="show" id="dec-r5-Uxr"/>
+                                                </connections>
+                                            </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="725-tL-0nX" userLabel="Latitude Stack">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="24.5"/>
+                                                <rect key="frame" x="0.0" y="40" width="374" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSj-Kz-ZTr">
-                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="24.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter New Latitude" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9n0-Jh-kb9">
-                                                        <rect key="frame" x="100" y="0.0" width="274" height="24.5"/>
+                                                        <rect key="frame" x="100" y="0.0" width="274" height="34"/>
                                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="13"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                 </subviews>
@@ -450,19 +454,19 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQ6-wm-P20" userLabel="Longitude Stack">
-                                                <rect key="frame" x="0.0" y="27.5" width="374" height="24.5"/>
+                                                <rect key="frame" x="0.0" y="77" width="374" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJb-y8-iY6">
-                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="24.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter New Longitude" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h2v-1x-7sl">
-                                                        <rect key="frame" x="100" y="0.0" width="274" height="24.5"/>
+                                                        <rect key="frame" x="100" y="0.0" width="274" height="34"/>
                                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                 </subviews>
@@ -472,18 +476,21 @@
                                             </stackView>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNJ-dP-t2L">
-                                        <rect key="frame" x="0.0" y="107" width="374" height="24.5"/>
-                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A96-ZX-X6y" userLabel="Color Stack">
-                                        <rect key="frame" x="0.0" y="132.5" width="374" height="387.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="fuf-ff-f30">
+                                        <rect key="frame" x="0.0" y="185" width="374" height="214.5"/>
                                         <subviews>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qSf-YQ-tu8">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="387.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNJ-dP-t2L">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="24.5"/>
+                                                <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qSf-YQ-tu8">
+                                                <rect key="frame" x="0.0" y="27.5" width="374" height="187"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="qSf-YQ-tu8" secondAttribute="height" multiplier="2:1" id="5c0-Bo-Eax"/>
+                                                </constraints>
                                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="7" minimumInteritemSpacing="3" id="la7-b9-WFs">
                                                     <size key="itemSize" width="40" height="40"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -555,81 +562,186 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pu3-qh-EkQ">
-                                <rect key="frame" x="353" y="88" width="41" height="44.5"/>
-                                <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <segue destination="UUI-Hz-udy" kind="unwind" unwindAction="unwindToCompassWithSender:" id="QME-Ma-MNL"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PVO-xp-5Ea">
-                                <rect key="frame" x="20" y="88" width="59" height="44.5"/>
-                                <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
-                                <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <segue destination="UUI-Hz-udy" kind="unwind" unwindAction="unwindToCompassWithSender:" id="Mxa-Qk-QPg"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Waypoint" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oQk-FZ-8gb">
-                                <rect key="frame" x="143" y="98" width="128" height="24.5"/>
-                                <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUc-8Y-8yQ">
+                                <rect key="frame" x="0.0" y="764" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem style="plain" id="6M7-oR-NdQ" userLabel="Cancel Button Item2">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="PVO-xp-5Ea">
+                                            <rect key="frame" x="20" y="5" width="59" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                            <state key="normal" title="Cancel">
+                                                <color key="titleColor" systemColor="systemRedColor"/>
+                                            </state>
+                                            <connections>
+                                                <segue destination="UUI-Hz-udy" kind="unwind" unwindAction="unwindToCompassWithSender:" id="Mxa-Qk-QPg"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="R18-Jy-7Vz"/>
+                                    <barButtonItem style="plain" id="idM-VE-mjM" userLabel="Save Button Item2">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Pu3-qh-EkQ">
+                                            <rect key="frame" x="330" y="8.5" width="64" height="37"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                            <state key="normal" title="Save"/>
+                                            <connections>
+                                                <segue destination="UUI-Hz-udy" kind="unwind" unwindAction="unwindToCompassWithSender:" id="QME-Ma-MNL"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zmS-i5-IgV"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="mGk-Hu-djY" firstAttribute="centerX" secondItem="v1Z-Hm-LzC" secondAttribute="centerX" id="3in-2k-TI9"/>
-                            <constraint firstItem="PVO-xp-5Ea" firstAttribute="leading" secondItem="zmS-i5-IgV" secondAttribute="leading" constant="20" id="4HE-Fc-rBg"/>
-                            <constraint firstItem="Pu3-qh-EkQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="oQk-FZ-8gb" secondAttribute="trailing" constant="8" symbolic="YES" id="Bnf-aa-VTZ"/>
-                            <constraint firstItem="oQk-FZ-8gb" firstAttribute="centerX" secondItem="v1Z-Hm-LzC" secondAttribute="centerX" id="CKM-7e-LXj"/>
-                            <constraint firstItem="oQk-FZ-8gb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PVO-xp-5Ea" secondAttribute="trailing" constant="8" symbolic="YES" id="Hbz-4L-9dg"/>
+                            <constraint firstItem="zmS-i5-IgV" firstAttribute="bottom" secondItem="bUc-8Y-8yQ" secondAttribute="bottom" id="F23-58-4fl"/>
+                            <constraint firstItem="bUc-8Y-8yQ" firstAttribute="leading" secondItem="v1Z-Hm-LzC" secondAttribute="leading" id="Lxj-JF-fhx"/>
                             <constraint firstItem="mGk-Hu-djY" firstAttribute="centerY" secondItem="v1Z-Hm-LzC" secondAttribute="centerY" id="R0o-Vm-rZC"/>
-                            <constraint firstItem="mGk-Hu-djY" firstAttribute="top" secondItem="zmS-i5-IgV" secondAttribute="top" constant="100" id="T6o-Ot-6XJ"/>
-                            <constraint firstItem="oQk-FZ-8gb" firstAttribute="top" secondItem="zmS-i5-IgV" secondAttribute="top" constant="10" id="XQs-cT-nDu"/>
-                            <constraint firstItem="oQk-FZ-8gb" firstAttribute="centerY" secondItem="PVO-xp-5Ea" secondAttribute="centerY" id="bXB-Z3-Czh"/>
+                            <constraint firstItem="zmS-i5-IgV" firstAttribute="trailing" secondItem="bUc-8Y-8yQ" secondAttribute="trailing" id="Tt3-kq-efD"/>
                             <constraint firstItem="zmS-i5-IgV" firstAttribute="trailing" secondItem="mGk-Hu-djY" secondAttribute="trailing" constant="20" id="iRt-iM-SQ3"/>
-                            <constraint firstItem="zmS-i5-IgV" firstAttribute="trailing" secondItem="Pu3-qh-EkQ" secondAttribute="trailing" constant="20" id="kBi-Yh-Coq"/>
                             <constraint firstItem="mGk-Hu-djY" firstAttribute="leading" secondItem="zmS-i5-IgV" secondAttribute="leading" constant="20" id="lN0-nW-K4h"/>
-                            <constraint firstItem="Pu3-qh-EkQ" firstAttribute="top" secondItem="zmS-i5-IgV" secondAttribute="top" id="row-uB-QEf"/>
-                            <constraint firstItem="PVO-xp-5Ea" firstAttribute="top" secondItem="zmS-i5-IgV" secondAttribute="top" id="t1W-xo-dcV"/>
-                            <constraint firstItem="Pu3-qh-EkQ" firstAttribute="centerY" secondItem="PVO-xp-5Ea" secondAttribute="centerY" id="t3R-pL-Faw"/>
                             <constraint firstItem="mGk-Hu-djY" firstAttribute="centerX" secondItem="v1Z-Hm-LzC" secondAttribute="centerX" id="tWl-vT-NMf"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Edit Waypoint" id="Z2B-sK-GPr">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="r08-4j-K9J">
-                            <connections>
-                                <segue destination="UUI-Hz-udy" kind="unwind" identifier="cancelButton" unwindAction="unwindToWaypointListWithSender:" id="cML-Cb-jLk"/>
-                            </connections>
+                        <barButtonItem key="backBarButtonItem" title=" " id="0Af-LK-o62"/>
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="plc-bw-PBE" userLabel="Cancel Button Item">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="tZs-vQ-NmG">
+                                <rect key="frame" x="20" y="3.5" width="59" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" systemColor="systemRedColor"/>
+                                </state>
+                                <connections>
+                                    <segue destination="UUI-Hz-udy" kind="unwind" unwindAction="unwindToWaypointListWithSender:" id="fCI-ej-wVv"/>
+                                </connections>
+                            </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="RgP-Rp-HQS">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="0fY-pY-AhY" userLabel="Save Button Item">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="BFn-mk-51k">
+                                <rect key="frame" x="353" y="3.5" width="41" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <segue destination="UUI-Hz-udy" kind="unwind" unwindAction="unwindToWaypointListWithSender:" id="Rwb-Us-alH"/>
+                                </connections>
+                            </button>
                             <connections>
-                                <segue destination="UUI-Hz-udy" kind="unwind" unwindAction="unwindToWaypointListWithSender:" id="dX8-au-yXj"/>
+                                <segue destination="UUI-Hz-udy" kind="unwind" unwindAction="unwindToCompassWithSender:" id="ssr-lH-TtP"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="cancelButton" destination="r08-4j-K9J" id="5ey-a6-P2b"/>
+                        <outlet property="cancelButton" destination="tZs-vQ-NmG" id="Sa4-x1-Swk"/>
                         <outlet property="cancelButton_2" destination="PVO-xp-5Ea" id="j6a-wt-0FE"/>
                         <outlet property="collectionView" destination="qSf-YQ-tu8" id="J7E-j8-c1r"/>
                         <outlet property="latField" destination="9n0-Jh-kb9" id="Aax-mW-fLI"/>
                         <outlet property="lonField" destination="h2v-1x-7sl" id="LCf-l8-7HW"/>
                         <outlet property="nameField" destination="Bhq-eM-4eo" id="eEX-6a-D7B"/>
-                        <outlet property="newLabel" destination="oQk-FZ-8gb" id="Php-PT-LFB"/>
-                        <outlet property="saveButton" destination="RgP-Rp-HQS" id="ibs-ts-iB1"/>
+                        <outlet property="saveButton" destination="BFn-mk-51k" id="aBz-SQ-An5"/>
                         <outlet property="saveButton_2" destination="Pu3-qh-EkQ" id="CNc-3o-Y5J"/>
-                        <outlet property="searchView" destination="iZm-C1-gU8" id="TH6-Gt-C1P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J8H-7x-RsA" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="UUI-Hz-udy" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3250.7246376811595" y="1030.5803571428571"/>
+            <point key="canvasLocation" x="2205.7971014492755" y="-129.24107142857142"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="gPa-qL-tWH">
+            <objects>
+                <viewController id="C6D-3R-Vn7" customClass="SearchViewController" customModule="Thataway" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Lbx-jd-g6R">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xK1-Ha-xuh">
+                                <rect key="frame" x="0.0" y="88" width="414" height="676"/>
+                                <connections>
+                                    <outlet property="delegate" destination="C6D-3R-Vn7" id="oog-k1-B6g"/>
+                                </connections>
+                            </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ut3-0D-6mX">
+                                <rect key="frame" x="0.0" y="764" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem style="plain" id="GfZ-EH-bNb" userLabel="Reset Button Item">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="JDz-JZ-lua">
+                                            <rect key="frame" x="20" y="8.5" width="47" height="37"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                            <state key="normal" title="Reset">
+                                                <color key="titleColor" systemColor="systemRedColor"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="resetButton:" destination="C6D-3R-Vn7" eventType="touchUpInside" id="kM2-N9-dKZ"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="tHe-Bm-avW"/>
+                                    <barButtonItem style="plain" id="uWH-xB-jhc" userLabel="Drop Pin Button Item">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="daQ-k6-zTS">
+                                            <rect key="frame" x="168.5" y="8.5" width="77" height="37"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                            <state key="normal" title="Drop Pin"/>
+                                            <connections>
+                                                <action selector="dropPinButton:" destination="C6D-3R-Vn7" eventType="touchUpInside" id="IRi-JG-sxz"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="tdo-ld-sBb"/>
+                                    <barButtonItem style="plain" id="REX-XZ-0gB" userLabel="Save Button Item">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="FHC-hV-oZu">
+                                            <rect key="frame" x="316" y="5" width="78" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                            <state key="normal" title="Save"/>
+                                            <connections>
+                                                <action selector="saveButton:" destination="C6D-3R-Vn7" eventType="touchUpInside" id="LBc-Zc-pVQ"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="o" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q14-K2-2nH">
+                                <rect key="frame" x="202" y="416.5" width="10" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" systemColor="systemGrayColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="GSG-Gx-zSq"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ut3-0D-6mX" firstAttribute="trailing" secondItem="GSG-Gx-zSq" secondAttribute="trailing" id="5cF-NT-7Mg"/>
+                            <constraint firstItem="ut3-0D-6mX" firstAttribute="top" secondItem="xK1-Ha-xuh" secondAttribute="bottom" id="7iH-cD-ZkW"/>
+                            <constraint firstItem="GSG-Gx-zSq" firstAttribute="trailing" secondItem="xK1-Ha-xuh" secondAttribute="trailing" id="AB0-EB-qIh"/>
+                            <constraint firstItem="xK1-Ha-xuh" firstAttribute="leading" secondItem="GSG-Gx-zSq" secondAttribute="leading" id="P8G-9R-SMA"/>
+                            <constraint firstItem="xK1-Ha-xuh" firstAttribute="top" secondItem="GSG-Gx-zSq" secondAttribute="top" id="PLw-Vt-DYz"/>
+                            <constraint firstItem="ut3-0D-6mX" firstAttribute="leading" secondItem="GSG-Gx-zSq" secondAttribute="leading" id="SVD-cW-gzo"/>
+                            <constraint firstItem="Q14-K2-2nH" firstAttribute="centerY" secondItem="xK1-Ha-xuh" secondAttribute="centerY" id="TYJ-Bk-Dyj"/>
+                            <constraint firstItem="Q14-K2-2nH" firstAttribute="centerX" secondItem="xK1-Ha-xuh" secondAttribute="centerX" id="VDf-SE-idb"/>
+                            <constraint firstItem="ut3-0D-6mX" firstAttribute="bottom" secondItem="GSG-Gx-zSq" secondAttribute="bottom" id="zxI-Sm-aNr"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="9jT-g7-3c7"/>
+                    <connections>
+                        <outlet property="dropPinButton" destination="daQ-k6-zTS" id="kgg-cC-SAL"/>
+                        <outlet property="mapView" destination="xK1-Ha-xuh" id="KXc-Tj-Fil"/>
+                        <outlet property="resetButton" destination="JDz-JZ-lua" id="ggH-ch-aEV"/>
+                        <outlet property="saveButton" destination="FHC-hV-oZu" id="mcm-aF-FzR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eSM-zq-iZq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3585.507246376812" y="-129.24107142857142"/>
         </scene>
         <!--NewColorPicker-->
         <scene sceneID="kCJ-Ee-GUP">
@@ -793,7 +905,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="4443.4782608695659" y="1081.4732142857142"/>
+            <point key="canvasLocation" x="3586" y="-879"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Vhx-yF-H4C">
@@ -811,14 +923,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zas-Tv-K94" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="381" y="94"/>
+            <point key="canvasLocation" x="162" y="-129"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IZq-vw-eTW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rQo-dc-ZFw" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="sY5-iA-EPT">
+                    <navigationBar key="navigationBar" contentMode="redraw" insetsLayoutMarginsFromSafeArea="NO" id="sY5-iA-EPT">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -829,10 +941,29 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AQ9-r6-A2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4458" y="254"/>
+            <point key="canvasLocation" x="2206" y="609"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Yxt-qx-SqA">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AIb-w9-qFR" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PfS-rS-RyX">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="C6D-3R-Vn7" kind="relationship" relationship="rootViewController" id="Yny-Im-kfe"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pZc-TK-25l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3586" y="609"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="dec-r5-Uxr"/>
         <segue reference="IgV-lg-6Pj"/>
     </inferredMetricsTieBreakers>
     <resources>
