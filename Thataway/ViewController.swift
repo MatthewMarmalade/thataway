@@ -153,9 +153,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     //MARK: CenterMapOnLocation
     func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
+        mapView.setRegion(MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: min(1000000,regionRadius), longitudinalMeters: min(1000000,regionRadius)), animated: true)
+        
         //
         //mapView.showAnnotations(enabledWaypoints, animated: true)
-        let coordinateRegion = MKCoordinateRegion(center: centreLoc.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
+        /*let coordinateRegion = MKCoordinateRegion(center: centreLoc.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
         mapView.setRegion(coordinateRegion, animated: true)
         //print(mapDiameter)
         //print(mapView.region.span.longitudeDelta.description)
@@ -168,7 +170,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
         
         mapView.setRegion(coordinateRegion, animated: true)
-        
+        */
 //        print("diameter: \(mapDiameter)")
 //        print("longitudeDelta: \(mapView.region.span.longitudeDelta.description)")
 //        print("ratio: \(mapDiameter / mapView.region.span.longitudeDelta)")
