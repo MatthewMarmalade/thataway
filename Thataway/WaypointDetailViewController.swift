@@ -20,12 +20,16 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
     var color : UIColor?
     var newWaypoint : Bool?
     
+    var latitude : Double?
+    var longitude : Double?
+    
     //var colorText : String?
 
     @IBOutlet weak var nameField: UITextField!
     
-    @IBOutlet weak var latField: UITextField!
-    @IBOutlet weak var lonField: UITextField!
+    @IBOutlet weak var mapView: MKMapView!
+    
+    
     //@IBOutlet weak var colorField: UITextField!
     //@IBOutlet weak var colorPicker: UIPickerView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -47,18 +51,19 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         nameField.delegate = self
-        latField.delegate = self
-        lonField.delegate = self
+        //latField.delegate = self
+        //lonField.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
         if let waypoint = waypoint {
             nameField.text = waypoint.name
-            latField.text = String(format:"%0.8f", waypoint.location.coordinate.latitude)
-            lonField.text = String(format:"%0.8f", waypoint.location.coordinate.longitude)
+            //latField.text = String(format:"%0.8f", waypoint.location.coordinate.latitude)
+            //lonField.text = String(format:"%0.8f", waypoint.location.coordinate.longitude)
+            latitude = waypoint.location.coordinate.latitude
+            longitude = waypoint.location.coordinate.longitude
             color = waypoint.color 
             //colorText = waypoint.colorText
             //colorField.text = waypoint.colorText
-            
         }
         
         if let buttonsHidden = newWaypoint {
@@ -72,8 +77,27 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         //collectionView.allowsSelection = false
         //collectionView.backgroundColor = UIColor.black
         
-        
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let latitude = latitude, let longitude = longitude {
+            
+            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
+            let region = MKCoordinateRegion(center: coordinate, span: span)
+            
+            mapView.setRegion(region, animated: false)
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.subtitle = "\(String(format:"%0.4f", latitude)), \(String(format:"%0.4f", longitude))"
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.addAnnotation(annotation)
+            mapView.selectAnnotation(annotation, animated: true)
+        }
+        
     }
     
 
@@ -153,11 +177,13 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         if nameField.text != "" && nameField.text != nil{
             name = nameField.text!
         }
-        let latitude = Double(latField.text!) ?? waypoint?.location.coordinate.latitude ?? 0.0
-        let longitude = Double(lonField.text!) ?? waypoint?.location.coordinate.longitude ?? 0.0
+        //let latitude = Double(latField.text!) ?? waypoint?.location.coordinate.latitude ?? 0.0
+        //let longitude = Double(lonField.text!) ?? waypoint?.location.coordinate.longitude ?? 0.0
+        let newLatitude = latitude ?? waypoint?.location.coordinate.latitude ?? 0.0
+        let newLongitude = longitude ?? waypoint?.location.coordinate.longitude ?? 0.0
         let distance = waypoint?.distance ?? 0.0
         
-        waypoint = Waypoint(latitude: latitude, longitude: longitude, name: name, color: color ?? UIColor.white)
+        waypoint = Waypoint(latitude: newLatitude, longitude: newLongitude, name: name, color: color ?? UIColor.white)
         waypoint?.distance = distance
     }
     
@@ -189,9 +215,10 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         
         if let searchViewController = segue.destination as? SearchViewController {
             //searchViewController.waypoint = waypoint
-            //MARK: Need to pass... latitude and longitude fields?
-            searchViewController.latField = latField
-            searchViewController.lonField = lonField
+            ///MARK: Need to pass... latitude and longitude fields?
+            //searchViewController.latField = latField
+            //searchViewController.lonField = lonField
+            searchViewController.detailView = self
             
             return
         }

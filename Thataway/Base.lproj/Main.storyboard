@@ -397,20 +397,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="mGk-Hu-djY">
-                                <rect key="frame" x="20" y="248.5" width="374" height="399.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="mGk-Hu-djY">
+                                <rect key="frame" x="15" y="107" width="384" height="642"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COp-d1-foa" userLabel="Name Stack">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VV7-mT-Q7o">
-                                                <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="80" height="34"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="21"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter New Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bhq-eM-4eo">
-                                                <rect key="frame" x="100" y="0.0" width="274" height="34"/>
+                                                <rect key="frame" x="80" y="0.0" width="304" height="34"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="14"/>
@@ -418,75 +418,62 @@
                                             </textField>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="Bhq-eM-4eo" firstAttribute="leading" secondItem="COp-d1-foa" secondAttribute="leading" constant="100" id="ggo-6w-2iy"/>
+                                            <constraint firstItem="Bhq-eM-4eo" firstAttribute="leading" secondItem="COp-d1-foa" secondAttribute="leading" constant="80" id="ggo-6w-2iy"/>
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="UJ2-6s-kHE" userLabel="Location Stack">
-                                        <rect key="frame" x="0.0" y="54" width="374" height="111"/>
+                                        <rect key="frame" x="0.0" y="44" width="384" height="368.5"/>
                                         <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="bDF-85-zIz">
+                                                <rect key="frame" x="0.0" y="0.0" width="384" height="306"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Hello" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pWT-yv-Hws">
+                                                        <rect key="frame" x="0.0" y="0.0" width="39" height="306"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <mapView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hpg-CR-ZWr">
+                                                        <rect key="frame" x="39" y="0.0" width="306" height="306"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="Hpg-CR-ZWr" secondAttribute="height" multiplier="1:1" id="ol9-0U-CHI"/>
+                                                        </constraints>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="KfV-yn-iYm" id="eu9-9t-48Y"/>
+                                                        </connections>
+                                                    </mapView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Hello" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBc-3m-TVp">
+                                                        <rect key="frame" x="345" y="0.0" width="39" height="306"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="eBc-3m-TVp" firstAttribute="width" secondItem="pWT-yv-Hws" secondAttribute="width" id="Sow-oO-0FO"/>
+                                                </constraints>
+                                            </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2dU-KK-K2K">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="37"/>
+                                                <rect key="frame" x="0.0" y="309" width="384" height="59.5"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
-                                                <state key="normal" title="Map View"/>
+                                                <state key="normal" title="Edit Location"/>
                                                 <connections>
                                                     <segue destination="C6D-3R-Vn7" kind="show" id="dec-r5-Uxr"/>
                                                 </connections>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="725-tL-0nX" userLabel="Latitude Stack">
-                                                <rect key="frame" x="0.0" y="40" width="374" height="34"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSj-Kz-ZTr">
-                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
-                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter New Latitude" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9n0-Jh-kb9">
-                                                        <rect key="frame" x="100" y="0.0" width="274" height="34"/>
-                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="13"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textField>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="9n0-Jh-kb9" firstAttribute="leading" secondItem="725-tL-0nX" secondAttribute="leading" constant="100" id="RTV-pZ-Ptc"/>
-                                                </constraints>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQ6-wm-P20" userLabel="Longitude Stack">
-                                                <rect key="frame" x="0.0" y="77" width="374" height="34"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJb-y8-iY6">
-                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="34"/>
-                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter New Longitude" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h2v-1x-7sl">
-                                                        <rect key="frame" x="100" y="0.0" width="274" height="34"/>
-                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textField>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="h2v-1x-7sl" firstAttribute="leading" secondItem="uQ6-wm-P20" secondAttribute="leading" constant="100" id="KEz-0I-NLH"/>
-                                                </constraints>
-                                            </stackView>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="fuf-ff-f30">
-                                        <rect key="frame" x="0.0" y="185" width="374" height="214.5"/>
+                                        <rect key="frame" x="0.0" y="422.5" width="384" height="219.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNJ-dP-t2L">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="24.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="384" height="24.5"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qSf-YQ-tu8">
-                                                <rect key="frame" x="0.0" y="27.5" width="374" height="187"/>
+                                                <rect key="frame" x="0.0" y="27.5" width="384" height="192"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="qSf-YQ-tu8" secondAttribute="height" multiplier="2:1" id="5c0-Bo-Eax"/>
@@ -527,7 +514,7 @@
                                                         </connections>
                                                     </collectionViewCell>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="newColorCollectionViewCell" id="WFj-iX-5d7" customClass="NewColorCollectionViewCell" customModule="Thataway" customModuleProvider="target">
-                                                        <rect key="frame" x="47.5" y="0.0" width="40" height="40"/>
+                                                        <rect key="frame" x="43" y="0.0" width="40" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -561,13 +548,19 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="mGk-Hu-djY" secondAttribute="height" multiplier="1:2" priority="750" id="r2h-Oo-NC1"/>
+                                </constraints>
                             </stackView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUc-8Y-8yQ">
                                 <rect key="frame" x="0.0" y="764" width="414" height="49"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="49" id="2ue-rg-Rhy"/>
+                                </constraints>
                                 <items>
                                     <barButtonItem style="plain" id="6M7-oR-NdQ" userLabel="Cancel Button Item2">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="PVO-xp-5Ea">
-                                            <rect key="frame" x="20" y="5" width="59" height="44"/>
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="PVO-xp-5Ea">
+                                            <rect key="frame" x="20" y="8.5" width="59" height="37"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                             <state key="normal" title="Cancel">
@@ -596,13 +589,14 @@
                         <viewLayoutGuide key="safeArea" id="zmS-i5-IgV"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="mGk-Hu-djY" firstAttribute="centerY" secondItem="v1Z-Hm-LzC" secondAttribute="centerY" constant="-20" id="2GQ-zO-8c4"/>
                             <constraint firstItem="mGk-Hu-djY" firstAttribute="centerX" secondItem="v1Z-Hm-LzC" secondAttribute="centerX" id="3in-2k-TI9"/>
                             <constraint firstItem="zmS-i5-IgV" firstAttribute="bottom" secondItem="bUc-8Y-8yQ" secondAttribute="bottom" id="F23-58-4fl"/>
                             <constraint firstItem="bUc-8Y-8yQ" firstAttribute="leading" secondItem="v1Z-Hm-LzC" secondAttribute="leading" id="Lxj-JF-fhx"/>
-                            <constraint firstItem="mGk-Hu-djY" firstAttribute="centerY" secondItem="v1Z-Hm-LzC" secondAttribute="centerY" id="R0o-Vm-rZC"/>
+                            <constraint firstItem="bUc-8Y-8yQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="mGk-Hu-djY" secondAttribute="bottom" constant="15" id="QZp-Qq-HCp"/>
                             <constraint firstItem="zmS-i5-IgV" firstAttribute="trailing" secondItem="bUc-8Y-8yQ" secondAttribute="trailing" id="Tt3-kq-efD"/>
-                            <constraint firstItem="zmS-i5-IgV" firstAttribute="trailing" secondItem="mGk-Hu-djY" secondAttribute="trailing" constant="20" id="iRt-iM-SQ3"/>
-                            <constraint firstItem="mGk-Hu-djY" firstAttribute="leading" secondItem="zmS-i5-IgV" secondAttribute="leading" constant="20" id="lN0-nW-K4h"/>
+                            <constraint firstItem="zmS-i5-IgV" firstAttribute="trailing" secondItem="mGk-Hu-djY" secondAttribute="trailing" constant="15" id="iRt-iM-SQ3"/>
+                            <constraint firstItem="mGk-Hu-djY" firstAttribute="leading" secondItem="zmS-i5-IgV" secondAttribute="leading" constant="15" id="lN0-nW-K4h"/>
                             <constraint firstItem="mGk-Hu-djY" firstAttribute="centerX" secondItem="v1Z-Hm-LzC" secondAttribute="centerX" id="tWl-vT-NMf"/>
                         </constraints>
                     </view>
@@ -642,8 +636,7 @@
                         <outlet property="cancelButton" destination="tZs-vQ-NmG" id="Sa4-x1-Swk"/>
                         <outlet property="cancelButton_2" destination="PVO-xp-5Ea" id="j6a-wt-0FE"/>
                         <outlet property="collectionView" destination="qSf-YQ-tu8" id="J7E-j8-c1r"/>
-                        <outlet property="latField" destination="9n0-Jh-kb9" id="Aax-mW-fLI"/>
-                        <outlet property="lonField" destination="h2v-1x-7sl" id="LCf-l8-7HW"/>
+                        <outlet property="mapView" destination="Hpg-CR-ZWr" id="4at-Lc-bO3"/>
                         <outlet property="nameField" destination="Bhq-eM-4eo" id="eEX-6a-D7B"/>
                         <outlet property="saveButton" destination="BFn-mk-51k" id="aBz-SQ-An5"/>
                         <outlet property="saveButton_2" destination="Pu3-qh-EkQ" id="CNc-3o-Y5J"/>
@@ -948,7 +941,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AIb-w9-qFR" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PfS-rS-RyX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" id="PfS-rS-RyX">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -964,7 +957,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="dec-r5-Uxr"/>
-        <segue reference="IgV-lg-6Pj"/>
+        <segue reference="bt9-HG-9kX"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NewColorCell" width="100" height="100"/>

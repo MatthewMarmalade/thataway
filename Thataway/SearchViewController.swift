@@ -16,10 +16,11 @@ protocol HandleMapSearch {
 class SearchViewController: UIViewController {
     
     var searchController : UISearchController?
+    var detailView : WaypointDetailViewController?
     
     //var waypoint : Waypoint!
-    var latField : UITextField? = nil
-    var lonField : UITextField? = nil
+    //var latField : UITextField? = nil
+    //var lonField : UITextField? = nil
     
     var originalPlacemark : MKPlacemark? = nil
     var selectedPlacemark : MKPlacemark? = nil
@@ -32,6 +33,7 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,11 +46,11 @@ class SearchViewController: UIViewController {
         searchController = UISearchController(searchResultsController: searchTable)
         searchController?.searchResultsUpdater = searchTable
         
-        let latitude = Double(latField!.text!) ?? 0.0
-        let longitude = Double(lonField!.text!) ?? 0.0
+        let latitude = detailView?.latitude ?? 0.0
+        let longitude = detailView?.longitude ?? 0.0
         originalPlacemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
         
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let span = MKCoordinateSpan(latitudeDelta: 0.04, longitudeDelta: 0.04)
         let region = MKCoordinateRegion(center: originalPlacemark!.coordinate, span: span)
         
         searchTable.region = region
@@ -58,19 +60,34 @@ class SearchViewController: UIViewController {
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = originalPlacemark!.coordinate
+        annotation.subtitle = "\(String(format:"%0.4f", annotation.coordinate.latitude)), \(String(format:"%0.4f", annotation.coordinate.longitude))"
+        annotation.title = "Original"
         mapView.addAnnotation(annotation)
         
         let newSearchBar = searchController!.searchBar
         newSearchBar.sizeToFit()
         newSearchBar.placeholder = "Search for places"
         //searchBar = newSearchBar
-        navigationItem.titleView = searchController?.searchBar
+        
+//        let offset = CGFloat(80)
+//        let customFrame = CGRect(x: -10, y: -5, width: view.frame.size.width - offset, height: 44.0)
+//        let searchBarContainer = UIView(frame: customFrame)
+//        //searchBar = UISearchBar(frame: customFrame)
+//        newSearchBar.frame = customFrame
+//        //newSearchBar.clipsToBounds = true
+//        searchBarContainer.sizeToFit()
+//        searchBarContainer.addSubview(newSearchBar)
+//
+//        navigationItem.titleView = searchBarContainer
+        navigationItem.titleView = newSearchBar
+        //navigationItem.titleView = searchController?.searchBar
         //toolbarSearch = searchController?.searchBar
         
         searchController?.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
     }
     
+    //MARK: ResetButton
     @IBAction func resetButton(_ sender: Any) {
         
         mapView.removeAnnotations(mapView.annotations)
@@ -82,15 +99,18 @@ class SearchViewController: UIViewController {
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = originalPlacemark!.coordinate
+        annotation.subtitle = "\(String(format:"%0.4f", annotation.coordinate.latitude)), \(String(format:"%0.4f", annotation.coordinate.longitude))"
+        annotation.title = "Original"
         
         mapView.addAnnotation(annotation)
         
         selectedPlacemark = originalPlacemark
         
         //resetButton.isEnabled = false
-        resetButton.isEnabled = false
+        saveButton.isEnabled = false
     }
     
+    //MARK: DropPinButton
     @IBAction func dropPinButton(_ sender: Any) {
         selectedPlacemark = MKPlacemark(coordinate: mapView.region.center)
         
@@ -99,9 +119,13 @@ class SearchViewController: UIViewController {
         
         let oldAnnotation = MKPointAnnotation()
         oldAnnotation.coordinate = originalPlacemark!.coordinate
+        oldAnnotation.subtitle = "\(String(format:"%0.4f", oldAnnotation.coordinate.latitude)), \(String(format:"%0.4f", oldAnnotation.coordinate.longitude))"
+        oldAnnotation.title = "Original"
         
         let newAnnotation = MKPointAnnotation()
         newAnnotation.coordinate = selectedPlacemark!.coordinate
+        newAnnotation.subtitle = "\(String(format:"%0.4f", newAnnotation.coordinate.latitude)), \(String(format:"%0.4f", newAnnotation.coordinate.longitude))"
+        newAnnotation.title = "New"
         
         mapView.addAnnotation(oldAnnotation)
         mapView.addAnnotation(newAnnotation)
@@ -114,14 +138,17 @@ class SearchViewController: UIViewController {
         saveButton.isEnabled = true
     }
     
+    //MARK: SaveButton
     @IBAction func saveButton(_ sender: Any) {
         if let location = selectedPlacemark?.location {
             //waypoint.location = location
-            latField?.text = String(location.coordinate.latitude)
-            lonField?.text = String(location.coordinate.longitude)
-            print("SEARCH SAVED")
+            detailView?.latitude = location.coordinate.latitude
+            detailView?.longitude = location.coordinate.longitude
+            //latField?.text = String(location.coordinate.latitude)
+            //lonField?.text = String(location.coordinate.longitude)
+            //print("SEARCH SAVED")
         } else {
-            print("SEARCH SAVE BUTTON FAILED")
+            //print("SEARCH SAVE BUTTON FAILED")
         }
         
         navigationController?.popViewController(animated: true)
@@ -140,17 +167,28 @@ class SearchViewController: UIViewController {
 
 }
 
+//MARK: Extension: HandleMapSearch
 extension SearchViewController : HandleMapSearch {
+    
+    //MARK: DropPinZoomIn
     func dropPinZoomIn(placemark: MKPlacemark) {
         selectedPlacemark = placemark
         
         //remove old waypoint
         mapView.removeAnnotations(mapView.annotations)
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = placemark.coordinate
+        let oldAnnotation = MKPointAnnotation()
+        oldAnnotation.coordinate = originalPlacemark!.coordinate
+        oldAnnotation.subtitle = "\(String(format:"%0.4f", oldAnnotation.coordinate.latitude)), \(String(format:"%0.4f", oldAnnotation.coordinate.longitude))"
+        oldAnnotation.title = "Original"
         
-        mapView.addAnnotation(annotation)
+        let newAnnotation = MKPointAnnotation()
+        newAnnotation.coordinate = selectedPlacemark!.coordinate
+        newAnnotation.subtitle = "\(String(format:"%0.4f", newAnnotation.coordinate.latitude)), \(String(format:"%0.4f", newAnnotation.coordinate.longitude))"
+        newAnnotation.title = "New"
+        
+        mapView.addAnnotation(oldAnnotation)
+        mapView.addAnnotation(newAnnotation)
         
         let span = MKCoordinateSpan(latitudeDelta: 0.04, longitudeDelta: 0.04)
         let region = MKCoordinateRegion(center: placemark.coordinate, span: span)
