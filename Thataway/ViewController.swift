@@ -312,7 +312,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //view.tintColor = annotation.color //controls tint of callout
         view.markerTintColor = wayAnnotation.color //controls tint of marker
         view.subtitleVisibility = .visible
-        view.titleVisibility = .visible
+        view.titleVisibility = .adaptive
         view.glyphText = String(wayAnnotation.name.first ?? "W")
         return view
     }
