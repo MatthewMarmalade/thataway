@@ -80,6 +80,10 @@ class WaypointList: NSObject {
         return list.count
     }
     
+    func enabledCount() -> Int {
+        return enabledWaypoints.count
+    }
+    
     subscript(index:Int) -> Waypoint {
         get {
             return list[index]

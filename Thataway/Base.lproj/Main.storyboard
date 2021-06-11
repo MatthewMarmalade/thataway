@@ -86,7 +86,7 @@
             </objects>
             <point key="canvasLocation" x="1003" y="609"/>
         </scene>
-        <!--Thataway-->
+        <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Thataway" customModuleProvider="target" sceneMemberID="viewController">
@@ -97,21 +97,41 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="FeB-85-Xsp">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="mutedStandard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wlc-Ka-cf8">
+                                <rect key="frame" x="57" y="295.5" width="300" height="300"/>
+                            </mapView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="8ce-f8-kvw">
-                                <rect key="frame" x="57" y="207" width="300" height="482"/>
+                                <rect key="frame" x="57" y="231" width="300" height="434"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="EUM-Hs-beW">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="406"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="407.5"/>
                                         <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="y4f-9C-3yv">
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="61.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LETTER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2D-I5-Dh0">
+                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="24.5"/>
+                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
+                                                        <color key="textColor" systemColor="lightTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="HEAD˚" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSY-kz-mF7">
+                                                        <rect key="frame" x="0.0" y="24.5" width="300" height="37"/>
+                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="30"/>
+                                                        <color key="textColor" systemColor="lightTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="compass" translatesAutoresizingMaskIntoConstraints="NO" id="Bqm-yi-nic">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <rect key="frame" x="0.0" y="64.5" width="300" height="300"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="Nnu-Nv-Zdo"/>
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8xm-Ku-VzT">
-                                                <rect key="frame" x="0.0" y="303" width="300" height="40"/>
+                                                <rect key="frame" x="0.0" y="367.5" width="300" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="gjI-Kk-CLZ"/>
                                                 </constraints>
@@ -122,43 +142,19 @@
                                                     <segue destination="KfV-yn-iYm" kind="show" id="IgV-lg-6Pj"/>
                                                 </connections>
                                             </button>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C2N-HH-0e2">
-                                                <rect key="frame" x="0.0" y="346" width="300" height="60"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="HEAD˚" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSY-kz-mF7">
-                                                        <rect key="frame" x="0.0" y="0.0" width="160" height="60"/>
-                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="50"/>
-                                                        <color key="textColor" systemColor="lightTextColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LETTER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2D-I5-Dh0">
-                                                        <rect key="frame" x="160" y="0.0" width="140" height="60"/>
-                                                        <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="30"/>
-                                                        <color key="textColor" systemColor="lightTextColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="bSY-kz-mF7" firstAttribute="trailing" secondItem="C2N-HH-0e2" secondAttribute="centerX" constant="10" id="Gi9-di-Mpn"/>
-                                                    <constraint firstItem="g2D-I5-Dh0" firstAttribute="leading" secondItem="C2N-HH-0e2" secondAttribute="centerX" constant="10" id="OVb-1g-Hb2"/>
-                                                </constraints>
-                                            </stackView>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstItem="C2N-HH-0e2" firstAttribute="height" secondItem="8xm-Ku-VzT" secondAttribute="height" constant="20" id="caW-vk-id2"/>
-                                        </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kg7-71-NZ3">
-                                        <rect key="frame" x="0.0" y="408" width="300" height="32"/>
+                                        <rect key="frame" x="0.0" y="409.5" width="300" height="24.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LAT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpZ-Uf-FRp">
-                                                <rect key="frame" x="0.0" y="0.0" width="150" height="32"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="150" height="24.5"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                                 <color key="textColor" systemColor="lightTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="LON" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDu-es-iAm">
-                                                <rect key="frame" x="150" y="0.0" width="150" height="32"/>
+                                                <rect key="frame" x="150" y="0.0" width="150" height="24.5"/>
                                                 <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                                 <color key="textColor" systemColor="lightTextColor"/>
                                                 <nil key="highlightedColor"/>
@@ -169,32 +165,16 @@
                                             <constraint firstItem="LpZ-Uf-FRp" firstAttribute="trailing" secondItem="kg7-71-NZ3" secondAttribute="centerX" id="Rq3-0l-ZLh"/>
                                         </constraints>
                                     </stackView>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9MJ-XO-MGj">
-                                        <rect key="frame" x="0.0" y="442" width="300" height="41"/>
-                                        <segments>
-                                            <segment title="Thataway"/>
-                                            <segment title="Map"/>
-                                        </segments>
-                                        <color key="selectedSegmentTintColor" systemColor="systemGrayColor"/>
-                                        <connections>
-                                            <action selector="switchDisplayType:" destination="BYZ-38-t0r" eventType="valueChanged" id="CXb-4e-9hM"/>
-                                        </connections>
-                                    </segmentedControl>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="9MJ-XO-MGj" firstAttribute="height" secondItem="8xm-Ku-VzT" secondAttribute="height" id="8DR-hd-Ap8"/>
-                                    <constraint firstItem="kg7-71-NZ3" firstAttribute="height" secondItem="C2N-HH-0e2" secondAttribute="height" multiplier="0.7" constant="-10" id="Je9-fm-j8T"/>
                                     <constraint firstAttribute="width" constant="300" id="jvC-yn-jfF"/>
                                 </constraints>
                             </stackView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="mutedStandard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wlc-Ka-cf8">
-                                <rect key="frame" x="57" y="207" width="300" height="300"/>
-                            </mapView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="8ce-f8-kvw" secondAttribute="bottom" constant="20" id="683-BP-Lfs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="8ce-f8-kvw" secondAttribute="bottom" constant="40" id="683-BP-Lfs"/>
                             <constraint firstItem="wlc-Ka-cf8" firstAttribute="top" secondItem="Bqm-yi-nic" secondAttribute="top" id="8sU-vp-Grx"/>
                             <constraint firstItem="wlc-Ka-cf8" firstAttribute="bottom" secondItem="Bqm-yi-nic" secondAttribute="bottom" id="9zl-lE-28P"/>
                             <constraint firstItem="8ce-f8-kvw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BAk-Iq-del"/>
@@ -207,7 +187,7 @@
                             <constraint firstAttribute="bottom" secondItem="FeB-85-Xsp" secondAttribute="bottom" id="wlS-cF-UE1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Thataway" id="WIh-en-CIl">
+                    <navigationItem key="navigationItem" id="WIh-en-CIl">
                         <barButtonItem key="leftBarButtonItem" title="Settings" springLoaded="YES" id="dzZ-t3-gpv">
                             <connections>
                                 <segue destination="FCM-Yw-raR" kind="show" id="4JD-tM-O3o"/>
@@ -220,7 +200,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="displayType" destination="9MJ-XO-MGj" id="Tta-Ol-Vli"/>
                         <outlet property="headingVar" destination="bSY-kz-mF7" id="60T-W4-6EQ"/>
                         <outlet property="latitudeVar" destination="LpZ-Uf-FRp" id="BFR-Kt-r8e"/>
                         <outlet property="letterVar" destination="g2D-I5-Dh0" id="UIx-rc-M5g"/>
@@ -957,7 +936,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="dec-r5-Uxr"/>
-        <segue reference="bt9-HG-9kX"/>
+        <segue reference="IgV-lg-6Pj"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NewColorCell" width="100" height="100"/>
@@ -966,7 +945,7 @@
         <image name="buttonEnabled" width="100" height="100"/>
         <image name="colorCell" width="100" height="100"/>
         <image name="colorCellCheck" width="100" height="100"/>
-        <image name="compass" width="640" height="640"/>
+        <image name="compass" width="786" height="786"/>
         <image name="hueGradient" width="776" height="88"/>
         <image name="listPointerDisabled" width="64" height="64"/>
         <systemColor name="lightTextColor">

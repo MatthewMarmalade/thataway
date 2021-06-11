@@ -17,7 +17,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var headingVar: UILabel!
     @IBOutlet weak var letterVar: UILabel!
     @IBOutlet weak var needle: UIImageView!
-    @IBOutlet weak var displayType: UISegmentedControl!
+    //@IBOutlet weak var displayType: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
     
     
@@ -47,8 +47,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var maxDist = 1.0
     //var normalization = 1.0
     //var locationPointer : UIImageView?
-    var centreOffset = 30.0
-    var relativeDistance = 100.0
+    //var centreOffset = 30.0
+    var minRadius = 130.0
+    var radialRange = 20.0
     
     //MARK: ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
@@ -82,19 +83,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //normalization = max(maxLat - minLat, maxLon - minLon) + 1
         for i in 0..<enabledWaypoints.count {
             let waypointI = enabledWaypoints[i]
-            let newWayPointer = newPointer(height: 40.0, color: waypointI.color)
+            let newWayPointer = newPointer(height: 20.0, color: waypointI.color)
             positionInView(waypointer: newWayPointer, waypoint: waypointI, i:i)
+            if (waypointI.distance ?? 0 < 400) {
+                newWayPointer.isHidden = true
+            }
             
             //MARK: Add map annotations
             mapView.addAnnotation(waypointI)
             
-            if displayType.selectedSegmentIndex == 0 {
-                newWayPointer.isHidden = false
-                //print("waypointer not hidden")
-            } else {
-                newWayPointer.isHidden = true
-                //print("waypointer hidden")
-            }
+//            if displayType.selectedSegmentIndex == 0 {
+//                newWayPointer.isHidden = false
+//                //print("waypointer not hidden")
+//            } else {
+//                newWayPointer.isHidden = true
+//                //print("waypointer hidden")
+//            }
             
             waypointers.append(newWayPointer)
             //waymarkers.append(newWayMarker)
@@ -102,16 +106,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //print("\(waypointers.count) waypointers")
         //mapView.reloadInputViews()
 
-        if displayType.selectedSegmentIndex == 0 {
-            needle.tintColor = UIColor.white
-            mapView.isHidden = true
-            //locationPointer?.isHidden = true
-        } else {
-            needle.tintColor = UIColor.black
-            mapView.isHidden = false
-            centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
-            //locationPointer?.isHidden = false
-        }
+//        if displayType.selectedSegmentIndex == 0 {
+//            needle.tintColor = UIColor.lightGray
+//            mapView.isHidden = true
+//            //locationPointer?.isHidden = true
+//        } else {
+//            needle.tintColor = UIColor.black
+//            mapView.isHidden = false
+//            centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
+//            //locationPointer?.isHidden = false
+//        }
 
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         self.navigationItem.rightBarButtonItem?.isEnabled = true
@@ -137,7 +141,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         navigationController?.navigationBar.barTintColor = UIColor.black
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "Charter", size: 20.0)!]
-        displayType.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Charter", size: 12.0)!, NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
+//        displayType.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Charter", size: 12.0)!, NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
         let hasLaunchedKey = "HasLaunched"
         let hasLaunched = defaults.bool(forKey: hasLaunchedKey)
         if !hasLaunched {
@@ -149,6 +153,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.register(WayClusterView.self, forAnnotationViewWithReuseIdentifier: "cluster")
         //mapView.showsUserLocation = false
         //mapView.isRotateEnabled = true
+        mapView.userTrackingMode = .followWithHeading
+        
+        //mapView.setCameraZoomRange(MKMapView.CameraZoomRange(minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 100), animated: false)
+        
+        needle.tintColor = UIColor.lightGray
     }
     
     //MARK: CenterMapOnLocation
@@ -197,7 +206,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         for i in 0..<waypoints.count() {
             waypoints[i].distance = waypoints[i].location.distance(from:currentLocation)
         }
+        for i in 0..<enabledWaypoints.count {
+            //print("Waypoint \(enabledWaypoints[i].name) \(enabledWaypoints[i].distance)")
+            if (enabledWaypoints[i].distance ?? 500 < 400) {
+                waypointers[i].isHidden = true
+            } else {
+                waypointers[i].isHidden = false
+            }
+        }
         updateBounds(location:currentLocation)
+        
+//        let coordinate = currentLocation.coordinate
+//        let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
+//        let region = MKCoordinateRegion(center: coordinate, span: span)
+//
+//        mapView.setRegion(region, animated: false)
+//        mapView.userTrackingMode = .
         //currentLocationCurrent = true
     }
     
@@ -304,22 +328,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func positionInView(waypointer: UIImageView, waypoint: Waypoint, i: Int) {
         let direction = waypoint.dirFromLocation(location: currentLocation)
         //let relativeWeight = calculateRelativeWeight(absDistance: waypoint.distance ?? 0.0)
-        let distance = (Double(i) / Double(enabledWaypoints.count - 1)) * relativeDistance
+        var distance : Double = radialRange
+        if (enabledWaypoints.count > 1) {
+            distance = (Double(i) / Double(enabledWaypoints.count - 1)) * radialRange
+        }
         let newDirection = direction - (currentDeg ?? 0.0)
-        setDirectionAndLocationInCompass(imageView: waypointer, newDirection: newDirection, newRadius: centreOffset + distance)
+        setDirectionAndLocationInCompass(imageView: waypointer, newDirection: newDirection, newRadius: minRadius + distance)
     }
     
     func positionInView(waymarker: UIImageView, waypoint: Waypoint) {
         setLocationInMap(imageView: waymarker, latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude)
     }
-    
-//    private func calculateDistanceRank(waypoint:Waypoint) -> Double {
-//        //let weight = (absDistance) / maxDist
-//        //return pow(normalizedDistance, 0.3)
-//        //let logDistance = log2(normalizedDistance + 1)
-//        //return sqrt(weight)
-//        enabledWaypoints
-//    }
     
     //MARK: SetDirectionAndLocation
     func setDirectionAndLocationInCompass(imageView: UIImageView, newDirection:Double, newRadius:Double) {
@@ -473,35 +492,35 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     //MARK: SwitchDisplayType
-    @IBAction func switchDisplayType(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            //Compass, all is normal
-            //make sure no compass pieces are hidden
-            //etc.
-            needle.tintColor = UIColor.white
-            //locationPointer?.isHidden = true
-            mapView.isHidden = true
-            for i in 0..<waypointers.count {
-                waypointers[i].isHidden = false
-                //waymarkers[i].isHidden = true
-            }
-        } else if sender.selectedSegmentIndex == 1 {
-            //Map, now here's a tricky bit.
-            //Hide everything from the compass
-            //Unhide everything from the map.
-            //print("showing map")
-            needle.tintColor = UIColor.black
-            
-            allUpdateBounds()
-            centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
-            mapView.isHidden = false
-            //locationPointer?.isHidden = false
-            for i in 0..<waypointers.count {
-                //waymarkers[i].isHidden = false
-                waypointers[i].isHidden = true
-            }
-        }
-    }
+//    @IBAction func switchDisplayType(_ sender: UISegmentedControl) {
+//        if sender.selectedSegmentIndex == 0 {
+//            //Compass, all is normal
+//            //make sure no compass pieces are hidden
+//            //etc.
+//            needle.tintColor = UIColor.white
+//            //locationPointer?.isHidden = true
+//            mapView.isHidden = true
+//            for i in 0..<waypointers.count {
+//                waypointers[i].isHidden = false
+//                //waymarkers[i].isHidden = true
+//            }
+//        } else if sender.selectedSegmentIndex == 1 {
+//            //Map, now here's a tricky bit.
+//            //Hide everything from the compass
+//            //Unhide everything from the map.
+//            //print("showing map")
+//            needle.tintColor = UIColor.black
+//            
+//            allUpdateBounds()
+//            centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
+//            mapView.isHidden = false
+//            //locationPointer?.isHidden = false
+//            for i in 0..<waypointers.count {
+//                //waymarkers[i].isHidden = false
+//                waypointers[i].isHidden = true
+//            }
+//        }
+//    }
     
     //MARK: Navigation
     //Heading into table view or detail view
@@ -556,24 +575,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     //let newWayMarker = newMarker(color: newWaypoint.color)
                     //waymarkers.append(newWayMarker)
                     
-                    if displayType.selectedSegmentIndex == 0 {
-                        newWayPointer.isHidden = !newWaypoint.enabled
-                        //newWayMarker.isHidden = true
-                    } else {
-                        newWayPointer.isHidden = true
-                        //newWayMarker.isHidden = !newWaypoint.enabled
-                    }
+                    newWayPointer.isHidden = !newWaypoint.enabled
+//                    if displayType.selectedSegmentIndex == 0 {
+//                        newWayPointer.isHidden = !newWaypoint.enabled
+//                        //newWayMarker.isHidden = true
+//                    } else {
+//                        newWayPointer.isHidden = true
+//                        //newWayMarker.isHidden = !newWaypoint.enabled
+//                    }
                 }
             }
             //waypoints = sourceViewController.waypoints
             //print("you unwound to compass successfully!")
         }
         //performed after an unwind regardless of source
-        if displayType.selectedSegmentIndex == 0 {
-            
-        } else {
-            allUpdateBounds()
-        }
+//        if displayType.selectedSegmentIndex == 0 {
+//
+//        } else {
+//            allUpdateBounds()
+//        }
     }
     
 }

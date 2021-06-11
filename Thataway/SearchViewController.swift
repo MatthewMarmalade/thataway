@@ -195,6 +195,6 @@ extension SearchViewController : HandleMapSearch {
         mapView.setRegion(region, animated: true)
         
         //resetButton.isEnabled = true
-        resetButton.isEnabled = false
+        saveButton.isEnabled = true
     }
 }
