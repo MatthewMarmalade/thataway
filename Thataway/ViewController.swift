@@ -16,6 +16,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var longitudeVar: UILabel!
     @IBOutlet weak var headingVar: UILabel!
     @IBOutlet weak var letterVar: UILabel!
+//    @IBOutlet weak var altitudeVar: UILabel!
+    
     @IBOutlet weak var needle: UIImageView!
     //@IBOutlet weak var displayType: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
@@ -62,16 +64,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //case 3: We have just opened the app for the first time, with no local data saved. In this case we know from case 2 that there's something missing.
         
         //case 2 or 3:
-        if waypoints.isEmpty() {
+        //if waypoints.isEmpty() {
             //print("No pre-existing waypoints, attempting load.")
-            waypoints.loadWaypoints()
-            //print("Loaded \(waypoints.count()) waypoints")
-        }
+        waypoints.loadWaypoints()
         //cases 1, 2, and 3: Creating pointer displays and saving.
         
         waypointers.forEach{$0.removeFromSuperview()} //what does this do...
         waypointers.removeAll() //there's got to be a more efficient way to do this.
         mapView.removeAnnotations(mapView.annotations)
+        
+        //print(defaults.integer(forKey: "distance_unit"))
         
         //waymarkers.forEach{$0.removeFromSuperview()}
         //waymarkers.removeAll()
@@ -91,15 +93,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             
             //MARK: Add map annotations
             mapView.addAnnotation(waypointI)
-            
-//            if displayType.selectedSegmentIndex == 0 {
-//                newWayPointer.isHidden = false
-//                //print("waypointer not hidden")
-//            } else {
-//                newWayPointer.isHidden = true
-//                //print("waypointer hidden")
-//            }
-            
+
             waypointers.append(newWayPointer)
             //waymarkers.append(newWayMarker)
         }
@@ -145,8 +139,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let hasLaunchedKey = "HasLaunched"
         let hasLaunched = defaults.bool(forKey: hasLaunchedKey)
         if !hasLaunched {
-            defaults.set(isMetric(), forKey: "km")
-            defaults.set(true, forKey: "mag")
+            if (isMetric()) {
+                defaults.set(1, forKey: "distance_unit")
+            }
+            //defaults.set(true, forKey: "mag")
             defaults.set(true, forKey: hasLaunchedKey)
         }
         mapView.delegate = self
@@ -203,9 +199,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //print(locations.count)
         latitudeVar.text = String(format: "%.4f", currentLocation.coordinate.latitude)
         longitudeVar.text = String(format: "%.4f", currentLocation.coordinate.longitude)
+//        altitudeVar.text = String(format: "%.4f", currentLocation.altitude)
         for i in 0..<waypoints.count() {
             waypoints[i].distance = waypoints[i].location.distance(from:currentLocation)
         }
+        enabledWaypoints.sort(by: {(w1, w2) -> Bool in
+            return w1.distance ?? 0 < w2.distance ?? 0;
+        })
         for i in 0..<enabledWaypoints.count {
             //print("Waypoint \(enabledWaypoints[i].name) \(enabledWaypoints[i].distance)")
             if (enabledWaypoints[i].distance ?? 500 < 400) {
@@ -226,8 +226,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
-        let mag = defaults.bool(forKey: "mag")
-        let newDeg = mag ? newHeading.magneticHeading : newHeading.trueHeading
+        //let mag = defaults.bool(forKey: "mag")
+        //let newDeg = mag ? newHeading.magneticHeading : newHeading.trueHeading
+        let newDeg = newHeading.magneticHeading
         //print("NewDeg: \(newDeg)")
         //let newDeg = newHeading.magneticHeading
         headingVar.text = String(format: "%.1f", newDeg) + "˚"// + " err " + String(format: "%.4f", newHeading.headingAccuracy)
@@ -535,8 +536,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             waypointTableViewController.currentLocation = currentLocation
             //waypointTableViewController.locationManager = locationManager
             //print("Waypoints passed to TableView.")
-        } else if let settingsViewController = segue.destination as? SettingsViewController {
-            //print("Moving to settings.")
         } else if let editViewController = segue.destination as? WaypointDetailViewController {
             editViewController.newWaypoint = true
             editViewController.waypoint = tempPoint!
@@ -563,26 +562,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     waypoints.append(waypoint:newWaypoint)
                     waypoints.saveWaypoints() //overwrites existing save data with the new waypoint attached.
                     enabledWaypoints = waypoints.enabledList()
-                    let newWayPointer = newPointer(height: 40.0, color: newWaypoint.color)
-                    //setDirectionAndLocationInCompass(imageView: newWayPointer, newDirection:0.0, newRadius: 30.0)
-                    //MARK: Update Distance Here?
-                    waypointers.append(newWayPointer)
                     
+                    waypointers.forEach{$0.removeFromSuperview()} //what does this do...
+                    waypointers.removeAll() //there's got to be a more efficient way to do this.
+                    mapView.removeAnnotations(mapView.annotations)
+                    
+                    enabledWaypoints = waypoints.enabledList()
+                    (minLat, minLon, maxLat, maxLon, maxDist) = waypoints.minMax()
+//                    allUpdateBounds()
                     for i in 0..<enabledWaypoints.count {
                         let waypointI = enabledWaypoints[i]
-                        positionInView(waypointer: waypointers[i], waypoint: waypointI, i:i)
+                        let newWayPointer = newPointer(height: 20.0, color: waypointI.color)
+                        positionInView(waypointer: newWayPointer, waypoint: waypointI, i:i)
+                        if (waypointI.distance ?? 0 < 400) {
+                            newWayPointer.isHidden = true
+                        }
+                        mapView.addAnnotation(waypointI)
+                        waypointers.append(newWayPointer)
                     }
-                    //let newWayMarker = newMarker(color: newWaypoint.color)
-                    //waymarkers.append(newWayMarker)
-                    
-                    newWayPointer.isHidden = !newWaypoint.enabled
-//                    if displayType.selectedSegmentIndex == 0 {
-//                        newWayPointer.isHidden = !newWaypoint.enabled
-//                        //newWayMarker.isHidden = true
-//                    } else {
-//                        newWayPointer.isHidden = true
-//                        //newWayMarker.isHidden = !newWaypoint.enabled
-//                    }
                 }
             }
             //waypoints = sourceViewController.waypoints

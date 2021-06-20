@@ -20,6 +20,7 @@
 		DD6C3772231F858200F87DDA /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C3771231F858200F87DDA /* ColorCollectionViewCell.swift */; };
 		DD6C377423205E1C00F87DDA /* WaypointList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C377323205E1C00F87DDA /* WaypointList.swift */; };
 		DD6C377623207F3C00F87DDA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C377523207F3C00F87DDA /* SettingsViewController.swift */; };
+		DDAB8492267EDF32002F5657 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DDAB8491267EDF32002F5657 /* Settings.bundle */; };
 		DDCDB88D22F583270003A091 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDCDB88C22F583270003A091 /* AppDelegate.swift */; };
 		DDCDB88F22F583270003A091 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDCDB88E22F583270003A091 /* ViewController.swift */; };
 		DDCDB89222F583270003A091 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDCDB89022F583270003A091 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 		DD6C3771231F858200F87DDA /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		DD6C377323205E1C00F87DDA /* WaypointList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaypointList.swift; sourceTree = "<group>"; };
 		DD6C377523207F3C00F87DDA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		DDAB8491267EDF32002F5657 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		DDCDB88922F583270003A091 /* Thataway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thataway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDCDB88C22F583270003A091 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DDCDB88E22F583270003A091 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				DD1FD00A23BAA54500B1185E /* NewColorPickerViewController.swift */,
 				DD1FD00E23BBE5D300B1185E /* ColorSliders.swift */,
 				DD1FD01023BC2D1000B1185E /* ColorList.swift */,
+				DDAB8491267EDF32002F5657 /* Settings.bundle */,
 			);
 			path = Thataway;
 			sourceTree = "<group>";
@@ -167,6 +170,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDAB8492267EDF32002F5657 /* Settings.bundle in Resources */,
 				DDCDB89722F583280003A091 /* LaunchScreen.storyboard in Resources */,
 				DDCDB89422F583280003A091 /* Assets.xcassets in Resources */,
 				DDCDB89222F583270003A091 /* Main.storyboard in Resources */,

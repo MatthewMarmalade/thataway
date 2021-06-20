@@ -11,7 +11,6 @@ import CoreLocation
 
 class WaypointTableViewController: UITableViewController, CLLocationManagerDelegate {
     let defaults:UserDefaults = UserDefaults.standard
-    var distanceUnit = true
     
     var waypoints = WaypointList()
     var currentLocation:CLLocation = CLLocation(latitude: 0, longitude: 0)
@@ -31,6 +30,7 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //distanceUnit = defaults.integer(forKey: "distance_unit") == 1
         if waypoints.isEmpty() {
             waypoints.loadWaypoints()
         }
@@ -39,7 +39,6 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = UITableView.automaticDimension
-        distanceUnit = defaults.bool(forKey: "km")
         self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
@@ -64,7 +63,7 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
         //print("row created")
         // Configure the cell
         let waypoint = waypoints[indexPath.row]
-        cell.initCell(waypoint: waypoint, km: distanceUnit)
+        cell.initCell(waypoint: waypoint)
         cell.enabledButton.tag = indexPath.row
         cell.currentHeading = currentHeading
         cell.currentDeg = currentDeg

@@ -22,6 +22,7 @@ class Waypoint: NSObject, NSCoding, MKAnnotation{
     var color:      UIColor
     var distance:   Double?
     var enabled:    Bool
+//    var starred:    Bool
     
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("waypointFiles").path
@@ -33,6 +34,7 @@ class Waypoint: NSObject, NSCoding, MKAnnotation{
         static let colorKey     = "colorKey"
         static let distanceKey  = "distanceKey"
         static let enabledKey   = "enabledKey"
+//        static let starredKey   = "starredKey"
     }
     
     convenience init(latitude: Double, longitude: Double, name:String, colorText:String = "white", color:UIColor = UIColor.white, distance:Double = 0.0, enabled:Bool = true) {
@@ -40,13 +42,14 @@ class Waypoint: NSObject, NSCoding, MKAnnotation{
         self.init(location:location,name:name,/*colorText:colorText,*/color:color,distance:distance,enabled:enabled)
     }
     
-    init(location: CLLocation, name: String, /*colorText:String = "white",*/ color:UIColor = UIColor.white, distance:Double = 0.0, enabled:Bool = true) {
+    init(location: CLLocation, name: String, /*colorText:String = "white",*/ color:UIColor = UIColor.white, distance:Double = 0.0, enabled:Bool = true, starred:Bool = false) {
         self.location = location
         self.coordinate = location.coordinate
         self.name = name
         self.color = color
         self.distance = distance
         self.enabled = enabled
+//        self.starred = starred
     }
     
     //encoding for data storage
@@ -57,6 +60,7 @@ class Waypoint: NSObject, NSCoding, MKAnnotation{
         aCoder.encode(self.color, forKey: Keys.colorKey)
         aCoder.encode(self.distance, forKey: Keys.distanceKey)
         aCoder.encode(self.enabled, forKey: Keys.enabledKey)
+//        aCoder.encode(self.starred, forKey: Keys.starredKey)
     }
     
     //decoding from the data storage
@@ -67,6 +71,7 @@ class Waypoint: NSObject, NSCoding, MKAnnotation{
         let color        = aDecoder.decodeObject(forKey: Keys.colorKey)     as? UIColor
         let distance     = aDecoder.decodeObject(forKey: Keys.distanceKey)  as? Double
         let enabled      = aDecoder.decodeBool(forKey: Keys.enabledKey)
+//        let starred     = aDecoder.decodeBool(forKey: Keys.starredKey)
         //let colorText = "white"
         //let color = UIColor.white
         self.init(location:location ?? CLLocation(latitude: 0, longitude: 0), name:name ?? "", /*colorText:colorText ?? "white",*/ color:color ?? UIColor.white, distance:distance ?? 0.0, enabled:enabled)
@@ -102,11 +107,16 @@ class Waypoint: NSObject, NSCoding, MKAnnotation{
         formatter.numberStyle = NumberFormatter.Style.decimal
         var amount = (distance ?? 0) / 1000
         
-        let km = defaults.bool(forKey: "km")
-        var unit = "km"
-        if !km {
+        let distanceUnit = defaults.integer(forKey: "distance_unit")
+        var unit : String = "km"
+        if distanceUnit == 0 {
             amount = amount * 0.6213712
             unit = "mi"
+        } else if distanceUnit == 1 {
+            unit = "km"
+        } else if distanceUnit == 2 {
+            amount = amount * 0.5399565119
+            unit = "nm"
         }
         
         if amount < 1 {

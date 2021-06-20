@@ -12,13 +12,13 @@ class SettingsViewController: UIViewController {
 
     let defaults:UserDefaults = UserDefaults.standard
     @IBOutlet weak var distanceUnit     : UISegmentedControl!
-    @IBOutlet weak var headingType: UISegmentedControl!
+//    @IBOutlet weak var headingType: UISegmentedControl!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         distanceUnit.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Charter", size: 12.0)!, NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
-        headingType.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Charter", size: 12.0)!, NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
+//        headingType.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Charter", size: 12.0)!, NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
         // Do any additional setup after loading the view.
     }
     
@@ -30,23 +30,23 @@ class SettingsViewController: UIViewController {
         } else {
             distanceUnit.selectedSegmentIndex = 1
         }
-        let mag = defaults.bool(forKey: "mag")
-        if mag {
-            headingType.selectedSegmentIndex = 0
-        } else {
-            headingType.selectedSegmentIndex = 1
-        }
+//        let mag = defaults.bool(forKey: "mag")
+//        if mag {
+//            headingType.selectedSegmentIndex = 0
+//        } else {
+//            headingType.selectedSegmentIndex = 1
+//        }
     }
 
     @IBAction func distanceUnitChanged(_ sender: UISegmentedControl) {
         let km = sender.selectedSegmentIndex == 0
         defaults.set(km, forKey: "km")
     }
-    
-    @IBAction func headingTypeChanged(_ sender: UISegmentedControl) {
-        let mag = sender.selectedSegmentIndex == 0
-        defaults.set(mag, forKey: "mag")
-    }
+//
+//    @IBAction func headingTypeChanged(_ sender: UISegmentedControl) {
+//        let mag = sender.selectedSegmentIndex == 0
+//        defaults.set(mag, forKey: "mag")
+//    }
     
 
     /*

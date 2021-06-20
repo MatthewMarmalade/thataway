@@ -25,6 +25,7 @@ class WaypointTableViewCell: UITableViewCell, CLLocationManagerDelegate {
     @IBOutlet weak var nameLabel: UILabel!
     //@IBOutlet weak var latLabel: UILabel!
     //@IBOutlet weak var lonLabel: UILabel!
+//    @IBOutlet weak var starLabel: UILabel!
     @IBOutlet weak var disLabel: UILabel!
     @IBOutlet weak var enabledButton: UIButton!
     @IBOutlet weak var pointerImage: UIImageView!
@@ -38,10 +39,10 @@ class WaypointTableViewCell: UITableViewCell, CLLocationManagerDelegate {
         }
     }
  */
-    func initCell(waypoint:Waypoint, km:Bool) {
+    func initCell(waypoint:Waypoint) {
         //print("creating cell... \(waypoint.name)")
+//        print(km)
         self.waypoint = waypoint
-        self.km = km
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -50,6 +51,7 @@ class WaypointTableViewCell: UITableViewCell, CLLocationManagerDelegate {
         nameLabel.text = waypoint.name
         formatAndUpdateDisLabel()
         enabledButton.isSelected = waypoint.enabled
+//        starLabel.isHidden = !waypoint.starred
         enabledButton.tintColor = waypoint.color
         enabledButton.alpha = 0.8
         pointerImage.tintColor = UIColor.white
@@ -79,8 +81,8 @@ class WaypointTableViewCell: UITableViewCell, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
-        let mag = defaults.bool(forKey: "mag")
-        let newDeg = mag ? newHeading.magneticHeading : newHeading.trueHeading
+        //let mag = defaults.bool(forKey: "mag")
+        let newDeg = newHeading.magneticHeading
         //print("NewDeg: \(newDeg)")
         currentHeading = newHeading
         currentDeg = newDeg
