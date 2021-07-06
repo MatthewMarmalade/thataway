@@ -67,6 +67,7 @@ class SearchViewController: UIViewController {
         let newSearchBar = searchController!.searchBar
         newSearchBar.sizeToFit()
         newSearchBar.placeholder = "Search for places"
+        newSearchBar.barStyle = .black
         //searchBar = newSearchBar
         
 //        let offset = CGFloat(80)

@@ -20,25 +20,25 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="mutedStandard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wlc-Ka-cf8">
-                                <rect key="frame" x="57" y="289.5" width="300" height="300"/>
+                                <rect key="frame" x="57" y="298" width="300" height="300"/>
                             </mapView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="8ce-f8-kvw">
-                                <rect key="frame" x="57" y="212.5" width="300" height="471"/>
+                                <rect key="frame" x="57" y="204" width="300" height="488"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="EUM-Hs-beW">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="420"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="437"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="y4f-9C-3yv">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="74"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="91"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="HEAD˚" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSY-kz-mF7">
-                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="31"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0˚" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSY-kz-mF7">
+                                                        <rect key="frame" x="0.0" y="0.0" width="300" height="48"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="25"/>
                                                         <color key="textColor" systemColor="lightTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LETTER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2D-I5-Dh0">
-                                                        <rect key="frame" x="0.0" y="31" width="300" height="43"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2D-I5-Dh0">
+                                                        <rect key="frame" x="0.0" y="48" width="300" height="43"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="35"/>
                                                         <color key="textColor" systemColor="lightTextColor"/>
                                                         <nil key="highlightedColor"/>
@@ -46,14 +46,14 @@
                                                 </subviews>
                                             </stackView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="compass" translatesAutoresizingMaskIntoConstraints="NO" id="Bqm-yi-nic">
-                                                <rect key="frame" x="0.0" y="77" width="300" height="300"/>
+                                                <rect key="frame" x="0.0" y="94" width="300" height="300"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="Nnu-Nv-Zdo"/>
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8xm-Ku-VzT">
-                                                <rect key="frame" x="0.0" y="380" width="300" height="40"/>
+                                                <rect key="frame" x="0.0" y="397" width="300" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="gjI-Kk-CLZ"/>
                                                 </constraints>
@@ -67,7 +67,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="kg7-71-NZ3">
-                                        <rect key="frame" x="0.0" y="422" width="300" height="49"/>
+                                        <rect key="frame" x="0.0" y="439" width="300" height="49"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="1Ix-aw-DoB">
                                                 <rect key="frame" x="0.0" y="0.0" width="150" height="49"/>
@@ -78,7 +78,7 @@
                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LAT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpZ-Uf-FRp">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unknown" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpZ-Uf-FRp">
                                                         <rect key="frame" x="0.0" y="24.5" width="150" height="24.5"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                                         <color key="textColor" systemColor="lightTextColor"/>
@@ -95,7 +95,7 @@
                                                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="LON" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDu-es-iAm">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Unknown" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDu-es-iAm">
                                                         <rect key="frame" x="0.0" y="24.5" width="130" height="24.5"/>
                                                         <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="20"/>
                                                         <color key="textColor" systemColor="lightTextColor"/>
@@ -125,6 +125,7 @@
                             <constraint firstItem="8ce-f8-kvw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" priority="750" id="ORR-iP-qsy"/>
                             <constraint firstItem="FeB-85-Xsp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="U26-0V-SJD"/>
                             <constraint firstItem="wlc-Ka-cf8" firstAttribute="leading" secondItem="Bqm-yi-nic" secondAttribute="leading" id="Vyn-TA-JGf"/>
+                            <constraint firstItem="Bqm-yi-nic" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="bMs-wr-sdg"/>
                             <constraint firstAttribute="trailing" secondItem="FeB-85-Xsp" secondAttribute="trailing" id="cTj-WO-jKi"/>
                             <constraint firstItem="FeB-85-Xsp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pHA-Vf-Qm1"/>
                             <constraint firstAttribute="bottom" secondItem="FeB-85-Xsp" secondAttribute="bottom" id="wlS-cF-UE1"/>
