@@ -46,8 +46,8 @@ class SearchViewController: UIViewController {
         searchController = UISearchController(searchResultsController: searchTable)
         searchController?.searchResultsUpdater = searchTable
         
-        let latitude = detailView?.latitude ?? 0.0
-        let longitude = detailView?.longitude ?? 0.0
+        let latitude = detailView?.latitude ?? 37.3349
+        let longitude = detailView?.longitude ?? -122.0090
         originalPlacemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
         
         let span = MKCoordinateSpan(latitudeDelta: 0.04, longitudeDelta: 0.04)
@@ -94,7 +94,7 @@ class SearchViewController: UIViewController {
         mapView.removeAnnotations(mapView.annotations)
         
         let span = MKCoordinateSpan(latitudeDelta: 0.04, longitudeDelta: 0.04)
-        let region = MKCoordinateRegion(center: originalPlacemark?.coordinate ?? CLLocationCoordinate2DMake(0.0, 0.0), span: span)
+        let region = MKCoordinateRegion(center: originalPlacemark?.coordinate ?? CLLocationCoordinate2DMake(37.3349, -122.0090), span: span)
         
         mapView.setRegion(region, animated: true)
         

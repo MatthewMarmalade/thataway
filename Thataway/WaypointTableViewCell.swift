@@ -17,7 +17,7 @@ class WaypointTableViewCell: UITableViewCell, CLLocationManagerDelegate {
     var waypoint: Waypoint?
     var km:Bool = true
     
-    var currentLocation:CLLocation = CLLocation(latitude: 0, longitude: 0)
+    var currentLocation:CLLocation = CLLocation(latitude: 37.3349, longitude: -122.0090)
     var currentHeading:CLHeading?
     var currentDeg:Double?
     var locationManager:CLLocationManager = CLLocationManager()

@@ -74,7 +74,7 @@ class Waypoint: NSObject, NSCoding, MKAnnotation{
 //        let starred     = aDecoder.decodeBool(forKey: Keys.starredKey)
         //let colorText = "white"
         //let color = UIColor.white
-        self.init(location:location ?? CLLocation(latitude: 0, longitude: 0), name:name ?? "", /*colorText:colorText ?? "white",*/ color:color ?? UIColor.white, distance:distance ?? 0.0, enabled:enabled)
+        self.init(location:location ?? CLLocation(latitude: 37.3349, longitude: -122.0090), name:name ?? "", /*colorText:colorText ?? "white",*/ color:color ?? UIColor.white, distance:distance ?? 0.0, enabled:enabled)
     }
     
     func dirFromLocation(location:CLLocation) -> Double {

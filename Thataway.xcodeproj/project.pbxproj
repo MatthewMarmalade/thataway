@@ -19,7 +19,6 @@
 		DD3D1C0D2671991D0036A4E7 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3D1C0C2671991D0036A4E7 /* SearchViewController.swift */; };
 		DD6C3772231F858200F87DDA /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C3771231F858200F87DDA /* ColorCollectionViewCell.swift */; };
 		DD6C377423205E1C00F87DDA /* WaypointList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C377323205E1C00F87DDA /* WaypointList.swift */; };
-		DD6C377623207F3C00F87DDA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6C377523207F3C00F87DDA /* SettingsViewController.swift */; };
 		DDAB8492267EDF32002F5657 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DDAB8491267EDF32002F5657 /* Settings.bundle */; };
 		DDCDB88D22F583270003A091 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDCDB88C22F583270003A091 /* AppDelegate.swift */; };
 		DDCDB88F22F583270003A091 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDCDB88E22F583270003A091 /* ViewController.swift */; };
@@ -43,7 +42,6 @@
 		DD3D1C0C2671991D0036A4E7 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		DD6C3771231F858200F87DDA /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		DD6C377323205E1C00F87DDA /* WaypointList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaypointList.swift; sourceTree = "<group>"; };
-		DD6C377523207F3C00F87DDA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		DDAB8491267EDF32002F5657 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		DDCDB88922F583270003A091 /* Thataway.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Thataway.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDCDB88C22F583270003A091 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 				DDCDB89822F583280003A091 /* Info.plist */,
 				DD18EF6D23027CDB0073055C /* Waypoint.swift */,
 				DD6C377323205E1C00F87DDA /* WaypointList.swift */,
-				DD6C377523207F3C00F87DDA /* SettingsViewController.swift */,
 				DD1FD01423C085DD00B1185E /* WayClusterView.swift */,
 				DDCDB88E22F583270003A091 /* ViewController.swift */,
 				DD18EF6F23034F660073055C /* WaypointTableViewController.swift */,
@@ -199,7 +196,6 @@
 				DD18EF722303798A0073055C /* WaypointDetailViewController.swift in Sources */,
 				DDDA6A62266F432F00B40318 /* ResultTableViewCell.swift in Sources */,
 				DD18EF6C230279C00073055C /* WaypointTableViewCell.swift in Sources */,
-				DD6C377623207F3C00F87DDA /* SettingsViewController.swift in Sources */,
 				DD1FD01523C085DD00B1185E /* WayClusterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

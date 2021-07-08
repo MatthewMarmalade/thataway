@@ -30,7 +30,7 @@ class WaypointList: NSObject {
     
     func loadWaypoints() {
         //print("Loading")
-        list = (NSKeyedUnarchiver.unarchiveObject(withFile: Waypoint.ArchiveURL) as? [Waypoint]) ?? [Waypoint(latitude: 0.0, longitude: 0.0, name: "Null Island")]
+        list = (NSKeyedUnarchiver.unarchiveObject(withFile: Waypoint.ArchiveURL) as? [Waypoint]) ?? [Waypoint(latitude: 37.3349, longitude: -122.0090, name: "Apple Park")]
     }
     
     func saveWaypoints() {

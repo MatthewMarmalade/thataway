@@ -181,8 +181,8 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         }
         //let latitude = Double(latField.text!) ?? waypoint?.location.coordinate.latitude ?? 0.0
         //let longitude = Double(lonField.text!) ?? waypoint?.location.coordinate.longitude ?? 0.0
-        let newLatitude = latitude ?? waypoint?.location.coordinate.latitude ?? 0.0
-        let newLongitude = longitude ?? waypoint?.location.coordinate.longitude ?? 0.0
+        let newLatitude = latitude ?? waypoint?.location.coordinate.latitude ?? 37.3349
+        let newLongitude = longitude ?? waypoint?.location.coordinate.longitude ?? -122.0090
         let distance = waypoint?.distance ?? 0.0
         
         waypoint = Waypoint(latitude: newLatitude, longitude: newLongitude, name: name, color: color ?? UIColor.white)
