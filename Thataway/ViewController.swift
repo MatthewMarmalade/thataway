@@ -65,7 +65,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         //case 2 or 3:
         //if waypoints.isEmpty() {
-            //print("No pre-existing waypoints, attempting load.")
         waypoints.loadWaypoints()
         //cases 1, 2, and 3: Creating pointer displays and saving.
         
@@ -73,13 +72,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         waypointers.removeAll() //there's got to be a more efficient way to do this.
         mapView.removeAnnotations(mapView.annotations)
         
-        //print(defaults.integer(forKey: "distance_unit"))
-        
         //waymarkers.forEach{$0.removeFromSuperview()}
         //waymarkers.removeAll()
         
         enabledWaypoints = waypoints.enabledList()
-        //print("Enabled Waypoints: \(enabledWaypoints.count)")
         (minLat, minLon, maxLat, maxLon, maxDist) = waypoints.minMax()
         allUpdateBounds() // sets minLoc, maxLoc, centreLoc, maxLat, minLat, maxLon, minLon
         //normalization = max(maxLat - minLat, maxLon - minLon) + 1
@@ -164,8 +160,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //mapView.showAnnotations(enabledWaypoints, animated: true)
         /*let coordinateRegion = MKCoordinateRegion(center: centreLoc.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
         mapView.setRegion(coordinateRegion, animated: true)
-        //print(mapDiameter)
-        //print(mapView.region.span.longitudeDelta.description)
         //mapView.annotations(in: mapView.mapRect)
         if mapView.annotations(in: mapView.visibleMapRect).count < mapView.annotations.count {
             //we are not displaying all of our annotations, centre on ourselves
@@ -176,10 +170,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         mapView.setRegion(coordinateRegion, animated: true)
         */
-//        print("diameter: \(mapDiameter)")
-//        print("longitudeDelta: \(mapView.region.span.longitudeDelta.description)")
-//        print("ratio: \(mapDiameter / mapView.region.span.longitudeDelta)")
-        //MARK: BUG! When all selected, crashes.
     }
     
     override func didReceiveMemoryWarning() {
@@ -196,7 +186,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     //MARK: LocationManager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations[locations.count - 1]
-        //print(locations.count)
         latitudeVar.text = String(format: "%.4f", currentLocation.coordinate.latitude)
         longitudeVar.text = String(format: "%.4f", currentLocation.coordinate.longitude)
 //        altitudeVar.text = String(format: "%.4f", currentLocation.altitude)
@@ -207,7 +196,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             return w1.distance ?? 0 < w2.distance ?? 0;
         })
         for i in 0..<enabledWaypoints.count {
-            //print("Waypoint \(enabledWaypoints[i].name) \(enabledWaypoints[i].distance)")
             if (enabledWaypoints[i].distance ?? 500 < 400) {
                 waypointers[i].isHidden = true
             } else {
@@ -226,11 +214,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
-        //let mag = defaults.bool(forKey: "mag")
-        //let newDeg = mag ? newHeading.magneticHeading : newHeading.trueHeading
         let newDeg = newHeading.magneticHeading
-        //print("NewDeg: \(newDeg)")
-        //let newDeg = newHeading.magneticHeading
         headingVar.text = String(format: "%.1f", newDeg) + "˚"// + " err " + String(format: "%.4f", newHeading.headingAccuracy)
         letterVar.text = calculateLetterHeading(degrees: newDeg)
         for i in 0..<enabledWaypoints.count {
@@ -241,7 +225,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         currentHeading = newHeading
         currentDeg = newDeg
         //testMapBounds()
-        //print("longitudeDelta: \(mapView.region.span.longitudeDelta.description)")
     }
     
     //MARK: UpdateBounds
@@ -257,26 +240,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         for i in 0..<enabledWaypoints.count {
             let location = enabledWaypoints[i].location
             updateBounds(location:location)
-            //print("I: \(i), Location: \(location.coordinate.latitude), \(location.coordinate.longitude); New Min: \(minLat),\(minLon); New Max: \(maxLat),\(maxLon)")
         }
-        //if (currentLocationCurrent) {
-        //    updateBounds(location:currentLocation)
-            //print("I: Current, Location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
-        //}
         let centreLat = (maxLat + minLat) / 2
         let centreLon = (maxLon + minLon) / 2
         maxLoc = CLLocation(latitude: maxLat, longitude: maxLon)
         minLoc = CLLocation(latitude: minLat, longitude: minLon)
         centreLoc = CLLocation(latitude: centreLat, longitude: centreLon)
         mapDiameter = 2.8 * centreLoc.distance(from:minLoc)
-        //print("New Min: \(minLat),\(minLon); New Max: \(maxLat),\(maxLon); New Centre: \(centreLat),\(centreLon); New Diameter: \(mapDiameter)")
     }
     
     //MARK: MapViewDelegate
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard let wayAnnotation = annotation as? Waypoint else {
             if annotation is MKClusterAnnotation {
-                //print("cluster annotation")
                 let identifier = "cluster"
                 var view: WayClusterView
                 if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
@@ -373,24 +349,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let (centreY, centreX) = (((maxY + minY) / 2), ((maxX + minX) / 2))
         
         var align = max(maxX-minX, maxY-minY)
-        //var align = max(maxLat-minLat, maxLon-minLon)
-        //print("Align: \(align)")
         if (align == 0) {
             align = 0.00000001
         }
         
-        //print("XY: \(x),\(y)")
         let dX = x - centreX
         let dY = y - centreY
-        //print("DXY: \(dX), \(dY),    CentreXY: \(centreX),\(centreY)")
         let nX = dX / align
         let nY = dY / align
-        //print("NXY: \(nX), \(nY),    Align: \(align)")
-//        let nX = dX
-//        let nY = dY
         let cgX = (CGFloat(nX) * needle.frame.width * 3/4)
         let cgY = -(CGFloat(nY) * needle.frame.height * 3/4)
-        //print("Needle Frame: \(needle.frame.width),\(needle.frame.height); CGXY: \(cgX),\(cgY)")
         return (cgX, cgY)
     }
     
@@ -492,37 +460,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         tempPoint = newWaypoint
     }
     
-    //MARK: SwitchDisplayType
-//    @IBAction func switchDisplayType(_ sender: UISegmentedControl) {
-//        if sender.selectedSegmentIndex == 0 {
-//            //Compass, all is normal
-//            //make sure no compass pieces are hidden
-//            //etc.
-//            needle.tintColor = UIColor.white
-//            //locationPointer?.isHidden = true
-//            mapView.isHidden = true
-//            for i in 0..<waypointers.count {
-//                waypointers[i].isHidden = false
-//                //waymarkers[i].isHidden = true
-//            }
-//        } else if sender.selectedSegmentIndex == 1 {
-//            //Map, now here's a tricky bit.
-//            //Hide everything from the compass
-//            //Unhide everything from the map.
-//            //print("showing map")
-//            needle.tintColor = UIColor.black
-//            
-//            allUpdateBounds()
-//            centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
-//            mapView.isHidden = false
-//            //locationPointer?.isHidden = false
-//            for i in 0..<waypointers.count {
-//                //waymarkers[i].isHidden = false
-//                waypointers[i].isHidden = true
-//            }
-//        }
-//    }
-    
     //MARK: Navigation
     //Heading into table view or detail view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -534,8 +471,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             waypointTableViewController.currentHeading = currentHeading
             waypointTableViewController.currentDeg = currentHeading?.magneticHeading
             waypointTableViewController.currentLocation = currentLocation
-            //waypointTableViewController.locationManager = locationManager
-            //print("Waypoints passed to TableView.")
         } else if let editViewController = segue.destination as? WaypointDetailViewController {
             editViewController.newWaypoint = true
             editViewController.waypoint = tempPoint!
@@ -547,7 +482,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     //returning from table view
     @IBAction func unwindToCompass(sender: UIStoryboardSegue) {
-        print("Unwinding to compass!")
         if let sourceViewController = sender.source as? WaypointDetailViewController {
             if let newWaypoint = sourceViewController.waypoint {
                 //waypoints[waypoints.count() - 1] = newWaypoint
@@ -582,8 +516,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     }
                 }
             }
-            //waypoints = sourceViewController.waypoints
-            //print("you unwound to compass successfully!")
         }
         //performed after an unwind regardless of source
 //        if displayType.selectedSegmentIndex == 0 {

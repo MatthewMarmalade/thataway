@@ -40,8 +40,6 @@ class WaypointTableViewCell: UITableViewCell, CLLocationManagerDelegate {
     }
  */
     func initCell(waypoint:Waypoint) {
-        //print("creating cell... \(waypoint.name)")
-//        print(km)
         self.waypoint = waypoint
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.delegate = self
@@ -74,16 +72,13 @@ class WaypointTableViewCell: UITableViewCell, CLLocationManagerDelegate {
     
     //MARK: LocationManager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //print("new location!")
         currentLocation = locations[locations.count - 1]
         waypoint?.distance = waypoint?.location.distance(from:currentLocation)
         formatAndUpdateDisLabel()
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading:CLHeading) {
-        //let mag = defaults.bool(forKey: "mag")
         let newDeg = newHeading.magneticHeading
-        //print("NewDeg: \(newDeg)")
         currentHeading = newHeading
         currentDeg = newDeg
         setDirection()

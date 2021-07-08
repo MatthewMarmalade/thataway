@@ -35,11 +35,11 @@ class WaypointList: NSObject {
     
     func saveWaypoints() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(list, toFile: Waypoint.ArchiveURL)
-        if !isSuccessfulSave {
-            print("Failed to save waypoints!")
-        } else {
-            //print("Saved!")
-        }
+//        if !isSuccessfulSave {
+//            print("Failed to save waypoints!")
+//        } else {
+//            //print("Saved!")
+//        }
     }
     
     func enabledList() -> [Waypoint] {

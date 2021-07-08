@@ -22,10 +22,6 @@ class WayClusterView: MKMarkerAnnotationView {
         super.prepareForDisplay()
         
         if let cluster = annotation as? MKClusterAnnotation {
-            //let waypointsInCluster = cluster.memberAnnotations.count
-            //print("I've been prepared for display")
-            //print(cluster.memberAnnotations.count)
-            //print(cluster.memberAnnotations[0].title)
             cluster.title = formatClusterTitle(cluster: cluster)
             cluster.subtitle = formatClusterSubtitle(cluster: cluster)
         }

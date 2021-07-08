@@ -50,13 +50,11 @@ class NewColorPickerViewController: UIViewController {
     @IBAction func tapPane(_ sender: Any) {
         x = tapGesture.location(in: colorPane).x
         y = tapGesture.location(in: colorPane).y
-        //print("x: \(x), y: \(y)")
         color = colorPane.extractColor(x: x, y: y, rect: colorPane.frame)
         colorPreview.tintColor = color 
     }
     
     @IBAction func colorChanged(_ sender: Any) {
-        //print("hi!")
         colorPane.hue = CGFloat(colorSlider.value)
         //colorPane.draw(colorPane.frame)
         colorPane.setNeedsDisplay()

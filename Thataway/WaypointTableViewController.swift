@@ -56,11 +56,9 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "WaypointTableViewCell"
-        //print("creating row \(indexPath.row)")
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? WaypointTableViewCell else {
             fatalError("The dequeued cell is not an instance of WaypointTableViewCell")
         }
-        //print("row created")
         // Configure the cell
         let waypoint = waypoints[indexPath.row]
         cell.initCell(waypoint: waypoint)
@@ -88,7 +86,6 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
             waypoints.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             waypoints.saveWaypoints()
-            //print("Deleted Waypoint")
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
@@ -141,18 +138,14 @@ class WaypointTableViewController: UITableViewController, CLLocationManagerDeleg
     
     //returning from an edit view
     @IBAction func unwindToWaypointList(sender: UIStoryboardSegue) {
-        print("Unwinding to waypoint list!")
+//        print("Unwinding to waypoint list!")
         if let sourceViewController = sender.source as? WaypointDetailViewController, let waypoint = sourceViewController.waypoint {
-            //print("you unwound to waypoint list successfully!")
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 //Updating an existing waypoint
                 waypoints[selectedIndexPath.row] = waypoint
-                //print("reloading row \(selectedIndexPath.row)")
                 //tableView.reloadRows(at: [selectedIndexPath], with: .none)
                 tableView.reloadData()
-                //print("row reloaded")
                 waypoints.saveWaypoints()
-                //print("waypoints saved")
             }
         }
     }

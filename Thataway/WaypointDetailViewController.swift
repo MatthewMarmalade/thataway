@@ -110,13 +110,12 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
         
         if indexPath.row < colors.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! ColorCollectionViewCell
-            //print("IndexPath Row: \(indexPath.row)")
             let cellColor = colors[indexPath.row]
             cell.displayContent(color: cellColor)
             cell.colorButton.tag = indexPath.row
             if cellColor == color {
-                print("Color \(color.debugDescription) is equal to \(cellColor.debugDescription)")
-                print(indexPath)
+//                print("Color \(color.debugDescription) is equal to \(cellColor.debugDescription)")
+//                print(indexPath)
                 cell.colorButton.imageView?.image = UIImage(named: "colorCellCheck")
             } else {
                 //print("Color \(color.debugDescription) is NOT equal to \(cellColor.debugDescription)")
@@ -152,15 +151,10 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
             color = colors[sender.tag]
             collectionView.reloadData()
         }
-        //sender.isSelected = true
-        //print(sender.tag)
-        //let colorText = colorTexts[sender.tag]
-        //print("Color: \(colorText)")
     }
     
     //MARK: NewColorButtonPressed
     @IBAction func newColorButtonPressed(_ sender: UIButton) {
-        //print("new color, yay!")
         let colorVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newColorPickerID") as! NewColorPickerViewController
         self.addChild(colorVC)
         colorVC.view.frame = self.view.frame
@@ -196,11 +190,11 @@ class WaypointDetailViewController: UIViewController, UITextFieldDelegate, UICol
     
     func saveColors() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(colors, toFile: ColorList.ArchiveURL)
-        if !isSuccessfulSave {
-            print("Failed to save colors!")
-        } else {
-            //print("Saved!")
-        }
+//        if !isSuccessfulSave {
+//            print("Failed to save colors!")
+//        } else {
+//            //print("Saved!")
+//        }
     }
     
     //MARK: - Text Field Correction
