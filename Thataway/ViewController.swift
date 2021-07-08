@@ -273,13 +273,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         if let waypointer = waypoint.waypointer {
             setDirectionAndLocationInCompass(imageView: waypointer, newDirection: newDirection, newRadius: minRadius + distance)
         }
-        if (waypoint.distance ?? 500 < 400) {
-            print("Hidden: \(waypoint.name)")
-            waypoint.waypointer?.isHidden = true
-            print("Pointer Color: \(String(describing: waypoint.waypointer?.tintColor)) vs Waypoint Color: \(waypoint.color)")
-        } else {
-            waypoint.waypointer?.isHidden = false
-        }
+        waypoint.waypointer?.isHidden = (waypoint.distance ?? 500 < 400) //hides pointers for nearby waypoints
     }
     
 //    func positionInView(waymarker: UIImageView, waypoint: Waypoint) {
