@@ -22,6 +22,7 @@ class Waypoint: NSObject, NSCoding, MKAnnotation{
     var color:      UIColor
     var distance:   Double?
     var enabled:    Bool
+    var waypointer: UIImageView?
 //    var starred:    Bool
     
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!

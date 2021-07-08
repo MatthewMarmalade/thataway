@@ -56,25 +56,25 @@ class WaypointList: NSObject {
         return enabledWaypoints
     }
     
-    func minMax() -> (Double, Double, Double, Double, Double){
-        var (minLat, minLon) = (0.0, 0.0)
-        if !enabledWaypoints.isEmpty {
-            (minLat, minLon) = (enabledWaypoints[0].location.coordinate.latitude, enabledWaypoints[0].location.coordinate.longitude)
-        }
-        var (maxLat, maxLon) = (minLat, minLon)
-        var maxDist = 0.0
-        enabledWaypoints.forEach{waypoint in
-            let dist = waypoint.distance ?? 0.0
-            maxDist = max(dist, maxDist)
-            let lat = waypoint.location.coordinate.latitude
-            let lon = waypoint.location.coordinate.longitude
-            minLat = min(lat, minLat)
-            minLon = min(lon, minLon)
-            maxLat = max(lat, maxLat)
-            maxLon = max(lon, maxLon)
-        }
-        return (minLat, minLon, maxLat, maxLon, maxDist)
-    }
+//    func minMax() -> (Double, Double, Double, Double, Double){
+//        var (minLat, minLon) = (0.0, 0.0)
+//        if !enabledWaypoints.isEmpty {
+//            (minLat, minLon) = (enabledWaypoints[0].location.coordinate.latitude, enabledWaypoints[0].location.coordinate.longitude)
+//        }
+//        var (maxLat, maxLon) = (minLat, minLon)
+//        var maxDist = 0.0
+//        enabledWaypoints.forEach{waypoint in
+//            let dist = waypoint.distance ?? 0.0
+//            maxDist = max(dist, maxDist)
+//            let lat = waypoint.location.coordinate.latitude
+//            let lon = waypoint.location.coordinate.longitude
+//            minLat = min(lat, minLat)
+//            minLon = min(lon, minLon)
+//            maxLat = max(lat, maxLat)
+//            maxLon = max(lon, maxLon)
+//        }
+//        return (minLat, minLon, maxLat, maxLon, maxDist)
+//    }
     
     func count() -> Int {
         return list.count

@@ -69,43 +69,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         //cases 1, 2, and 3: Creating pointer displays and saving.
         
         waypointers.forEach{$0.removeFromSuperview()} //what does this do...
-        waypointers.removeAll() //there's got to be a more efficient way to do this.
+        waypointers.removeAll()
+        
         mapView.removeAnnotations(mapView.annotations)
         
-        //waymarkers.forEach{$0.removeFromSuperview()}
-        //waymarkers.removeAll()
-        
         enabledWaypoints = waypoints.enabledList()
-        (minLat, minLon, maxLat, maxLon, maxDist) = waypoints.minMax()
-        allUpdateBounds() // sets minLoc, maxLoc, centreLoc, maxLat, minLat, maxLon, minLon
+        //(minLat, minLon, maxLat, maxLon, maxDist) = waypoints.minMax()
+        //allUpdateBounds() // sets minLoc, maxLoc, centreLoc, maxLat, minLat, maxLon, minLon
         //normalization = max(maxLat - minLat, maxLon - minLon) + 1
         for i in 0..<enabledWaypoints.count {
             let waypointI = enabledWaypoints[i]
             let newWayPointer = newPointer(height: 20.0, color: waypointI.color)
-            positionInView(waypointer: newWayPointer, waypoint: waypointI, i:i)
-            if (waypointI.distance ?? 0 < 400) {
-                newWayPointer.isHidden = true
-            }
-            
-            //MARK: Add map annotations
+            waypointI.waypointer = newWayPointer
+            positionInView(waypoint: waypointI, i:i)
             mapView.addAnnotation(waypointI)
-
-            waypointers.append(newWayPointer)
-            //waymarkers.append(newWayMarker)
+            waypointers.append(newWayPointer) //just used for later removal
         }
-        //print("\(waypointers.count) waypointers")
-        //mapView.reloadInputViews()
-
-//        if displayType.selectedSegmentIndex == 0 {
-//            needle.tintColor = UIColor.lightGray
-//            mapView.isHidden = true
-//            //locationPointer?.isHidden = true
-//        } else {
-//            needle.tintColor = UIColor.black
-//            mapView.isHidden = false
-//            centerMapOnLocation(location: centreLoc, regionRadius: mapDiameter)
-//            //locationPointer?.isHidden = false
-//        }
 
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         self.navigationItem.rightBarButtonItem?.isEnabled = true
@@ -152,25 +131,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         needle.tintColor = UIColor.lightGray
     }
     
-    //MARK: CenterMapOnLocation
-    func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
-        mapView.setRegion(MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: min(1000000,regionRadius), longitudinalMeters: min(1000000,regionRadius)), animated: true)
-        
-        //
-        //mapView.showAnnotations(enabledWaypoints, animated: true)
-        /*let coordinateRegion = MKCoordinateRegion(center: centreLoc.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
-        mapView.setRegion(coordinateRegion, animated: true)
-        //mapView.annotations(in: mapView.mapRect)
-        if mapView.annotations(in: mapView.visibleMapRect).count < mapView.annotations.count {
-            //we are not displaying all of our annotations, centre on ourselves
-            //mapView.setCenter(currentLocation.coordinate, animated: true)
-            let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: mapDiameter, longitudinalMeters: mapDiameter)
-            mapView.setRegion(coordinateRegion, animated: true)
-        }
-        
-        mapView.setRegion(coordinateRegion, animated: true)
-        */
-    }
+//    //MARK: CenterMapOnLocation
+//    func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
+//        mapView.setRegion(MKCoordinateRegion(center: currentLocation.coordinate, latitudinalMeters: min(1000000,regionRadius), longitudinalMeters: min(1000000,regionRadius)), animated: true)
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -196,13 +160,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             return w1.distance ?? 0 < w2.distance ?? 0;
         })
         for i in 0..<enabledWaypoints.count {
-            if (enabledWaypoints[i].distance ?? 500 < 400) {
-                waypointers[i].isHidden = true
-            } else {
-                waypointers[i].isHidden = false
-            }
+            positionInView(waypoint: enabledWaypoints[i], i: i)
         }
-        updateBounds(location:currentLocation)
+        //updateBounds(location:currentLocation)
         
 //        let coordinate = currentLocation.coordinate
 //        let span = MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)
@@ -219,35 +179,35 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         letterVar.text = calculateLetterHeading(degrees: newDeg)
         for i in 0..<enabledWaypoints.count {
             let waypointI = enabledWaypoints[i]
-            positionInView(waypointer: waypointers[i], waypoint: waypointI, i:i)
+            positionInView(waypoint: waypointI, i:i)
         }
-        //setDirectionAndLocationInMap(imageView: locationPointer!, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, newDirection: newDeg)
+
         currentHeading = newHeading
         currentDeg = newDeg
         //testMapBounds()
     }
     
     //MARK: UpdateBounds
-    func updateBounds(location:CLLocation) {
-        //TODO: Consider making this function only called once every few location updates, say
-        maxLat = max(maxLat, location.coordinate.latitude)
-        maxLon = max(maxLon, location.coordinate.longitude)
-        minLat = min(minLat, location.coordinate.latitude)
-        minLon = min(minLon, location.coordinate.longitude)
-    }
+//    func updateBounds(location:CLLocation) {
+//        //TODO: Consider making this function only called once every few location updates, say
+//        maxLat = max(maxLat, location.coordinate.latitude)
+//        maxLon = max(maxLon, location.coordinate.longitude)
+//        minLat = min(minLat, location.coordinate.latitude)
+//        minLon = min(minLon, location.coordinate.longitude)
+//    }
     
-    func allUpdateBounds() {
-        for i in 0..<enabledWaypoints.count {
-            let location = enabledWaypoints[i].location
-            updateBounds(location:location)
-        }
-        let centreLat = (maxLat + minLat) / 2
-        let centreLon = (maxLon + minLon) / 2
-        maxLoc = CLLocation(latitude: maxLat, longitude: maxLon)
-        minLoc = CLLocation(latitude: minLat, longitude: minLon)
-        centreLoc = CLLocation(latitude: centreLat, longitude: centreLon)
-        mapDiameter = 2.8 * centreLoc.distance(from:minLoc)
-    }
+//    func allUpdateBounds() {
+//        for i in 0..<enabledWaypoints.count {
+//            let location = enabledWaypoints[i].location
+//            //updateBounds(location:location)
+//        }
+//        let centreLat = (maxLat + minLat) / 2
+//        let centreLon = (maxLon + minLon) / 2
+//        maxLoc = CLLocation(latitude: maxLat, longitude: maxLon)
+//        minLoc = CLLocation(latitude: minLat, longitude: minLon)
+//        centreLoc = CLLocation(latitude: centreLat, longitude: centreLon)
+//        mapDiameter = 2.8 * centreLoc.distance(from:minLoc)
+//    }
     
     //MARK: MapViewDelegate
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -302,7 +262,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     
     //MARK: - PositionInView
-    func positionInView(waypointer: UIImageView, waypoint: Waypoint, i: Int) {
+    func positionInView(waypoint: Waypoint, i: Int) {
         let direction = waypoint.dirFromLocation(location: currentLocation)
         //let relativeWeight = calculateRelativeWeight(absDistance: waypoint.distance ?? 0.0)
         var distance : Double = radialRange
@@ -310,12 +270,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             distance = (Double(i) / Double(enabledWaypoints.count - 1)) * radialRange
         }
         let newDirection = direction - (currentDeg ?? 0.0)
-        setDirectionAndLocationInCompass(imageView: waypointer, newDirection: newDirection, newRadius: minRadius + distance)
+        if let waypointer = waypoint.waypointer {
+            setDirectionAndLocationInCompass(imageView: waypointer, newDirection: newDirection, newRadius: minRadius + distance)
+        }
+        if (waypoint.distance ?? 500 < 400) {
+            print("Hidden: \(waypoint.name)")
+            waypoint.waypointer?.isHidden = true
+            print("Pointer Color: \(String(describing: waypoint.waypointer?.tintColor)) vs Waypoint Color: \(waypoint.color)")
+        } else {
+            waypoint.waypointer?.isHidden = false
+        }
     }
     
-    func positionInView(waymarker: UIImageView, waypoint: Waypoint) {
-        setLocationInMap(imageView: waymarker, latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude)
-    }
+//    func positionInView(waymarker: UIImageView, waypoint: Waypoint) {
+//        setLocationInMap(imageView: waymarker, latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude)
+//    }
     
     //MARK: SetDirectionAndLocation
     func setDirectionAndLocationInCompass(imageView: UIImageView, newDirection:Double, newRadius:Double) {
@@ -326,49 +295,49 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         imageView.transform = translationTransform.rotated(by: direction)
     }
     
-    func setLocationInMap(imageView: UIImageView, latitude:Double, longitude:Double) {
-        //we have a latitude and a longitude... and we know what the min and max are going to be bounded by. Since we have min and max as boundaries, we average them to get the centre. Subtracting the locations from the centre gets the latitude and longitude offset from the centre. These are normalized, divided by the width/height to develop the ratio. We then define an offset from the centre of the needle.
-        let (cgX, cgY) = getScaledCGXY(latitude: latitude, longitude: longitude)
-        imageView.transform = CGAffineTransform(translationX: cgX, y: cgY)
-    }
+//    func setLocationInMap(imageView: UIImageView, latitude:Double, longitude:Double) {
+///we have a latitude and a longitude... and we know what the min and max are going to be bounded by. Since we have min and max as boundaries, we average them to get the centre. Subtracting the locations from the centre gets the latitude and longitude offset from the centre. These are normalized, divided by the width/height to develop the ratio. We then define an offset from the centre of the needle.
+//        let (cgX, cgY) = getScaledCGXY(latitude: latitude, longitude: longitude)
+//        imageView.transform = CGAffineTransform(translationX: cgX, y: cgY)
+//    }
     
-    func setDirectionAndLocationInMap(imageView: UIImageView, latitude:Double, longitude:Double, newDirection:Double) {
-        
-        let (cgX, cgY) = getScaledCGXY(latitude: latitude, longitude: longitude)
-        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(newDirection) * CGFloat.pi / 180)
-        let translationTransform = CGAffineTransform(translationX: cgX, y: cgY)
-        imageView.transform = rotationTransform.concatenating(translationTransform)
-    }
+//    func setDirectionAndLocationInMap(imageView: UIImageView, latitude:Double, longitude:Double, newDirection:Double) {
+//
+//        let (cgX, cgY) = getScaledCGXY(latitude: latitude, longitude: longitude)
+//        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(newDirection) * CGFloat.pi / 180)
+//        let translationTransform = CGAffineTransform(translationX: cgX, y: cgY)
+//        imageView.transform = rotationTransform.concatenating(translationTransform)
+//    }
     
-    func getScaledCGXY(latitude:Double, longitude:Double) -> (CGFloat,CGFloat) {
-        
-        let (minY, minX) = rubberSheet(lat: minLat, lon: minLon)
-        let (maxY, maxX) = rubberSheet(lat: maxLat, lon: maxLon)
-        let (y, x) = rubberSheet(lat: latitude, lon: longitude)
-        
-        let (centreY, centreX) = (((maxY + minY) / 2), ((maxX + minX) / 2))
-        
-        var align = max(maxX-minX, maxY-minY)
-        if (align == 0) {
-            align = 0.00000001
-        }
-        
-        let dX = x - centreX
-        let dY = y - centreY
-        let nX = dX / align
-        let nY = dY / align
-        let cgX = (CGFloat(nX) * needle.frame.width * 3/4)
-        let cgY = -(CGFloat(nY) * needle.frame.height * 3/4)
-        return (cgX, cgY)
-    }
+//    func getScaledCGXY(latitude:Double, longitude:Double) -> (CGFloat,CGFloat) {
+//
+//        let (minY, minX) = rubberSheet(lat: minLat, lon: minLon)
+//        let (maxY, maxX) = rubberSheet(lat: maxLat, lon: maxLon)
+//        let (y, x) = rubberSheet(lat: latitude, lon: longitude)
+//
+//        let (centreY, centreX) = (((maxY + minY) / 2), ((maxX + minX) / 2))
+//
+//        var align = max(maxX-minX, maxY-minY)
+//        if (align == 0) {
+//            align = 0.00000001
+//        }
+//
+//        let dX = x - centreX
+//        let dY = y - centreY
+//        let nX = dX / align
+//        let nY = dY / align
+//        let cgX = (CGFloat(nX) * needle.frame.width * 3/4)
+//        let cgY = -(CGFloat(nY) * needle.frame.height * 3/4)
+//        return (cgX, cgY)
+//    }
     
-    func rubberSheet(lat:Double, lon:Double) -> (Double, Double) {
-//        let y = cos(lat / 180 * .pi) * sin(lon / 180 * .pi)
-//        let x = cos(lat / 180 * .pi) * cos(lon / 180 * .pi)
-        let x = lon * 60 * 1852 * cos(lat / 180 * .pi)
-        let y = lat * 60 * 1852
-        return (y, x)
-    }
+//    func rubberSheet(lat:Double, lon:Double) -> (Double, Double) {
+////        let y = cos(lat / 180 * .pi) * sin(lon / 180 * .pi)
+////        let x = cos(lat / 180 * .pi) * cos(lon / 180 * .pi)
+//        let x = lon * 60 * 1852 * cos(lat / 180 * .pi)
+//        let y = lat * 60 * 1852
+//        return (y, x)
+//    }
     
     //MARK: - IsMetric
     func isMetric() -> Bool {
@@ -406,27 +375,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return imageView
     }
     
-    func newMarker(color:UIColor) -> UIImageView {
-        //creates a new marker, places it within the frame, and returns the UIImageView object.
-        let imageName = "marker.png"
-        let image = UIImage(named: imageName)
-        let imageView = UIImageView(image: image)
-        imageView.tintColor = color
-        //imageView.alpha = 0.8
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(imageView)
-        
-        //let x = (CGFloat(dX) * needle.frame.width)
-        //let y = -(CGFloat(dY) * needle.frame.height)
-        
-        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        imageView.centerYAnchor.constraint(equalTo: needle.centerYAnchor).isActive = true
-
-        return imageView
-    }
+//    func newMarker(color:UIColor) -> UIImageView {
+//        //creates a new marker, places it within the frame, and returns the UIImageView object.
+//        let imageName = "marker.png"
+//        let image = UIImage(named: imageName)
+//        let imageView = UIImageView(image: image)
+//        imageView.tintColor = color
+//        //imageView.alpha = 0.8
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        view.addSubview(imageView)
+//
+//        //let x = (CGFloat(dX) * needle.frame.width)
+//        //let y = -(CGFloat(dY) * needle.frame.height)
+//
+//        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+//        imageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+//        imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        imageView.centerYAnchor.constraint(equalTo: needle.centerYAnchor).isActive = true
+//
+//        return imageView
+//    }
     
     //MARK: CalculateLetterHeading
     private func calculateLetterHeading(degrees:CLLocationDegrees) -> String {
@@ -502,17 +471,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     mapView.removeAnnotations(mapView.annotations)
                     
                     enabledWaypoints = waypoints.enabledList()
-                    (minLat, minLon, maxLat, maxLon, maxDist) = waypoints.minMax()
+                    //(minLat, minLon, maxLat, maxLon, maxDist) = waypoints.minMax()
 //                    allUpdateBounds()
                     for i in 0..<enabledWaypoints.count {
                         let waypointI = enabledWaypoints[i]
                         let newWayPointer = newPointer(height: 20.0, color: waypointI.color)
-                        positionInView(waypointer: newWayPointer, waypoint: waypointI, i:i)
-                        if (waypointI.distance ?? 0 < 400) {
-                            newWayPointer.isHidden = true
-                        }
+                        waypointI.waypointer = newWayPointer
+                        positionInView(waypoint: waypointI, i:i)
+//                        if (waypointI.distance ?? 0 < 400) {
+//                            newWayPointer.isHidden = true
+//                        }
                         mapView.addAnnotation(waypointI)
-                        waypointers.append(newWayPointer)
+                        waypointers.append(newWayPointer) //just used for later removal
                     }
                 }
             }
